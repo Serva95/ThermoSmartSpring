@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head></head>
+<body>
+<header id="header" th:fragment="top">
+    <a href="/" ><h1><img width="185px" src="logo.png"></h1></a>
+    <nav id="nav">
+        <ul>
+            <li sec:authorize="isAuthenticated()"><a href="/">Home</a></li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="#" class="icon solid fa-angle-down">Benvenuto username!</a>
+                <ul>
+                    <li>'Il tuo profilo'</li>
+                    <li>"I tuoi sensori"</li>
+                    <li>"Le tue temperature"</li>
+                    <li>"Le tue stanze"</li>
+                    <li>"La tua VMC"</li>
+                    <li>'Esci'</li>
+                </ul>
+            </li>
+            <li sec:authorize="!isAuthenticated()"><a href="/login" class="button">Registrati/Accedi</a></li>
+        </ul>
+    </nav>
+</header>
+</body>
+</html>
