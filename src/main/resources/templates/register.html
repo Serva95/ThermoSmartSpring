@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <head th:insert="fragments/header :: header"></head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Registrati</title>
+    </head>
+<body>
+<div id="page-wrapper">
+    <head th:replace="fragments/top :: top"></head>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+
+                    <h2>Registrati</h2>
+
+                    <form th:action="@{/register}" method="post" class="row gtr-uniform">
+
+                        <div class="col-6 col-12-mobile">
+                            <label> La tua mail : <input type="email" name="email"/> </label>
+                        </div>
+
+                        <div class="col-6 col-12-mobile">
+                            <label> Il tuo username (verrai chiamato con questo in tutta l'applicazione): <input type="text" name="username"/> </label>
+                        </div>
+
+                        <div class="col-6 col-12-mobile">
+                            <label> Scegli una password: <input type="password" name="password" autocomplete="new-password" placeholder="8 caratteri minimo" minlength="8"/> </label>
+                        </div>
+
+                        <div class="col-6 col-12-mobile">
+                            <label> Ripeti la passowrd: <input type="password" name="password_confirm" autocomplete="new-password" placeholder="8 caratteri minimo" minlength="8"/> </label>
+                        </div>
+
+                        <div class="col-12 col-12-mobile"><br></div>
+                        <div class="col-12 col-12-mobile">
+                            <input type="submit" value="Registrati"/>
+                        </div>
+
+                    </form>
+
+                    <div class="col-12 col-12-mobile"><hr></div>
+                    <div class="row 50%">
+                        render "devise/shared/links"
+                    </div>
+
+                </section>
+            </div>
+        </div>
+    </section>
+    <div th:replace="fragments/bottom :: bottom"></div>
+</div>
+</body>
+</html>

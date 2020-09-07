@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <head th:insert="fragments/header :: header"></head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Index</title>
+    </head>
+<body>
+<div id="page-wrapper">
+    <head th:replace="fragments/top :: top"></head>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div align="center">
+                        <h1>Product List</h1>
+                        <a href="/new">Create New Product</a>
+                        <br/><br/>
+                        <table border="1" cellpadding="10">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>maxTemp</th>
+                                <th>minTemp</th>
+                                <th>Price</th>
+                                <th>absoluteMin</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="room : ${listRooms}">
+                                <td th:text="${room.id}">ID</td>
+                                <td th:text="${room.nome}">Name</td>
+                                <td th:text="${room.maxTemp}">maxTemp</td>
+                                <td th:text="${room.minTemp}">minTemp</td>
+                                <td th:text="${room.absoluteMin}">absoluteMin</td>
+                                <td>
+                                    <a th:href="@{'/edit/' + ${room.id}}">Edit</a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a th:href="@{'/delete/' + ${room.id}}">Delete</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </section>
+            </div>
+        </div>
+    </section>
+    <div th:replace="fragments/bottom :: bottom"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <title>Login</title>
+</head>
+<body>
+<div id="page-wrapper">
+    <head th:replace="fragments/top :: top"></head>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div th:if="${param.error}">
+                        <h3 class="error">Email o password errati, riprova.</h3>
+                    </div>
+                    <div th:if="${param.logout}">
+                        <h3 class="error">Sei uscito dall'applicazione con successo.</h3>
+                    </div>
+                    <form th:action="@{/login}" method="post" class="row gtr-uniform">
+                        <div class="col-6 col-12-mobile">
+                            <label> Email: <input type="text" name="email"/> </label>
+                        </div>
+                        <div class="col-6 col-12-mobile">
+                            <label> Password: <input type="password" name="password"/> </label>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <input type="checkbox" id="remember" name="remember" value="remember">
+                            <label for="remember"> Ricordami</label><br>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <input type="submit" value="Sign In"/>
+                        </div>
+                    </form>
+                    <div class="col-12 col-12-mobile"><hr></div>
+                    <div class="row 50%">
+                        <a href="/register"><h3>Registrati</h3></a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+    <div th:replace="fragments/bottom :: bottom"></div>
+</div>
+</body>
+</html>
