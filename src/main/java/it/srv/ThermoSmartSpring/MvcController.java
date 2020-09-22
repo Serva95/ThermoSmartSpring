@@ -3,27 +3,28 @@ package it.srv.ThermoSmartSpring;
 import it.srv.ThermoSmartSpring.dao.RoomDAO;
 import it.srv.ThermoSmartSpring.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 public class MvcController {
 
     @Autowired
     private RoomDAO roomDAO;
 
-    @RequestMapping("/")
-    public String viewHomePage(Model model) {
+    @GetMapping("/")
+    public ModelAndView viewHomePage(ModelAndView mav) {
         Iterable<Room> listRooms = roomDAO.listAll();
         List<Room> roomList = new ArrayList<>();
         listRooms.forEach(roomList::add);
-        model.addAttribute("listRooms", roomList);
+        mav.setViewName("index");
+        mav.addObject("listRooms", roomList);
 
-        return "index";
+        return mav;
     }
 
 }

@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="it">
+<head th:insert="fragments/header :: header"></head>
 <head>
-    <head th:insert="fragments/header :: header"></head>
-    <head>
-        <meta charset="UTF-8">
-        <title>Index</title>
-    </head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
 <body>
 <div id="page-wrapper">
-    <head th:replace="fragments/top :: top"></head>
+    <header th:replace="fragments/top :: top"></header>
     <section id="main" class="container">
         <div class="row">
             <div class="col-12">
