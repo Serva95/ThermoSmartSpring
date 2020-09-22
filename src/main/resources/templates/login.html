@@ -7,27 +7,28 @@
 </head>
 <body>
 <div id="page-wrapper">
-    <head th:replace="fragments/top :: top"></head>
+    <header th:replace="fragments/top :: top"></header>
     <section id="main" class="container">
         <div class="row">
             <div class="col-12">
                 <section class="box">
+                    <h2>Login</h2>
                     <div th:if="${param.error}">
                         <h3 class="error">Email o password errati, riprova.</h3>
                     </div>
                     <div th:if="${param.logout}">
                         <h3 class="error">Sei uscito dall'applicazione con successo.</h3>
                     </div>
-                    <form th:action="@{/login}" method="post" class="row gtr-uniform">
+                    <form th:action="@{/login}" th:object="${user}" method="post" class="row gtr-uniform">
                         <div class="col-6 col-12-mobile">
-                            <label> Email: <input type="text" name="email"/> </label>
+                            <label> Email: <input type="email" th:field="*{email}"/> </label>
                         </div>
                         <div class="col-6 col-12-mobile">
                             <label> Password: <input type="password" name="password"/> </label>
                         </div>
                         <div class="col-12 col-12-mobile">
-                            <input type="checkbox" id="remember" name="remember" value="remember">
-                            <label for="remember"> Ricordami</label><br>
+                            <input type="checkbox" id="remember-me" name="remember-me">
+                            <label for="remember-me"> Ricordami</label><br>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <input type="submit" value="Sign In"/>
