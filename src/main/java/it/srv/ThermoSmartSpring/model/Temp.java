@@ -16,8 +16,8 @@ public class Temp {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private BigDecimal temp;
-    @Column(name = "created_at")
+    @Column(name = "createdat")
     private LocalDateTime createdAt;
-    @Column(name = "sensor_id")
+    @Column(name = "sensorid")
     private String sensorId;
 }
