@@ -16,18 +16,18 @@ public class Room {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
     private String nome;
-    @Column(name = "max_temp")
+    @Column(name = "maxtemp")
     private BigDecimal maxTemp;
-    @Column(name = "min_temp")
+    @Column(name = "mintemp")
     private BigDecimal minTemp;
-    @Column(name = "absolute_min")
+    @Column(name = "absolutemin")
     private BigDecimal absoluteMin;
-    @Column(name = "sensor_id")
+    @Column(name = "sensorid")
     private String sensorId;
-    @Column(name = "manual_active")
+    @Column(name = "manualactive")
     private boolean manualActive;
-    @Column(name = "manual_inactive")
+    @Column(name = "manualinactive")
     private boolean manualInactive;
-    @Column(name = "manual_off")
+    @Column(name = "manualoff")
     private boolean manualOff;
 }

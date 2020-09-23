@@ -6,20 +6,18 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalTime;
 
-@Table(name = "orari_on_offs")
+@Table
 @Entity
 @Getter @Setter
-public class Orari_on_off {
+public class OrariOnOff {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
-    @Column(name = "room_id")
+    @Column(name = "roomid")
     private long roomId;
     private short giorno;
     private short fascia;
-    @Column(name = "orario_accensione")
     private LocalTime orarioAccensione;
-    @Column(name = "orario_spegnimento")
     private LocalTime orarioSpegnimento;
 
 }
