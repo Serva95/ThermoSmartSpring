@@ -7,15 +7,18 @@
     <nav id="nav">
         <ul>
             <li sec:authorize="isAuthenticated()"><a href="/">Home</a></li>
+            <li>
+                <form name="logoutForm" th:action="@{/logout}" method="post"></form>
+            </li>
             <li sec:authorize="isAuthenticated()">
-                <a href="#" class="icon solid fa-angle-down">Benvenuto username!</a>
+                <a href="#" th:text ="'Benvenuto ' + ${#authentication.getName()}+'!'" class="icon solid fa-angle-down"></a>
                 <ul>
                     <li>'Il tuo profilo'</li>
                     <li>"I tuoi sensori"</li>
                     <li>"Le tue temperature"</li>
                     <li>"Le tue stanze"</li>
                     <li>"La tua VMC"</li>
-                    <li>'Esci'</li>
+                    <li><a href="javascript:logoutForm.submit()">Esci</a></li>
                 </ul>
             </li>
             <li sec:authorize="!isAuthenticated()"><a href="/login" class="button">Registrati/Accedi</a></li>

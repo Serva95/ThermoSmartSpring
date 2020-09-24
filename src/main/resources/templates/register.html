@@ -15,8 +15,8 @@
                 <section class="box">
                     <h2>Registrati</h2>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
-                    <form action="/register" th:object="${user}" method="POST" enctype="utf8" class="row gtr-uniform">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <form th:action="@{/register}" th:object="${user}" method="POST" enctype="utf8" class="row gtr-uniform">
+
                         <div class="col-6 col-12-mobile">
                             <label> La tua mail : </label>
                             <input type="email" th:field="*{email}"/>

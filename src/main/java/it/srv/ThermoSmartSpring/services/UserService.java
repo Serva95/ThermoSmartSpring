@@ -1,9 +1,13 @@
 package it.srv.ThermoSmartSpring.services;
 
+import it.srv.ThermoSmartSpring.dao.AuthoritiesDAO;
 import it.srv.ThermoSmartSpring.dao.UserDAO;
 import it.srv.ThermoSmartSpring.dto.UserDTO;
+import it.srv.ThermoSmartSpring.exception.InvalidAuthorityException;
 import it.srv.ThermoSmartSpring.exception.PasswordException;
 import it.srv.ThermoSmartSpring.exception.UserAlreadyExistException;
+import it.srv.ThermoSmartSpring.exception.UsernameAlreadyExistException;
+import it.srv.ThermoSmartSpring.model.Authorities;
 import it.srv.ThermoSmartSpring.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -25,10 +29,20 @@ public class UserService {
     @Autowired
     UserDAO userDAO;
 
-    public User registerNewUserAccount(final UserDTO account) throws UserAlreadyExistException, PasswordException {
+    @Autowired
+    AuthoritiesDAO authoritiesDAO;
+
+    public User registerNewUserAccount(final UserDTO account) throws
+            UserAlreadyExistException,
+            UsernameAlreadyExistException,
+            PasswordException {
         if (userDAO.exists(userDAO.getByMail(account.getEmail()))) {
             throw new UserAlreadyExistException(
                     "È già presente un utente con questa mail: " + account.getEmail() + ", prova con una diversa.");
+        }
+        if (userDAO.exists(userDAO.getByUsername(account.getUsername()))) {
+            throw new UsernameAlreadyExistException(
+                    "È già presente un nome utente come questo: " + account.getUsername() + ", prova con uno diverso.");
         }
         if (!account.getPassword().equals(account.getMatchingPassword()) || account.getPassword().length()<8){
             throw new PasswordException("La password non rispetta le caratteristiche o le due password sono diverse, ricontrolla e riprova.");
@@ -37,6 +51,14 @@ public class UserService {
         user.setPassword(argon2PasswordEncoder().encode(account.getPassword()));
         user.setEmail(account.getEmail());
         user.setUsername(account.getUsername());
-        return userDAO.save(user);
+        user = userDAO.save(user);
+        Authorities authorities = new Authorities(account.getUsername(), "ROLE_USER");
+        try {
+            authoritiesDAO.save(authorities);
+        } catch (InvalidAuthorityException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
+
 }
