@@ -21,14 +21,10 @@
                     </div>
                     <form th:action="@{/login}" th:object="${user}" method="post" class="row gtr-uniform">
                         <div class="col-6 col-12-mobile">
-                            <label> Email: <input type="email" th:field="*{email}"/> </label>
+                            <label> Username: <input type="text" th:field="*{username}" autocomplete="username"/> </label>
                         </div>
                         <div class="col-6 col-12-mobile">
-                            <label> Password: <input type="password" name="password"/> </label>
-                        </div>
-                        <div class="col-12 col-12-mobile">
-                            <input type="checkbox" id="remember-me" name="remember-me">
-                            <label for="remember-me"> Ricordami</label><br>
+                            <label> Password: <input type="password" th:field="*{password}"/> </label>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <input type="submit" value="Sign In"/>

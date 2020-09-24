@@ -16,6 +16,8 @@ public class UserDAO {
 
     public User getByMail(String email) { return repo.findByEmail(email); }
 
+    public User getByUsername(String uname) { return repo.findByUsername(uname); }
+
     public void delete(long id) { repo.deleteById(id); }
 
     public boolean exists(User user){ return user != null; }
