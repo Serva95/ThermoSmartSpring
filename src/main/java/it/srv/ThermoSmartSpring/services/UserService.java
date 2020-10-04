@@ -61,4 +61,28 @@ public class UserService {
         return user;
     }
 
+    public User updateAccountData(User actualUser, UserDTO newUser) throws
+            UserAlreadyExistException,
+            PasswordException {
+        if(!argon2PasswordEncoder().matches(newUser.getOldPassword(), actualUser.getPassword())){
+            throw new PasswordException("La password attuale inserita è errata, controlla meglio e riprova");
+        }
+        if(actualUser.getEmail().compareToIgnoreCase(newUser.getEmail()) != 0
+        && userDAO.exists(userDAO.getByMail(newUser.getEmail()))){
+            throw new UserAlreadyExistException(
+                    "È già presente un utente con questa mail: " + newUser.getEmail() + ", prova con una diversa.");
+        }
+        if(newUser.getPassword() != null
+                && newUser.getPassword().length() >= 8
+                && newUser.getPassword().compareTo(newUser.getMatchingPassword()) == 0){
+            actualUser.setPassword(argon2PasswordEncoder().encode(newUser.getPassword()));
+        } else if(newUser.getPassword() != null && newUser.getPassword().equals("")){
+        } else {
+            throw new PasswordException("La nuova password e ripeti password non corrispondono, oppure non rispetta la lunghezza minima, riprova.");
+        }
+        actualUser.setUsername(newUser.getUsername());
+        actualUser.setEmail(newUser.getEmail());
+        return userDAO.save(actualUser);
+    }
+
 }

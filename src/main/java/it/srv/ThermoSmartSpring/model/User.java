@@ -5,7 +5,6 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Table(name = "users")
 @Entity
@@ -22,4 +21,7 @@ public class User {
     private String password;
     @NonNull
     private String username;
+    /*@OneToMany(targetEntity = Authorities.class, cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinColumn(name = "username")
+    private List<Authorities> authorities;*/
 }

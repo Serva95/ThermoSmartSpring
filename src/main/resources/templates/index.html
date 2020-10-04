@@ -6,10 +6,28 @@
     <meta charset="UTF-8">
     <title>Index</title>
 </head>
-<body>
+<body class="landing">
 <div id="page-wrapper">
     <header th:replace="fragments/top :: top"></header>
+
+    <section id="banner">
+        <h2>Thermo Pi</h2>
+        <p>Home of your Smart Thermo Pi</p>
+        <h3 sec:authorize="isAuthenticated()" th:text ="'Benvenuto ' + ${#authentication.getName()}+'!'" class="welcome"></h3>
+    </section>
     <section id="main" class="container">
+        <section class="box special">
+            <header class="major">
+                <h2>This is you smart Thermo Pi administration panel</h2>
+                <p>Here you can manage whatever you need remotely in your thermo pi</p>
+            </header>
+        </section>
+        <footer id="footer">
+            <ul class="copyright">
+                <li>&copy; Serva. All rights reserved.</li>
+            </ul>
+        </footer>
+
         <div class="row">
             <div class="col-12">
                 <section class="box">
@@ -44,12 +62,11 @@
                             </tbody>
                         </table>
                     </div>
-
                 </section>
             </div>
         </div>
     </section>
-    <div th:replace="fragments/bottom :: bottom"></div>
 </div>
+<div th:replace="fragments/bottom :: bottom"></div>
 </body>
 </html>
