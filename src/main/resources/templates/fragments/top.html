@@ -3,7 +3,7 @@
 <head></head>
 <body>
 <header id="header" th:fragment="top">
-    <a href="/" ><h1><img width="185px" src="logo.png"></h1></a>
+    <a href="/" ><h1><img width="185px" src="/logo.png"></h1></a>
     <nav id="nav">
         <ul>
             <li sec:authorize="isAuthenticated()"><a href="/">Home</a></li>
@@ -13,7 +13,7 @@
             <li sec:authorize="isAuthenticated()">
                 <a href="#" th:text ="'Benvenuto ' + ${#authentication.getName()}+'!'" class="icon solid fa-angle-down"></a>
                 <ul>
-                    <li>'Il tuo profilo'</li>
+                    <li><a th:href="@{/userProfile}">Il tuo profilo</a></li>
                     <li>"I tuoi sensori"</li>
                     <li>"Le tue temperature"</li>
                     <li>"Le tue stanze"</li>

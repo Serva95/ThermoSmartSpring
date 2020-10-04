@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 @Service
 @Transactional
 public class AuthoritiesDAO {
@@ -20,7 +22,7 @@ public class AuthoritiesDAO {
         return repo.save(auto);
     }
 
-    public Authorities getByUsername(String uname) { return repo.findByUsername(uname); }
+    public ArrayList<Authorities> getByUsername(String uname) { return repo.findByUsername(uname); }
 
     public void delete(short id) { repo.deleteById(id); }
 }

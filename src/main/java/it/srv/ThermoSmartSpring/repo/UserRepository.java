@@ -3,7 +3,7 @@ package it.srv.ThermoSmartSpring.repo;
 import it.srv.ThermoSmartSpring.model.User;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Integer> {
     User findByEmail(String email);
 
     User findByUsername(String username);

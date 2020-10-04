@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+>
 <head th:insert="fragments/header :: header"></head>
 <head>
     <meta charset="UTF-8">
@@ -22,7 +22,7 @@
                             <input type="email" th:field="*{email}"/>
                         </div>
                         <div class="col-6 col-12-mobile">
-                            <label> Il tuo username (verrai chiamato con questo in tutta l'applicazione): </label>
+                            <label> Il tuo username (verrai chiamato con questo in tutta l'applicazione - sceglilo bene, non puoi cambiarlo): </label>
                             <input type="text" th:field="*{username}" autocomplete="username"/>
                         </div>
                         <div class="col-6 col-12-mobile">
@@ -43,7 +43,7 @@
             </div>
         </div>
     </section>
-    <div th:replace="fragments/bottom :: bottom"></div>
 </div>
+<div th:replace="fragments/bottom :: bottom"></div>
 </body>
 </html>

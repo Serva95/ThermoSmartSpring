@@ -7,6 +7,11 @@
     max-width: calc(100% - 5em);
     width: 60em;
 }
+.welcome {
+	font-weight: bold;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	font-size: 3em;
+}
 
 /*testo small*/
 .smallText{
@@ -3331,11 +3336,11 @@ input[type="button"].special:active,
         background-image: url(images/sfondo.png);
 		background-attachment: scroll, fixed;
 		background-color: #666;
-		background-position: center, center center;
-		background-repeat: repeat, no-repeat;
-		background-size: cover, cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
 		color: #fff;
-		padding: 12em 0 20em 0;
+		padding: 13em 0 13em 0;
 		text-align: center;
 	}
 
