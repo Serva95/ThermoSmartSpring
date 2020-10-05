@@ -13,7 +13,15 @@
         <div class="row">
             <div class="col-12">
                 <section class="box">
-                    <h2>Registrati</h2>
+                    <div class="row gtr-uniform">
+                        <div class="col-2 col-5-mobile">
+                            <a th:href="@{/login}" class="button icon solid fa-chevron-left">Back</a>
+                        </div>
+                        <div class="col-10 col-7-mobile">
+                            <h2>Registrati</h2>
+                        </div>
+                    </div>
+                    <br>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
                     <form th:action="@{/register}" th:object="${user}" method="POST" enctype="utf8" class="row gtr-uniform">
 
