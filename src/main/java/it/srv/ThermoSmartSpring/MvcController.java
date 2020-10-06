@@ -18,7 +18,7 @@ public class MvcController {
 
     @GetMapping("/")
     public ModelAndView viewHomePage(ModelAndView mav) {
-        Iterable<Room> listRooms = roomDAO.listAll();
+        Iterable<Room> listRooms = roomDAO.getAll();
         List<Room> roomList = new ArrayList<>();
         listRooms.forEach(roomList::add);
         mav.setViewName("index");

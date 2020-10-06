@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @Getter @Setter
 public class OrariOnOff {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
     @Column(name = "roomid")
     private long roomId;

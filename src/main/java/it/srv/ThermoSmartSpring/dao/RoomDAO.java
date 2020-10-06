@@ -12,7 +12,7 @@ public class RoomDAO {
     @Autowired
     private RoomRepository repo;
 
-    public Iterable<Room> listAll() {
+    public Iterable<Room> getAll() {
         return repo.findAll();
     }
 

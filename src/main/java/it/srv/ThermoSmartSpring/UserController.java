@@ -3,8 +3,8 @@ package it.srv.ThermoSmartSpring;
 import it.srv.ThermoSmartSpring.dao.AuthoritiesDAO;
 import it.srv.ThermoSmartSpring.dao.UserDAO;
 import it.srv.ThermoSmartSpring.dto.UserDTO;
+import it.srv.ThermoSmartSpring.exception.ObjectAlreadyExistException;
 import it.srv.ThermoSmartSpring.exception.PasswordException;
-import it.srv.ThermoSmartSpring.exception.UserAlreadyExistException;
 import it.srv.ThermoSmartSpring.model.Authorities;
 import it.srv.ThermoSmartSpring.model.User;
 import it.srv.ThermoSmartSpring.services.UserService;
@@ -69,7 +69,7 @@ public class UserController {
         }
         try {
             userService.updateAccountData(actualUser, user);
-        } catch (UserAlreadyExistException | PasswordException e) {
+        } catch (ObjectAlreadyExistException | PasswordException e) {
             ModelAndView mav = new ModelAndView("profiloUtenteEdit");
             mav.addObject("userDTO", user);
             mav.addObject("userId", actualUser.getId());
