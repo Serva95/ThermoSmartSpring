@@ -4,8 +4,8 @@ import it.srv.ThermoSmartSpring.dao.AuthoritiesDAO;
 import it.srv.ThermoSmartSpring.dao.UserDAO;
 import it.srv.ThermoSmartSpring.dto.UserDTO;
 import it.srv.ThermoSmartSpring.exception.InvalidAuthorityException;
+import it.srv.ThermoSmartSpring.exception.ObjectAlreadyExistException;
 import it.srv.ThermoSmartSpring.exception.PasswordException;
-import it.srv.ThermoSmartSpring.exception.UserAlreadyExistException;
 import it.srv.ThermoSmartSpring.exception.UsernameAlreadyExistException;
 import it.srv.ThermoSmartSpring.model.Authorities;
 import it.srv.ThermoSmartSpring.model.User;
@@ -33,11 +33,11 @@ public class UserService {
     AuthoritiesDAO authoritiesDAO;
 
     public User registerNewUserAccount(final UserDTO account) throws
-            UserAlreadyExistException,
+            ObjectAlreadyExistException,
             UsernameAlreadyExistException,
             PasswordException {
         if (userDAO.exists(userDAO.getByMail(account.getEmail()))) {
-            throw new UserAlreadyExistException(
+            throw new ObjectAlreadyExistException(
                     "È già presente un utente con questa mail: " + account.getEmail() + ", prova con una diversa.");
         }
         if (userDAO.exists(userDAO.getByUsername(account.getUsername()))) {
@@ -62,14 +62,14 @@ public class UserService {
     }
 
     public User updateAccountData(User actualUser, UserDTO newUser) throws
-            UserAlreadyExistException,
+            ObjectAlreadyExistException,
             PasswordException {
         if(!argon2PasswordEncoder().matches(newUser.getOldPassword(), actualUser.getPassword())){
             throw new PasswordException("La password attuale inserita è errata, controlla meglio e riprova");
         }
         if(actualUser.getEmail().compareToIgnoreCase(newUser.getEmail()) != 0
         && userDAO.exists(userDAO.getByMail(newUser.getEmail()))){
-            throw new UserAlreadyExistException(
+            throw new ObjectAlreadyExistException(
                     "È già presente un utente con questa mail: " + newUser.getEmail() + ", prova con una diversa.");
         }
         if(newUser.getPassword() != null

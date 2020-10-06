@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class Temp {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private BigDecimal temp;
     @Column(name = "createdat")
