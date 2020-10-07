@@ -4,7 +4,7 @@
 <head th:insert="fragments/header :: header"></head>
 <head>
     <meta charset="UTF-8">
-    <title>Modifica il sensore</title>
+    <title>Inserisci un nuovo sensore</title>
 </head>
 <body class="landing">
 <div id="page-wrapper">
@@ -18,14 +18,13 @@
                             <a th:href="@{/sensors}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
                         <div class="col-9 col-8-mobile">
-                            <h2>Modifica il sensore</h2>
+                            <h2>Inserisci un nuovo sensore</h2>
                         </div>
                         <div class="col-12 col-12-mobile"><hr></div>
                         <div class="col-12 col-12-mobile"><br></div>
                     </div>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
-                    <h3 th:if="${sensor == null}" class="error">Sensore non trovato</h3>
-                    <form th:if="${sensor != null}" th:action="@{/sensors/__${sensor.id}__}" th:object="${sensor}" th:method="put" class="row gtr-uniform">
+                    <form th:action="@{/sensors/new}" th:object="${sensor}" th:method="post" class="row gtr-uniform">
                         <div class="col-6 col-12-mobile">
                             <label>Nome del sensore:</label>
                             <input type="text" th:field="*{nome}" placeholder="Nome del sensore" required>
@@ -44,7 +43,7 @@
                         </div>
                         <div class="col-12 col-12-mobile"><br></div>
                         <div class="col-12 col-12-mobile">
-                            <input type="submit" value="Salva le modifiche al sensore">
+                            <input type="submit" value="Salva il sensore">
                         </div>
                     </form>
                 </section>

@@ -21,6 +21,8 @@
                             <h3>Questa &egrave; la  pagina del tuo profilo</h3>
                         </div>
                     </div>
+                    <br th:if="${message != null}">
+                    <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
                     <br>
                     <div class="row gtr-uniform">
                         <div class="col-12 col-12-mobile">

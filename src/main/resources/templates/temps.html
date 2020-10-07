@@ -4,7 +4,7 @@
 <head th:insert="fragments/header :: header"></head>
 <head>
     <meta charset="UTF-8">
-    <title>I tuoi sensori</title>
+    <title>Le tue temperature</title>
 </head>
 <body class="landing">
 <div id="page-wrapper">
@@ -17,11 +17,8 @@
                         <div class="col-2 col-4-mobile ">
                             <a th:href="@{/}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
-                        <div class="col-5 col-8-mobile">
-                            <h2>I tuoi sensori</h2>
-                        </div>
-                        <div class="col-5 col-12-mobile">
-                            <a th:href="@{/sensors/new}" class="button">Aggiungi un nuovo sensore</a>
+                        <div class="col-10 col-8-mobile">
+                            <h2>Le tue temperature</h2>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <hr>
@@ -30,32 +27,31 @@
                     <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
                     <br th:if="${message != null}">
-                    <div th:if="${sensors.iterator().hasNext()}" class="row gtr-uniform" th:each="sensor : ${sensors}" id="found">
+                    <div th:if="${rooms.iterator().hasNext()}" class="row gtr-uniform" th:each="room : ${rooms}" id="found">
                         <div class="col-12 col-12-mobile">
                             <br>
                         </div>
                         <div class="col-12 col-12-mobile">
-                            ID sensore: <h3 th:text="${sensor.id}"></h3>
+                            ID sensore: <h3 th:text="${room.id}"></h3>
                         </div>
                         <div class="col-4 col-6-mobile">
-                            Nome: <h3 th:text="${sensor.nome}"></h3>
+                            Nome: <h3 th:text="${room.nome}"></h3>
                         </div>
                         <div class="col-3 col-6-mobile">
-                            Posizione: <h3 th:text="${sensor.location}"></h3>
+                            Posizione: <h3 th:text="${room.location}"></h3>
                         </div>
                         <div class="col-2 col-4-mobile">
-                            <a th:href="@{/sensors/__${sensor.id}__}" class='far fa-edit fa-3x' title="Modifica questo sensore"></a>
+                            <a th:href="@{/rooms/__${room.id}__}" class='far fa-edit fa-3x' title="Modifica questo sensore"></a>
                         </div>
-                        <form th:action="@{/sensors/__${sensor.id}__}" th:method="delete" th:id="${sensor.id}" class="col-3 col-8-mobile">
-                            aggiungere tastino conferma con js
-                            <a href="javascript:{}" th:attr="onclick=|$('#${sensor.id}').submit()|" class='far fa-trash-alt fa-3x' title="Elimina questo sensore"></a>
-                        </form>
                         <div class="col-12 col-12-mobile"><hr></div>
                     </div>
-                    <div th:if="${!sensors.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
+                    <div th:if="${!rooms.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
                         <div class="col-12 col-12-mobile"><br></div>
                         <div class="col-12 col-12-mobile">
-                            <h3>Non c'&egrave; alcun sensore, inizia aggiungendone uno</h3>
+                            <h3>Non c'&egrave; alcuna stanza salvata, inizia aggiungendone una, poi potrai vederne le temperature</h3>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <a th:href="@{/rooms/new}"><h3>Inserisci una nuova stanza</h3></a>
                         </div>
                     </div>
                 </section>
