@@ -35,7 +35,7 @@ public class UserController {
         ArrayList<Authorities> authList = authoritiesDAO.getByUsername(authentication.getName());
         Authorities[] authorities = new Authorities[authList.size()];
         authorities = authList.toArray(authorities);
-        mav.setViewName("profiloUtente");
+        mav.setViewName("userProfile");
         mav.addObject("user", user);
         mav.addObject("authorities", authorities);
         return mav;
@@ -45,7 +45,7 @@ public class UserController {
     public ModelAndView userProfileEdit(@PathVariable int id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userDAO.getByUsername(authentication.getName());
-        ModelAndView mav = new ModelAndView("profiloUtenteEdit");
+        ModelAndView mav = new ModelAndView("editUser");
         UserDTO userDTO = new UserDTO(user.getUsername(), "", "", user.getEmail(), "");
         mav.addObject("userDTO", userDTO);
         mav.addObject("userId", user.getId());
@@ -54,6 +54,7 @@ public class UserController {
 
     @PutMapping("/userProfile/{id}")
     public ModelAndView userProfileEditSave (
+            ModelAndView mav,
             @PathVariable int id,
             @ModelAttribute("userDTO") final UserDTO user,
             @RequestParam("matchingPassword") final String matchingPassword) {
@@ -61,7 +62,7 @@ public class UserController {
         User actualUser = userDAO.getByUsername(authentication.getName());
         user.setUsername(actualUser.getUsername());
         if (actualUser.getId() != id){
-            ModelAndView mav = new ModelAndView("profiloUtenteEdit");
+            mav = new ModelAndView("editUser");
             mav.addObject("userDTO", user);
             mav.addObject("userId", actualUser.getId());
             mav.addObject("message", "Ehi che fai ? Puoi modificare solo il tuo profilo!");
@@ -70,12 +71,14 @@ public class UserController {
         try {
             userService.updateAccountData(actualUser, user);
         } catch (ObjectAlreadyExistException | PasswordException e) {
-            ModelAndView mav = new ModelAndView("profiloUtenteEdit");
+            mav = new ModelAndView("editUser");
             mav.addObject("userDTO", user);
             mav.addObject("userId", actualUser.getId());
             mav.addObject("message", e.getMessage());
             return mav;
         }
-        return new ModelAndView("redirect:/userProfile");
+        mav.addObject("message", "Modifiche salvate.");
+        mav.setViewName("redirect:/userProfile");
+        return mav;
     }
 }
