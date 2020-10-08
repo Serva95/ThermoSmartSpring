@@ -38,7 +38,7 @@
                             Nome: <h3 th:text="${room.nome}"></h3>
                         </div>
                         <div class="col-3 col-6-mobile">
-                            Posizione: <h3 th:text="${room.location}"></h3>
+                            Posizione: <h3 th:text="${room.maxTemp}"></h3>
                         </div>
                         <div class="col-2 col-4-mobile">
                             <a th:href="@{/rooms/__${room.id}__}" class='far fa-edit fa-3x' title="Modifica questo sensore"></a>

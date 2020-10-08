@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Table(name = "sensors")
@@ -21,4 +22,7 @@ public class Sensor {
     private String nome;
     @NonNull
     private String location;
+
+    @OneToOne(mappedBy = "sensor")
+    private Room room;
 }
