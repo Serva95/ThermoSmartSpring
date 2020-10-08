@@ -13,7 +13,6 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
 import javax.sql.DataSource;
 
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -35,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/register", "/js/**", "/stylesheets/**", "/logo.png", "/user/registration", "/authentication").permitAll()
@@ -46,10 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/",true)
                 .permitAll()
                 .and()
-                .rememberMe().key("remember")
-                .and()
                 .sessionManagement()
-                .invalidSessionUrl("/invalidSession.html")
+                .invalidSessionUrl("/error.html")
                 .maximumSessions(1)
                 .sessionRegistry(sessionRegistry())
                 .and()
@@ -59,8 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/")
                 .permitAll()
-                .and()
+        ;
+        http
                 .headers()
+                .and()
+                .csrf().ignoringAntMatchers("/api/**")
                 .and()
                 .rememberMe()
                 .alwaysRemember(true)

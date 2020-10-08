@@ -40,13 +40,13 @@
                         <div class="col-4 col-6-mobile">
                             Nome: <h3 th:text="${sensor.nome}"></h3>
                         </div>
-                        <div class="col-3 col-6-mobile">
+                        <div class="col-4 col-6-mobile">
                             Posizione: <h3 th:text="${sensor.location}"></h3>
                         </div>
-                        <div class="col-2 col-4-mobile">
+                        <div class="col-2 col-6-mobile">
                             <a th:href="@{/sensors/__${sensor.id}__}" class='far fa-edit fa-3x' title="Modifica questo sensore"></a>
                         </div>
-                        <form th:action="@{/sensors/__${sensor.id}__}" th:method="delete" th:id="${sensor.id}" class="col-3 col-8-mobile">
+                        <form th:action="@{/sensors/__${sensor.id}__}" th:method="delete" th:id="${sensor.id}" class="col-2 col-6-mobile">
                             aggiungere tastino conferma con js
                             <a href="javascript:{}" th:attr="onclick=|$('#${sensor.id}').submit()|" class='far fa-trash-alt fa-3x' title="Elimina questo sensore"></a>
                         </form>

@@ -17,8 +17,14 @@
                         <div class="col-2 col-4-mobile ">
                             <a th:href="@{/}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
-                        <div class="col-10 col-8-mobile">
+                        <div class="col-2 col-8-mobile">
                             <h2>Le tue stanze</h2>
+                        </div>
+                        <div class="col-5 col-12-mobile">
+                            <h4 th:if="${rooms.iterator().hasNext()}">(clicca sul nome della stanza per vedere ulteriori dettagli e impostare gli orari di accensione e spegnimento del sistema)</h4>
+                        </div>
+                        <div class="col-3 col-12-mobilep">
+                            <a th:href="@{/rooms/new}" class="button">Inserisci una nuova stanza</a>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <hr>
@@ -27,28 +33,26 @@
                     <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
                     <br th:if="${message != null}">
-                    <div th:if="${rooms.iterator().hasNext()}" class="row gtr-uniform" th:each="room : ${rooms}" id="found">
+                    <div th:if="${rooms.iterator().hasNext()}" class="row gtr-uniform" th:each="room : ${rooms}">
                         <div class="col-12 col-12-mobile">
                             <br>
                         </div>
-                        <div class="col-12 col-12-mobile">
-                            ID sensore: <h3 th:text="${room.id}"></h3>
+                        <div class="col-8 col-8-mobile">
+                            Nome della stanza: <h3><b><a th:href="@{/rooms/__${room.id}__}" th:text="${room.nome}"></a></b></h3>
                         </div>
-                        <div class="col-4 col-6-mobile">
-                            Nome: <h3 th:text="${room.nome}"></h3>
+                        <div class="col-2 col-2-mobile">
+                            <a th:href="@{/rooms/__${room.id}__/edit}" class='far fa-edit fa-3x' title="Modifica questa stanza"></a>
                         </div>
-                        <div class="col-3 col-6-mobile">
-                            Posizione: <h3 th:text="${room.location}"></h3>
-                        </div>
-                        <div class="col-2 col-4-mobile">
-                            <a th:href="@{/rooms/__${room.id}__}" class='far fa-edit fa-3x' title="Modifica questo sensore"></a>
-                        </div>
+                        <form th:action="@{/rooms/__${room.id}__}" th:method="delete" th:id="${room.id}" class="col-2 col-6-mobile">
+                            aggiungere tastino conferma con js
+                            <a href="javascript:void()" th:attr="onclick=|$('#${room.id}').submit()|" class='far fa-trash-alt fa-3x' title="Elimina questa stanza"></a>
+                        </form>
                         <div class="col-12 col-12-mobile"><hr></div>
                     </div>
                     <div th:if="${!rooms.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
                         <div class="col-12 col-12-mobile"><br></div>
                         <div class="col-12 col-12-mobile">
-                            <h3>Non c'&egrave; alcuna stanza salvata, inizia aggiungendone una, poi potrai vederne le temperature</h3>
+                            <h3>Non c'&egrave; alcuna stanza salvata, inizia aggiungendone una</h3>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <a th:href="@{/rooms/new}"><h3>Inserisci una nuova stanza</h3></a>

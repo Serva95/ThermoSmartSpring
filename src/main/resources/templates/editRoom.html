@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-3 col-9-mobile">
                             <label for="tempMax">Massima Temperatura</label>
-                            <input type="number" id="tempMax" placeholder="Massima Temperatura" min="10.1" max="99" step="0.1" required/>
+                            <input type="number" id="tempMax" placeholder="Massima Temperatura" min="0" max="99" step="0.1" required/>
                         </div>
                         <div class="col-1 col-3-mobile">
                             <i class="fas fa-plus-circle fa-3x" onclick="increase('tempMax')"></i>
@@ -49,7 +49,7 @@
                         </div>
                         <div class="col-3 col-9-mobile">
                             <label for="tempMin">Minima Temperatura</label>
-                            <input type="number" id="tempMin" placeholder="Minima Temperatura" min="10.1" max="99" step="0.1" required/>
+                            <input type="number" id="tempMin" placeholder="Minima Temperatura" min="0" max="99" step="0.1" required/>
                         </div>
                         <div class="col-1 col-3-mobile">
                             <i class="fas fa-plus-circle fa-3x" onclick="increase('tempMin')"></i>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="col-3 col-9-mobile">
                             <label for="tempMinAbs">Minima Temperatura Assoluta</label>
-                            <input type="number" id="tempMinAbs" placeholder="Minima Temperatura Assoluta" min="0" max="10" step="0.1" required/>
+                            <input type="number" id="tempMinAbs" placeholder="Minima Temperatura Assoluta" min="0" max="99" step="0.1" required/>
                         </div>
                         <div class="col-1 col-3-mobile">
                             <i class="fas fa-plus-circle fa-3x" onclick="increase('tempMinAbs')"></i>
@@ -87,17 +87,23 @@
                         </div>
                         <div class="col-12 col-12-mobile"><hr></div>
                         <div class="col-12 col-12-mobile">
-                            <h4>Associa un sensore a questa stanza</h4>
+                            <h4>Associa un sensore a questa stanza <i>(oppure rimuovi un sensore se ne esiste uno associato)</i></h4>
                         </div>
-                        <div th:if="${sensors.iterator().hasNext()}" class="col-6 col-12-mobile">
+                        <div th:if="${sensors.iterator().hasNext() && room.sensor == null}" class="col-6 col-12-mobile">
                             <select th:field="*{sensor.id}">
                                 <option value="">Non associare un sensore</option>
-                                <option th:each="i : ${sensors}" th:value="${i.id}" th:text="${i.nome+' - '+i.location+' - '+i.id}"></option>
+                                <option th:each="i : ${sensors}" th:value="${i.id}" th:text="${i.nome+' '+i.id}"></option>
                             </select>
                         </div>
-                        <div th:if="${!sensors.iterator().hasNext()}" class="col-12 col-12-mobile">
+                        elsif @sensors.present? && !@room.sensor_id.nil?
+                        <div class="col-6 col-12-mobile">
+                            form.collection_select(:sensor_id, @sensors, :id, :nome, { include_blank: "Rimuovi il sensore attuale" })
+                        </div>
+                        else
+                        <div class="col-12 col-12-mobile">
                             <h4>Non esiste ancora nessun sensore, creane prima almeno uno poi torna qua per associarlo alla stanza, oppure salva la stanza ora e associa il sensore in un secondo momento.</h4>
                         </div>
+                        end
                         <div class="col-12 col-12-mobile"><br></div>
                         <div class="col-12 col-12-mobile">
                             <h4>Ricorda di confermare sempre le temperature ogni volta che le modifichi, altrimenti i cambiamenti non verranno salvati</h4>
@@ -117,21 +123,20 @@
         let absmin = parseFloat($("#tempMinAbs").val());
         let $inviadati = $("#inviadati");
         if (!(isNaN(min) || isNaN(absmin) || isNaN(max))) {
-            if(max > 99 || max <= 10 || min > 99 || min <= 10 || absmin < 0 || absmin > 10 || max <= min) {
+            if(max > 99 || max <= 10 || min > 99 || min <= 10 || absmin <0 || absmin > 10 || max <= min) {
                 /*confermaTemp*/
                 $("#confermaTemp").text("Errore, controlla che i dati rispettino le regole di inserimento");
                 $inviadati.prop('disabled', true);
                 $inviadati.val("Errore nelle temperature");
             }else{
                 $("#confermaTemp").text("Confermate");
-                $("#maxTemp").val(max);
-                $("#minTemp").val(min);
-                $("#absoluteMin").val(absmin);
+                $("#room_max_temp").val(max);
+                $("#room_min_temp").val(min);
+                $("#room_absolute_min").val(absmin);
                 $("#tempMaxConfirm").text(max+"\xB0C");
                 $("#tempMinConfirm").text(min+"\xB0C");
                 $("#tempMinAbsConfirm").text(absmin+"\xB0C");
                 $inviadati.prop('disabled', false);
-                $inviadati.val("Conferma i dati e salva la stanza");
             }
         }else{
             $("#confermaTemp").text("Completa tutti i campi prima di premere questo bottone");
@@ -140,28 +145,16 @@
     function increase(id) {
         let obj = $("#"+id);
         let calc = 0
-        if (id === "tempMinAbs"){
-            if ("" !== obj.val() && parseFloat(obj.val()) < 10) {
-                calc = Math.round((parseFloat(obj.val()) + 0.1) * 10) / 10
-            } else { calc = 10 }
-        }else {
-            if (calc === 0) {calc = 10}
-            if ("" !== obj.val() && parseFloat(obj.val()) < 99) {
-                calc = Math.round((parseFloat(obj.val()) + 0.1) * 10) / 10
-            } else { parseFloat(obj.val()) }
+        if (""!==obj.val() && parseFloat(obj.val()) < 99) {
+            calc = Math.round((parseFloat(obj.val()) + 0.1) * 10) / 10
         }
         obj.val(calc);
     }
     function decrease(id) {
         let obj = $("#"+id);
-        let calc;
-        "" !== obj.val() ? calc = parseFloat(obj.val()) : calc = 0
-        if (id === "tempMinAbs" && calc > 0) {
-                calc = Math.round((parseFloat(obj.val()) - 0.1) * 10) / 10
-        } else {
-            if (calc > 10.1) {
-                calc = Math.round((parseFloat(obj.val()) - 0.1) * 10) / 10
-            }
+        let calc = 0
+        if (""!==obj.val() && parseFloat(obj.val()) > 0){
+            calc = Math.round((parseFloat(obj.val()) - 0.1) * 10) / 10;
         }
         obj.val(calc);
     }

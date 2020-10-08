@@ -16,9 +16,7 @@ public class RoomDAO {
         return repo.findAll();
     }
 
-    public void save(Room product) {
-        repo.save(product);
-    }
+    public Room save(Room product) { return repo.save(product); }
 
     public Room get(long id) {
         return repo.findById(id);
@@ -27,4 +25,6 @@ public class RoomDAO {
     public void delete(long id) {
         repo.deleteById(id);
     }
+
+    public boolean exists(Room room){ return room != null; }
 }

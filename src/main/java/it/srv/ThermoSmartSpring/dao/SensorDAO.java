@@ -28,4 +28,8 @@ public class SensorDAO {
 
     public void update(Sensor sensor, String oldID){ repo.updateSensorById(sensor.getId(), sensor.getNome(), sensor.getLocation(), oldID);}
 
+    public Iterable<Sensor> findAllRoomIsNull(){ return repo.findAllByRoom_SensorIsNull(); }
+
+    public Iterable<Sensor> findNotAssociatedPlusActual(String id){ return repo.findAllByRoom_SensorIsNullOrIdEquals(id); }
+
 }
