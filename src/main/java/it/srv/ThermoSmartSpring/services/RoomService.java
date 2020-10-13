@@ -4,6 +4,7 @@ import it.srv.ThermoSmartSpring.dao.RoomDAO;
 import it.srv.ThermoSmartSpring.exception.BlankFieldsException;
 import it.srv.ThermoSmartSpring.exception.InvalidFieldException;
 import it.srv.ThermoSmartSpring.model.Room;
+import it.srv.ThermoSmartSpring.model.Sensor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +27,29 @@ public class RoomService {
 
     public Room updateRoom(final Room oldRoom, Room newData) throws BlankFieldsException, InvalidFieldException {
         chechData(newData);
-        roomDAO.save(newData);
+        oldRoom.setMaxTemp(newData.getMaxTemp());
+        oldRoom.setMinTemp(newData.getMinTemp());
+        oldRoom.setAbsoluteMin(newData.getAbsoluteMin());
+        if (newData.getSensor().getId().equals("")){
+            oldRoom.setSensor(null);
+        } else {
+            Sensor sensor = new Sensor();
+            sensor.setId(newData.getSensor().getId());
+            oldRoom.setSensor(sensor);
+        }
+        roomDAO.save(oldRoom);
         return newData;
+    }
+
+    public Room updateRoomStatus(Room room, Boolean ma, Boolean mi, Boolean mo){
+        if(ma){
+            room.setManualActive(!room.isManualActive());
+        } else if (mi){
+            room.setManualInactive(!room.isManualInactive());
+        } else if (mo){
+            room.setManualOff(!room.isManualOff());
+        }
+        return roomDAO.save(room);
     }
 
     private void chechData(Room room) throws BlankFieldsException, InvalidFieldException {
