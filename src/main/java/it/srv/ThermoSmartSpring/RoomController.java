@@ -55,16 +55,100 @@ public class RoomController {
 
     @GetMapping("/rooms/{id}")
     public ModelAndView viewRoom(ModelAndView mav, @PathVariable int id) {
+        Room room = roomDAO.get(id);
+        if (room == null) {
+            mav.addObject("message", "Stanza non trovata, riprova.");
+            mav.setViewName("redirect:/rooms");
+            return mav;
+        }
+        mav.addObject("room", room);
+        mav.setViewName("viewRoom");
         return mav;
     }
 
     @GetMapping("/rooms/{id}/edit")
     public ModelAndView editRoom(ModelAndView mav, @PathVariable int id) {
+        Room room = roomDAO.get(id);
+        if (room == null) {
+            mav.addObject("message", "Stanza non trovata, riprova.");
+            mav.setViewName("redirect:/rooms");
+            return mav;
+        }
+        if(room.getSensor() != null){
+            mav.addObject("sensors", sensorDAO.findNotAssociatedPlusActual(room.getSensor().getId()));
+        } else {
+            mav.addObject("sensors", sensorDAO.findAllRoomIsNull());
+        }
+        mav.addObject("room", room);
+        mav.setViewName("editRoom");
         return mav;
     }
 
     @PutMapping("/rooms/{id}")
-    public ModelAndView updateRoom(ModelAndView mav, @PathVariable int id) {
+    public ModelAndView updateRoom(ModelAndView mav, @PathVariable int id, @ModelAttribute("room") final Room room) {
+        Room oldRoom = roomDAO.get(id);
+        if (oldRoom == null) {
+            mav.addObject("message", "Stanza non trovata, riprova.");
+            mav.setViewName("redirect:/rooms");
+            return mav;
+        }
+        try {
+            roomService.updateRoom(oldRoom, room);
+        } catch (BlankFieldsException | InvalidFieldException e) {
+            mav.addObject("message", e.getMessage());
+            mav.addObject("room", room);
+            if(room.getSensor() != null){
+                mav.addObject("sensors", sensorDAO.findNotAssociatedPlusActual(oldRoom.getSensor().getId()));
+            } else {
+                mav.addObject("sensors", sensorDAO.findAllRoomIsNull());
+            }
+            mav.setViewName("editRoom");
+            return mav;
+        }
+        mav.addObject("message", "Stanza modificata con successo.");
+        mav.setViewName("redirect:/rooms");
+        return mav;
+    }
+
+    @PutMapping("/rooms/{id}/manualActive")
+    public ModelAndView updateRoomManAct(ModelAndView mav, @PathVariable int id) {
+        Room room = roomDAO.get(id);
+        if (room == null) {
+            mav.addObject("message", "Stanza non trovata, riprova.");
+            mav.setViewName("redirect:/rooms");
+            return mav;
+        }
+        roomService.updateRoomStatus(room, true, false, false);
+        mav.addObject("message", "Stato modificato con successo.");
+        mav.setViewName("redirect:/rooms/"+id);
+        return mav;
+    }
+
+    @PutMapping("/rooms/{id}/manualInactive")
+    public ModelAndView updateRoomManInact(ModelAndView mav, @PathVariable int id) {
+        Room room = roomDAO.get(id);
+        if (room == null) {
+            mav.addObject("message", "Stanza non trovata, riprova.");
+            mav.setViewName("redirect:/rooms");
+            return mav;
+        }
+        roomService.updateRoomStatus(room, false, true, false);
+        mav.addObject("message", "Stato modificato con successo.");
+        mav.setViewName("redirect:/rooms/"+id);
+        return mav;
+    }
+
+    @PutMapping("/rooms/{id}/manualOff")
+    public ModelAndView updateRoomManOff(ModelAndView mav, @PathVariable int id) {
+        Room room = roomDAO.get(id);
+        if (room == null) {
+            mav.addObject("message", "Stanza non trovata, riprova.");
+            mav.setViewName("redirect:/rooms");
+            return mav;
+        }
+        roomService.updateRoomStatus(room, false, false, true);
+        mav.addObject("message", "Stato modificato con successo.");
+        mav.setViewName("redirect:/rooms/"+id);
         return mav;
     }
 

@@ -37,15 +37,18 @@
                         <div class="col-12 col-12-mobile">
                             <br>
                         </div>
-                        <div class="col-8 col-8-mobile">
+                        <div class="col-6 col-8-mobile">
                             Nome della stanza: <h3><b><a th:href="@{/rooms/__${room.id}__}" th:text="${room.nome}"></a></b></h3>
                         </div>
                         <div class="col-2 col-2-mobile">
                             <a th:href="@{/rooms/__${room.id}__/edit}" class='far fa-edit fa-3x' title="Modifica questa stanza"></a>
                         </div>
-                        <form th:action="@{/rooms/__${room.id}__}" th:method="delete" th:id="${room.id}" class="col-2 col-6-mobile">
-                            aggiungere tastino conferma con js
-                            <a href="javascript:void()" th:attr="onclick=|$('#${room.id}').submit()|" class='far fa-trash-alt fa-3x' title="Elimina questa stanza"></a>
+                        <form th:action="@{/rooms/__${room.id}__}" th:method="delete" class="col-4 col-6-mobile">
+                            <a th:id="${'trashcan'+room.id}" href="javascript:{}" th:attr="onclick=|$(this).hide(500,'swing'); sleep(150); $('#${room.id}').show(500,'swing')|" class='far fa-trash-alt fa-3x' title="Elimina questa stanza"></a>
+                            <p th:id="${room.id}" hidden>
+                                <input type="submit" class="special small" value="Conferma eliminazione">
+                                <a class="button small" th:attr="onclick=|reappear('${room.id}')|">Annulla</a>
+                            </p>
                         </form>
                         <div class="col-12 col-12-mobile"><hr></div>
                     </div>
@@ -63,6 +66,12 @@
         </div>
     </section>
 </div>
+<script type="application/javascript">
+    function reappear(tag_id){
+        $("#"+tag_id).hide(500,'swing')
+        $("a[id$="+tag_id+"]").show(500,'swing');
+    }
+</script>
 <div th:replace="fragments/bottom :: bottom"></div>
 </body>
 </html>
