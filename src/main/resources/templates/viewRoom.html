@@ -34,7 +34,7 @@
                             <h5>Senza sensore associato la stanza non pu&ograve; registrare le temperature e quindi il sistema di controllo non funzioner&agrave;</h5>
                         </div>
                         <div th:if="${room.sensor == null}" class="col-4 col-12-mobile">
-                            <a th:href="@{/rooms/__${room.id}__/edit}" class='button' title="Associa il sensore"></a>
+                            <a th:href="@{/rooms/__${room.id}__/edit}" class='button' title="Associa il sensore">Associa un sensore</a>
                         </div>
                         <div th:if="${room.sensor != null}" class="col-12 col-12-mobile">
                             <h4><strong>Sensore associato:</strong> <span th:text="${room.sensor.nome}+' - '+${room.sensor.id}" th:remove="tag"></span></h4>

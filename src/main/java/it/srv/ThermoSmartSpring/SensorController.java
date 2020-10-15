@@ -86,6 +86,7 @@ public class SensorController {
         } catch (NullPointerException e){
             mav.addObject("message", "Sensore non trovato, riprova.");
         }
+        mav.addObject("message", "Sensore eliminato con successo.");
         mav.setViewName("redirect:/sensors");
         return mav;
     }
