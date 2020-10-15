@@ -154,6 +154,14 @@ public class RoomController {
 
     @DeleteMapping("/rooms/{id}")
     public ModelAndView deleteRoom(ModelAndView mav, @PathVariable int id) {
+        Room room = roomDAO.get(id);
+        try {
+            roomDAO.delete(room.getId());
+        } catch (NullPointerException e) {
+            mav.addObject("message", "Stanza non trovata, riprova.");
+        }
+        mav.addObject("message", "Stanza eliminata con successo.");
+        mav.setViewName("redirect:/rooms");
         return mav;
     }
 }
