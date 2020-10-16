@@ -6,18 +6,29 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalTime;
 
-@Table
+@Table(name = "orarionoff")
 @Entity
 @Getter @Setter
 public class OrariOnOff {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
-    @Column(name = "roomid")
-    private long roomId;
+    @ManyToOne(targetEntity = Room.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "roomid", referencedColumnName = "id")
+    private Room room;
     private short giorno;
-    private short fascia;
-    private LocalTime orarioAccensione;
-    private LocalTime orarioSpegnimento;
+    @Column(name = "orarioaccensionea")
+    private LocalTime orarioAccensioneA;
+    @Column(name = "orariospegnimentoa")
+    private LocalTime orarioSpegnimentoA;
+    @Column(name = "orarioaccensioneb")
+    private LocalTime orarioAccensioneB;
+    @Column(name = "orariospegnimentob")
+    private LocalTime orarioSpegnimentoB;
+    @Column(name = "orarioaccensionec")
+    private LocalTime orarioAccensioneC;
+    @Column(name = "orariospegnimentoc")
+    private LocalTime orarioSpegnimentoC;
+
 
 }

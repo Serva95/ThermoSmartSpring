@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface OrariOnOffRepository extends CrudRepository<OrariOnOff, Long> {
-    List<OrariOnOff> findByRoomId(long room_id);
+    List<OrariOnOff> findByRoom_Id(long roomid);
 
     OrariOnOff findById(long id);
 }

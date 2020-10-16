@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="it">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Le tue stanze</title>
+</head>
+<body class="landing">
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="row gtr-uniform">
+                        <div class="col-2 col-4-mobile ">
+                            <a th:href="@{/}" class="button icon solid fa-chevron-left">Indietro</a>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h2>Inserisci gli orari della stanza</h2>
+                        </div>
+                        <hr class="col-12 col-12-mobile">
+                    </div>
+                    <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
+                    <br th:if="${message != null}">
+                    <div class="row gtr-uniform" >
+                        <div class="col-12 col-12-mobile">
+                            <h3><b>Orari di accensione/spegnimento</b></h3>
+                            <h3>Ricorda che l'orario di spegnimento deve essere successivo a quello di accensione
+                                <br>Ricorda inoltre che l'orario di spegnimento della fascia 1 deve essere antecedente a quello di accensione della fascia 2 e cos&igrave; via, altrimenti verrano scartati i dati non corretti</h3>
+                            <h4><i>Solo la prima fascia &egrave; obbligatoria, le altre, se lasciate vuote, verranno ignorate. Ricorda: se lasci vuota la fascia 2, la fascia 3 non verr&agrave; letta.</i></h4>
+                        </div>
+
+
+
+
+                        <div class="col-12 col-12-mobile">
+                            <br>
+                        </div>
+                        <div class="col-6 col-8-mobile">
+                            Nome della stanza: <h3><b><a th:href="@{/rooms/__${room.id}__}" th:text="${room.nome}"></a></b></h3>
+                        </div>
+                        <div class="col-2 col-2-mobile">
+                            <a th:href="@{/rooms/__${room.id}__/edit}" class='far fa-edit fa-3x' title="Modifica questa stanza"></a>
+                        </div>
+                        <form th:action="@{/rooms/__${room.id}__}" th:method="delete" class="col-4 col-6-mobile">
+                            <a th:id="${'trashcan'+room.id}" href="javascript:{}" th:attr="onclick=|showconfirm('${room.id}')|" class='far fa-trash-alt fa-3x' title="Elimina questa stanza"></a>
+                            <p th:id="${room.id}" hidden>
+                                <input type="submit" class="special small" value="Conferma eliminazione">
+                                <a class="button small" th:attr="onclick=|hideconfirm('${room.id}')|">Annulla</a>
+                            </p>
+                        </form>
+                        <div class="col-12 col-12-mobile"><hr></div>
+                    </div>
+                    <div th:if="${!rooms.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
+                        <div class="col-12 col-12-mobile"><br></div>
+                        <div class="col-12 col-12-mobile">
+                            <h3>Non c'&egrave; alcuna stanza salvata, inizia aggiungendone una</h3>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <a th:href="@{/rooms/new}"><h3>Inserisci una nuova stanza</h3></a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="application/javascript">
+    function showconfirm(tag_id){
+        $("a[id$="+tag_id+"]").hide(300,'swing');
+        setTimeout(function () {
+            $("#"+tag_id).show(300,'swing')
+        }, 300);
+    }
+    function hideconfirm(tag_id){
+        $("#"+tag_id).hide(300,'swing')
+        setTimeout(function () {
+            $("a[id$="+tag_id+"]").show(300,'swing');
+        }, 300);
+    }
+</script>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>
