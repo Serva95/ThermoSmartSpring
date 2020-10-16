@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-4 col-12-mobile">
                             <h4>Vedi gli orari di accensione e spegnimento automatico del sistema associati alla stanza</h4>
-                            link_to "Orari della stanza", room_orari_on_offs_path(@room), {class: 'button fit'}
+                            <a th:href="@{/rooms/__${room.id}__/orarionoff}" class='button fit' title="Orari della stanza">Orari della stanza</a>
                         </div>
                         <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
                         <hr class="col-12 col-12-mobile">

@@ -27,44 +27,6 @@
                 <li>&copy; Serva. All rights reserved.</li>
             </ul>
         </footer>
-
-        <div class="row">
-            <div class="col-12">
-                <section class="box">
-                    <div align="center">
-                        <h1>Product List</h1>
-                        <a href="/new">Create New Product</a>
-                        <br/><br/>
-                        <table border="1" cellpadding="10">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>maxTemp</th>
-                                <th>minTemp</th>
-                                <th>Price</th>
-                                <th>absoluteMin</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="room : ${listRooms}">
-                                <td th:text="${room.id}">ID</td>
-                                <td th:text="${room.nome}">Name</td>
-                                <td th:text="${room.maxTemp}">maxTemp</td>
-                                <td th:text="${room.minTemp}">minTemp</td>
-                                <td th:text="${room.absoluteMin}">absoluteMin</td>
-                                <td>
-                                    <a th:href="@{'/edit/' + ${room.id}}">Edit</a>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <a th:href="@{'/delete/' + ${room.id}}">Delete</a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-            </div>
-        </div>
     </section>
 </div>
 <div th:replace="fragments/bottom :: bottom"></div>

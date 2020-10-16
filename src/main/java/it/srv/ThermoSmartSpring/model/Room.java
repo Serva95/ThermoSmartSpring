@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Table(name = "rooms")
 @Entity
@@ -34,4 +35,7 @@ public class Room {
     @OneToOne(targetEntity = Sensor.class, fetch= FetchType.LAZY)
     @JoinColumn(name = "sensorid", referencedColumnName = "id")
     private Sensor sensor;
+
+    @OneToMany(mappedBy = "room")
+    private List<OrariOnOff> orariOnOff;
 }
