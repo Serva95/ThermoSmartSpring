@@ -20,65 +20,72 @@
                         <div class="col-10 col-8-mobile">
                             <h2>Inserisci gli orari della stanza</h2>
                         </div>
-                        <hr class="col-12 col-12-mobile">
-                    </div>
-                    <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
-                    <br th:if="${message != null}">
-                    <div class="row gtr-uniform" >
+                        <div class="col-12 col-12-mobile"><hr></div>
+                        <div class="col-12 col-12-mobile">
+                            <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
+                            <br th:if="${message != null}">
+                        </div>
                         <div class="col-12 col-12-mobile">
                             <h3><b>Orari di accensione/spegnimento</b></h3>
                             <h3>Ricorda che l'orario di spegnimento deve essere successivo a quello di accensione
                                 <br>Ricorda inoltre che l'orario di spegnimento della fascia 1 deve essere antecedente a quello di accensione della fascia 2 e cos&igrave; via, altrimenti verrano scartati i dati non corretti</h3>
                             <h4><i>Solo la prima fascia &egrave; obbligatoria, le altre, se lasciate vuote, verranno ignorate. Ricorda: se lasci vuota la fascia 2, la fascia 3 non verr&agrave; letta.</i></h4>
                         </div>
-
-
-
-
-                        <div class="col-12 col-12-mobile">
-                            <br>
-                        </div>
-                        <div class="col-6 col-8-mobile">
-                            Nome della stanza: <h3><b><a th:href="@{/rooms/__${room.id}__}" th:text="${room.nome}"></a></b></h3>
-                        </div>
-                        <div class="col-2 col-2-mobile">
-                            <a th:href="@{/rooms/__${room.id}__/edit}" class='far fa-edit fa-3x' title="Modifica questa stanza"></a>
-                        </div>
-                        <form th:action="@{/rooms/__${room.id}__}" th:method="delete" class="col-4 col-6-mobile">
-                            <a th:id="${'trashcan'+room.id}" href="javascript:{}" th:attr="onclick=|showconfirm('${room.id}')|" class='far fa-trash-alt fa-3x' title="Elimina questa stanza"></a>
-                            <p th:id="${room.id}" hidden>
-                                <input type="submit" class="special small" value="Conferma eliminazione">
-                                <a class="button small" th:attr="onclick=|hideconfirm('${room.id}')|">Annulla</a>
-                            </p>
-                        </form>
-                        <div class="col-12 col-12-mobile"><hr></div>
-                    </div>
-                    <div th:if="${!rooms.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
                         <div class="col-12 col-12-mobile"><br></div>
-                        <div class="col-12 col-12-mobile">
-                            <h3>Non c'&egrave; alcuna stanza salvata, inizia aggiungendone una</h3>
-                        </div>
-                        <div class="col-12 col-12-mobile">
-                            <a th:href="@{/rooms/new}"><h3>Inserisci una nuova stanza</h3></a>
-                        </div>
                     </div>
+                    <form th:action="@{/rooms/__${id}__/orarionoff}" th:object="${orarionoffDTO}" th:method="post" class="row gtr-uniform">
+                        <div th:each="orari, iter : *{orariOnOffs}" th:remove="tag">
+                            <div class="col-12 col-12-mobile" th:if="${iter.index == 0}">
+                                <h3 th:text="'Fascia del '+${days[__${iter.index}__]}"></h3>
+                            </div>
+                            <div class="col-6 col-6-mobile" th:if="${iter.index != 0}">
+                                <h3 th:text="'Fascia del '+${days[__${iter.index}__]}"></h3>
+                            </div>
+                            <div class="col-6 col-6-mobile" th:if="${iter.index != 0}">
+                                <a class="button" id="copia" th:onclick="'copia('+__${iter.index}__+')'">Copia dal luned&igrave;</a>
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                <h4>Orario Accensione Fascia 1</h4>
+                                <input type="time" th:field="*{orariOnOffs[__${iter.index}__].orarioAccensioneA}" required>
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                <h4>Orario Spegnimento Fascia 1</h4>
+                                <input type="time" th:field="*{orariOnOffs[__${iter.index}__].orarioSpegnimentoA}" required>
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                <h4>Orario Accensione Fascia 2</h4>
+                                <input type="time" th:field="*{orariOnOffs[__${iter.index}__].orarioAccensioneB}">
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                <h4>Orario Spegnimento Fascia 2</h4>
+                                <input type="time" th:field="*{orariOnOffs[__${iter.index}__].orarioSpegnimentoB}">
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                <h4>Orario Accensione Fascia 3</h4>
+                                <input type="time" th:field="*{orariOnOffs[__${iter.index}__].orarioAccensioneC}">
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                <h4>Orario Spegnimento Fascia 3</h4>
+                                <input type="time" th:field="*{orariOnOffs[__${iter.index}__].orarioSpegnimentoC}">
+                            </div>
+                            <div class="col-12 col-12-mobile">
+                                <hr>
+                            </div>
+                        </div>
+                    </form>
                 </section>
             </div>
         </div>
     </section>
 </div>
 <script type="application/javascript">
-    function showconfirm(tag_id){
-        $("a[id$="+tag_id+"]").hide(300,'swing');
-        setTimeout(function () {
-            $("#"+tag_id).show(300,'swing')
-        }, 300);
-    }
-    function hideconfirm(tag_id){
-        $("#"+tag_id).hide(300,'swing')
-        setTimeout(function () {
-            $("a[id$="+tag_id+"]").show(300,'swing');
-        }, 300);
+    function copia(sectionID) {
+        $("#orariOnOffs"+sectionID+"\\.orarioAccensioneA").val($("#orariOnOffs0\\.orarioAccensioneA").val())
+        $("#orariOnOffs"+sectionID+"\\.orarioSpegnimentoA").val($("#orariOnOffs0\\.orarioSpegnimentoA").val())
+        $("#orariOnOffs"+sectionID+"\\.orarioAccensioneB").val($("#orariOnOffs0\\.orarioAccensioneB").val())
+        $("#orariOnOffs"+sectionID+"\\.orarioSpegnimentoB").val($("#orariOnOffs0\\.orarioSpegnimentoB").val())
+        $("#orariOnOffs"+sectionID+"\\.orarioAccensioneC").val($("#orariOnOffs0\\.orarioAccensioneC").val())
+        $("#orariOnOffs"+sectionID+"\\.orarioSpegnimentoC").val($("#orariOnOffs0\\.orarioSpegnimentoC").val())
     }
 </script>
 <div th:replace="fragments/bottom :: bottom"></div>
