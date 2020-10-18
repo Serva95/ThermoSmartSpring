@@ -68,7 +68,7 @@
                             <h3>Non c'&egrave; alcun orario, inizia creandoli</h3>
                         </div>
                         <div class="col-12 col-12-mobile">
-                            <a th:href="@{/rooms/__${id}__/orarionoff/new}"><h3>Crea gli orari per la stanza</h3></a>
+                            <a th:href="@{/rooms/__${id}__/orarionoff/new}" class="button">Crea gli orari per la stanza</a>
                         </div>
                     </div>
                 </section>
@@ -76,20 +76,6 @@
         </div>
     </section>
 </div>
-<script type="application/javascript">
-    function showconfirm(tag_id){
-        $("a[id$="+tag_id+"]").hide(300,'swing');
-        setTimeout(function () {
-            $("#"+tag_id).show(300,'swing')
-        }, 300);
-    }
-    function hideconfirm(tag_id){
-        $("#"+tag_id).hide(300,'swing')
-        setTimeout(function () {
-            $("a[id$="+tag_id+"]").show(300,'swing');
-        }, 300);
-    }
-</script>
 <div th:replace="fragments/bottom :: bottom"></div>
 </body>
 </html>
