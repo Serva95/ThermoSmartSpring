@@ -21,45 +21,39 @@
                             <h2>Orari della stanza</h2>
                         </div>
                         <div class="col-12 col-12-mobile">
-                            <hr>
+                            <hr><br>
                         </div>
                     </div>
                     <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
                     <br th:if="${message != null}">
-                    <div th:if="${orarionoff.iterator().hasNext()}" class="row gtr-uniform" th:each="orarionoff : ${orarionoffs}">
-                        % if @orari.present? %
-                        %previous = nil %
-                        % @orari.each do |orario| %
-                        if orario.giorno != previous %
-                        <div class="col-12 col-12-mobile"><hr></div>
-                        <div class="col-6 col-12-mobile">
-                            <h3><b> @days[orario.giorno] </b></h3>
-                        </div>
-                        <div class="col-6 col-12-mobile">
-                             link_to 'Modifica orari '+@days[orario.giorno], room_orari_on_off_edit_path(params[:room_id], giorno:orario.giorno), {class: 'button'}
-                        </div>
-                         previous = orario.giorno
-                        end
-                        <div class="col-1 col-3-mobile">
-                            <h4><b>Fascia<%= orario.fascia + 1 %></b></h4>
-                        </div>
-                        <div class="col-3 col-9-mobile">
-                            <h4><b>On:</b> orario.orario_accensione.strftime("%H:%M") - <b>Off:</b> orario.orario_spegnimento.strftime("%H:%M")</h4>
-                        </div>
-                         end
-
-                        else
-                        <div class="col-5 col-12-mobilep">
-                             link_to "Crea gli orari per la stanza", new_room_orari_on_off_path, {class: 'button'}
-                        </div>
-                        <div class="col-12 col-12-mobile">
-                            <h3>Non c'&egrave; ancora alcun orario, inizia creandoli</h3>
-                        </div>
-                         end
-
-                        <div class="col-12 col-12-mobile">
-                            <hr>
+                    <div th:if="${orarionoffs.iterator().hasNext()}" class="row gtr-uniform">
+                        <div th:each="orarionoff, iter : ${orarionoffs}" th:remove="tag">
+                            <div class="col-12 col-12-mobile" th:if="${iter.index != 0}"><hr></div>
+                            <div class="col-6 col-12-mobile">
+                                <h3><b th:text="${days[__${iter.index}__]}"></b></h3>
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                link_to 'Modifica orari '+@days[orario.giorno], {class: 'button'}
+                            </div>
+                            <div class="col-1 col-3-mobile">
+                                <h4><b>Fascia 1</b></h4>
+                            </div>
+                            <div class="col-3 col-9-mobile">
+                                <h4><b>On: </b><span th:text="${orarionoff.getOrarioAccensioneA()}" th:remove="tag"></span> - <b>Off: </b><span th:text="${orarionoff.getOrarioAccensioneA()}" th:remove="tag"></span></h4>
+                            </div>
+                            <div class="col-1 col-3-mobile" th:if="${orarionoff.orarioAccensioneB!= null}">
+                                <h4><b>Fascia 2</b></h4>
+                            </div>
+                            <div class="col-3 col-9-mobile" th:if="${orarionoff.orarioAccensioneB!= null}">
+                                <h4><b>On: </b><span th:text="${orarionoff.getOrarioAccensioneB()}" th:remove="tag"></span> - <b>Off: </b><span th:text="${orarionoff.getOrarioAccensioneB()}" th:remove="tag"></span></h4>
+                            </div>
+                            <div class="col-1 col-3-mobile" th:if="${orarionoff.orarioAccensioneC!= null}">
+                                <h4><b>Fascia 3</b></h4>
+                            </div>
+                            <div class="col-3 col-9-mobile" th:if="${orarionoff.orarioAccensioneC!= null}">
+                                <h4><b>On: </b><span th:text="${orarionoff.getOrarioAccensioneC()}" th:remove="tag"></span> - <b>Off: </b><span th:text="${orarionoff.getOrarioAccensioneC()}" th:remove="tag"></span></h4>
+                            </div>
                         </div>
                     </div>
                     <div th:if="${!orarionoffs.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
