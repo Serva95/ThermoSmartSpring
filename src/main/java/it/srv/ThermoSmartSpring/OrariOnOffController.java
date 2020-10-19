@@ -2,7 +2,12 @@ package it.srv.ThermoSmartSpring;
 
 import it.srv.ThermoSmartSpring.dao.OrariOnOffDAO;
 import it.srv.ThermoSmartSpring.dto.OrariOnOffDTO;
+import it.srv.ThermoSmartSpring.dto.OrariOnOffStringDTO;
+import it.srv.ThermoSmartSpring.exception.BlankFieldsException;
+import it.srv.ThermoSmartSpring.exception.InvalidFieldException;
+import it.srv.ThermoSmartSpring.exception.ObjectAlreadyExistException;
 import it.srv.ThermoSmartSpring.model.OrariOnOff;
+import it.srv.ThermoSmartSpring.services.OrariOnOffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,9 +23,13 @@ public class OrariOnOffController {
     @Autowired
     OrariOnOffDAO orariOnOffDAO;
 
+    @Autowired
+    OrariOnOffService orariOnOffService;
+
     @GetMapping("/rooms/{id}/orarionoff")
     public ModelAndView orariOnOffs(ModelAndView mav, @PathVariable int id) {
         List<OrariOnOff> orariOnOffs = orariOnOffDAO.getByRoomId(id);
+        getDaysOfWeek(mav);
         mav.addObject("orarionoffs", orariOnOffs);
         mav.setViewName("viewOrariOnOff");
         return mav;
@@ -29,27 +38,37 @@ public class OrariOnOffController {
     @GetMapping("/rooms/{id}/orarionoff/new")
     public ModelAndView newOrariOnOffs(ModelAndView mav, @PathVariable int id) {
         OrariOnOffDTO orariOnOffDTO = new OrariOnOffDTO();
-        ArrayList<String> days = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            orariOnOffDTO.add(new OrariOnOff());
-            days.add(DayOfWeek.of(i+1).getDisplayName(TextStyle.FULL, Locale.ITALY));
+        for (short i = 0; i < 7; i++) {
+            orariOnOffDTO.add(new OrariOnOffStringDTO(), i);
         }
-        mav.addObject("days", days);
+        getDaysOfWeek(mav);
         mav.addObject("orarionoffDTO", orariOnOffDTO);
         mav.setViewName("newOrariOnOff");
         return mav;
     }
 
-    @GetMapping("/rooms/{id}/orarionoff/{giorno}")
-    public ModelAndView viewOrariOnOff(ModelAndView mav, @PathVariable int id, @PathVariable int giorno) {
-        mav.setViewName("editOrariOnOff");
+    @PostMapping("/rooms/{id}/orarionoff")
+    public ModelAndView createOrariOnOff(
+            ModelAndView mav,
+            @PathVariable int id,
+            @ModelAttribute("orarionoffDTO") final OrariOnOffDTO orariOnOffDTO) {
+        try {
+            orariOnOffService.saveOrari(orariOnOffDTO, id);
+        } catch (BlankFieldsException | InvalidFieldException | ObjectAlreadyExistException e) {
+            mav.addObject("message", e.getMessage());
+            mav.addObject("orarionoffDTO", orariOnOffDTO);
+            mav.setViewName("newOrariOnOff");
+            getDaysOfWeek(mav);
+            return mav;
+        }
+        mav.addObject("message", "Orari salvati con successo.");
+        mav.setViewName("redirect:/rooms/"+id+"/orarionoff");
         return mav;
     }
 
-    @PostMapping("/rooms/{id}/orarionoff")
-    public ModelAndView createOrariOnOff(ModelAndView mav, @PathVariable int id) {
-        mav.addObject("message", "Stato modificato con successo.");
-        mav.setViewName("redirect:/rooms/"+id+"/orarionoff");
+    @GetMapping("/rooms/{id}/orarionoff/{giorno}")
+    public ModelAndView editOrariOnOff(ModelAndView mav, @PathVariable int id, @PathVariable int giorno) {
+        mav.setViewName("editOrariOnOff");
         return mav;
     }
 
@@ -58,6 +77,14 @@ public class OrariOnOffController {
         mav.addObject("message", "Stato modificato con successo.");
         mav.setViewName("redirect:/rooms/"+id);
         return mav;
+    }
+
+    private void getDaysOfWeek(ModelAndView mav) {
+        ArrayList<String> days = new ArrayList<>();
+        for (short i = 0; i < 7; i++) {
+            days.add(DayOfWeek.of(i+1).getDisplayName(TextStyle.FULL, Locale.ITALY));
+        }
+        mav.addObject("days", days);
     }
 
 }

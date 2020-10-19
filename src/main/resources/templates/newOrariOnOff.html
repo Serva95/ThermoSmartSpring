@@ -44,6 +44,7 @@
                             <div class="col-6 col-6-mobile" th:if="${iter.index != 0}">
                                 <a class="button" id="copia" th:onclick="'copia('+__${iter.index}__+')'">Copia dal luned&igrave;</a>
                             </div>
+                            <input type="hidden" th:field="*{orariOnOffs[__${iter.index}__].giorno}" required>
                             <div class="col-6 col-12-mobile">
                                 <h4>Orario Accensione Fascia 1</h4>
                                 <input type="time" th:field="*{orariOnOffs[__${iter.index}__].orarioAccensioneA}" required>
@@ -71,6 +72,10 @@
                             <div class="col-12 col-12-mobile">
                                 <hr>
                             </div>
+                        </div>
+                        <div class="col-12 col-12-mobile"><br></div>
+                        <div class="col-12 col-12-mobile">
+                            <input type="submit" value="Inserisci gli orari">
                         </div>
                     </form>
                 </section>
