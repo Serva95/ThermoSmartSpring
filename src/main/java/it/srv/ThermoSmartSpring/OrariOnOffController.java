@@ -66,16 +66,21 @@ public class OrariOnOffController {
         return mav;
     }
 
-    @GetMapping("/rooms/{id}/orarionoff/{giorno}")
-    public ModelAndView editOrariOnOff(ModelAndView mav, @PathVariable int id, @PathVariable int giorno) {
+    @GetMapping("/rooms/{id}/orarionoff/edit")
+    public ModelAndView editOrariOnOff(ModelAndView mav, @PathVariable int id) {
+        List<OrariOnOff> orariOnOffs = orariOnOffDAO.getByRoomId(id);
+        OrariOnOffDTO orariOnOffDTO = new OrariOnOffDTO();
+        orariOnOffDTO.orariToStringDTO(orariOnOffs);
+        mav.addObject("orarionoffDTO", orariOnOffDTO);
+        getDaysOfWeek(mav);
         mav.setViewName("editOrariOnOff");
         return mav;
     }
 
-    @PutMapping("/rooms/{id}/orarionoff/{giorno}")
-    public ModelAndView updateOrariOnOff(ModelAndView mav, @PathVariable long id, @PathVariable int giorno) {
-        mav.addObject("message", "Stato modificato con successo.");
-        mav.setViewName("redirect:/rooms/"+id);
+    @PutMapping("/rooms/{id}/orarionoff/edit")
+    public ModelAndView updateOrariOnOff(ModelAndView mav, @PathVariable long id) {
+        mav.addObject("message", "Orari modificati con successo.");
+        mav.setViewName("redirect:/rooms/"+id+"/orarionoff");
         return mav;
     }
 

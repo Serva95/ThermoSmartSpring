@@ -17,8 +17,11 @@
                         <div class="col-2 col-4-mobile ">
                             <a th:href="@{/rooms/__${id}__}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
-                        <div class="col-10 col-8-mobile">
+                        <div class="col-5 col-8-mobile">
                             <h2>Orari della stanza</h2>
+                        </div>
+                        <div class="col-5 col-12-mobile">
+                            <a th:if="${orarionoffs.iterator().hasNext()}" th:href="@{/rooms/__${id}__/orarionoff/edit}" class="button">Modifica gli orario della stanza</a>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <hr><br>
@@ -30,11 +33,8 @@
                     <div th:if="${orarionoffs.iterator().hasNext()}" class="row gtr-uniform">
                         <div th:each="orarionoff, iter : ${orarionoffs}" th:remove="tag">
                             <div class="col-12 col-12-mobile" th:if="${iter.index != 0}"><hr></div>
-                            <div class="col-6 col-12-mobile">
+                            <div class="col-12 col-12-mobile">
                                 <h3><b th:text="${days[__${iter.index}__]}"></b></h3>
-                            </div>
-                            <div class="col-6 col-12-mobile">
-                                link_to 'Modifica orari '+@days[orario.giorno], {class: 'button'}
                             </div>
                             <div class="col-1 col-3-mobile">
                                 <h4><b>Fascia 1</b></h4>

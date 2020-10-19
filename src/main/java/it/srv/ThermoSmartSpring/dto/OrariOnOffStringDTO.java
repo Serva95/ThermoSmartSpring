@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class OrariOnOffStringDTO {
+    private long id;
     private short giorno;
     private String orarioAccensioneA;
     private String orarioSpegnimentoA;
