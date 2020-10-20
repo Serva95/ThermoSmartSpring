@@ -4,7 +4,7 @@
 <head th:insert="fragments/header :: header"></head>
 <head>
     <meta charset="UTF-8">
-    <title>Le tue stanze</title>
+    <title>Modifica gli orari della stanza</title>
 </head>
 <body class="landing">
 <div id="page-wrapper">
@@ -18,22 +18,24 @@
                             <a th:href="@{/rooms/__${id}__/orarionoff}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
                         <div class="col-10 col-8-mobile">
-                            <h2>Inserisci gli orari della stanza</h2>
+                            <h2>Modifica gli orari della stanza</h2>
                         </div>
-                        <div class="col-12 col-12-mobile"><hr></div>
                         <div class="col-12 col-12-mobile" th:if="${message != null}">
                             <h3 th:text="${message}" class="error"></h3>
                             <br>
                         </div>
+                        <div class="col-12 col-12-mobile"><hr></div>
                         <div class="col-12 col-12-mobile">
                             <h3><b>Orari di accensione/spegnimento</b></h3>
                             <h3>Ricorda che l'orario di spegnimento deve essere successivo a quello di accensione
                                 <br>Ricorda inoltre che l'orario di spegnimento della fascia 1 deve essere antecedente a quello di accensione della fascia 2 e cos&igrave; via, altrimenti verrano scartati i dati non corretti</h3>
                             <h4><i>Solo la prima fascia &egrave; obbligatoria, le altre, se lasciate vuote, verranno ignorate. Ricorda: se lasci vuota la fascia 2, la fascia 3 non verr&agrave; letta.</i></h4>
+                            <h4><i>Per eliminare una fascia, elimina gli orari di accensione e spegnimento. Ricorda se elimini la fascia 2, ma lasci la 3, questa verrà eliminata a sua volta,
+                                per eliminare la fascia 2 e mantenere la 3 usa l'apposito bottone.</i></h4>
                         </div>
                         <div class="col-12 col-12-mobile"><br></div>
                     </div>
-                    <form th:action="@{/rooms/__${id}__/orarionoff}" th:object="${orarionoffDTO}" th:method="put" class="row gtr-uniform">
+                    <form th:action="@{/rooms/__${id}__/orarionoff/edit}" th:object="${orarionoffDTO}" th:method="put" class="row gtr-uniform">
                         <div th:each="orari, iter : *{orariOnOffs}" th:remove="tag">
                             <div class="col-12 col-12-mobile" th:if="${iter.index == 0}">
                                 <h3 th:text="'Fascia del '+${days[__${iter.index}__]}"></h3>
@@ -42,7 +44,7 @@
                                 <h3 th:text="'Fascia del '+${days[__${iter.index}__]}"></h3>
                             </div>
                             <div class="col-6 col-6-mobile" th:if="${iter.index != 0}">
-                                <a class="button" id="copia" th:onclick="'copia('+__${iter.index}__+')'">Copia dal luned&igrave;</a>
+                                <a class="button" th:onclick="'copia('+__${iter.index}__+')'">Copia dal luned&igrave;</a>
                             </div>
                             <input type="hidden" th:field="*{orariOnOffs[__${iter.index}__].giorno}" required>
                             <div class="col-6 col-12-mobile">
@@ -70,6 +72,9 @@
                                 <input type="time" th:field="*{orariOnOffs[__${iter.index}__].orarioSpegnimentoC}">
                             </div>
                             <div class="col-12 col-12-mobile">
+                                <a class="button" th:onclick="'eliminasecondafascia('+__${iter.index}__+')'">Elimina fascia 2 e mantieri fascia 3</a>
+                            </div>
+                            <div class="col-12 col-12-mobile">
                                 <hr>
                             </div>
                         </div>
@@ -81,9 +86,21 @@
             </div>
     </section>
 </div>
-</div>
-</section>
-</div>
+<script type="application/javascript">
+    function copia(id){
+        $("#orariOnOffs"+id+"\\.orarioAccensioneA").val($("#orariOnOffs0\\.orarioAccensioneA").val())
+        $("#orariOnOffs"+id+"\\.orarioSpegnimentoA").val($("#orariOnOffs0\\.orarioSpegnimentoA").val())
+        $("#orariOnOffs"+id+"\\.orarioAccensioneB").val($("#orariOnOffs0\\.orarioAccensioneB").val())
+        $("#orariOnOffs"+id+"\\.orarioSpegnimentoB").val($("#orariOnOffs0\\.orarioSpegnimentoB").val())
+        $("#orariOnOffs"+id+"\\.orarioAccensioneC").val($("#orariOnOffs0\\.orarioAccensioneC").val())
+        $("#orariOnOffs"+id+"\\.orarioSpegnimentoC").val($("#orariOnOffs0\\.orarioSpegnimentoC").val())
+    }
+    function eliminasecondafascia(id){
+        let a=$("#orariOnOffs"+id+"\\.orarioAccensioneC");
+        let s=$("#orariOnOffs"+id+"\\.orarioSpegnimentoC");
+        if(""!==a.val()&&""!==s.val()){($("#orariOnOffs"+id+"\\.orarioAccensioneB").val(a.val()),$("#orariOnOffs"+id+"\\.orarioSpegnimentoB").val(s.val()),a.val(""),s.val(""))}
+    }
+</script>
 <div th:replace="fragments/bottom :: bottom"></div>
 </body>
 </html>

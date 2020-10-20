@@ -25,7 +25,7 @@
                             <a th:href="@{/rooms/__${room.id}__/orarionoff}" class='button fit' title="Orari della stanza">Orari della stanza</a>
                         </div>
                         <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
-                        <hr class="col-12 col-12-mobile">
+                        <div class="col-12 col-12-mobile"><hr></div>
                         <div class="col-12 col-12-mobile">
                             <h4><strong>Nome della stanza:</strong> <span th:text="${room.nome}" th:remove="tag"></span></h4>
                         </div>
