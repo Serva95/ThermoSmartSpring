@@ -78,7 +78,19 @@ public class OrariOnOffController {
     }
 
     @PutMapping("/rooms/{id}/orarionoff/edit")
-    public ModelAndView updateOrariOnOff(ModelAndView mav, @PathVariable long id) {
+    public ModelAndView updateOrariOnOff(
+            ModelAndView mav,
+            @PathVariable int id,
+            @ModelAttribute("orarionoffDTO") final OrariOnOffDTO orariOnOffDTO) {
+        try {
+            orariOnOffService.updateOrari(orariOnOffDTO, id);
+        } catch (BlankFieldsException | InvalidFieldException e) {
+            mav.addObject("message", e.getMessage());
+            mav.addObject("orarionoffDTO", orariOnOffDTO);
+            mav.setViewName("editOrariOnOff");
+            getDaysOfWeek(mav);
+            return mav;
+        }
         mav.addObject("message", "Orari modificati con successo.");
         mav.setViewName("redirect:/rooms/"+id+"/orarionoff");
         return mav;
