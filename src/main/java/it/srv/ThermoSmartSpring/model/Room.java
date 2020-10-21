@@ -23,8 +23,6 @@ public class Room {
     private BigDecimal minTemp;
     @Column(name = "absolutemin")
     private BigDecimal absoluteMin;
-    //@Column(name = "sensorid")
-    //private String sensorId;
     @Column(name = "manualactive")
     private boolean manualActive;
     @Column(name = "manualinactive")

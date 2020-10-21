@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="it">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>La tua VMC</title>
+</head>
+<body class="landing">
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="row gtr-uniform">
+                        <div class="col-2 col-4-mobile ">
+                            <a th:href="@{/}" class="button icon solid fa-chevron-left">Indietro</a>
+                        </div>
+                        <div class="col-2 col-8-mobile">
+                            <h2>La tua VMC</h2>
+                        </div>
+                        <div th:if="${vmc != null}" class="col-8 col-12-mobile">
+                            <h4>&Egrave; gi&agrave; presente una VMC nel sistema, per inserirne una nuova, elimina prima quella registrata a sistema</h4>
+                        </div>
+                        <div th:if="${vmc == null}" class="col-5 col-12-mobile">
+                        </div>
+                        <div th:if="${vmc == null}" class="col-3 col-12-mobilep">
+                            <a th:href="@{vmc/new}" class="button">Crea una nuova vmc</a>
+                        </div>
+                        <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
+                        <div class="col-12 col-12-mobile"><hr></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>
