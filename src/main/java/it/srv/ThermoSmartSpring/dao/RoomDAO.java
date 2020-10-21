@@ -16,7 +16,7 @@ public class RoomDAO {
         return repo.findAll();
     }
 
-    public Room save(Room product) { return repo.save(product); }
+    public Room save(Room room) { return repo.save(room); }
 
     public Room get(long id) { return repo.findById(id); }
 
