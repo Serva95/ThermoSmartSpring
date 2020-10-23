@@ -46,14 +46,16 @@
                         <div class="col-2 col-6-mobile">
                             <a th:href="@{/sensors/__${sensor.id}__}" class='far fa-edit fa-3x' title="Modifica questo sensore"></a>
                         </div>
-                        <form th:action="@{/sensors/__${sensor.id}__}" th:method="delete" class="col-3 col-6-mobile">
-                            <a th:id="${'trashcan'+sensor.id}" href="javascript:{}" th:attr="onclick=|showconfirm('${sensor.id}')|" class='far fa-trash-alt fa-3x' title="Elimina questo sensore"></a>
-                            <div th:id="${sensor.id}" hidden>
-                                <input type="submit" class="special small" value="Conferma eliminazione">
-                                <a class="button small" th:attr="onclick=|hideconfirm('${sensor.id}')|">Annulla</a>
-                                <h5><i>Ricorda che se elimini un sensore verranno eliminate anche tutte le temperature da lui registrate fino ad ora</i></h5>
-                            </div>
-                        </form>
+                        <div class="col-3 col-6-mobile">
+                            <form th:action="@{/sensors/__${sensor.id}__}" th:method="delete">
+                                <a th:id="${'trashcan'+sensor.id}" href="javascript:{}" th:onclick="'showconfirm(\''+__${sensor.id}__+'\')'" class='far fa-trash-alt fa-3x' title="Elimina questo sensore"></a>
+                                <div th:id="${sensor.id}" hidden>
+                                    <input type="submit" class="special small" value="Conferma eliminazione">
+                                    <a class="button small" th:onclick="'hideconfirm(\''+__${sensor.id}__+'\')'">Annulla</a>
+                                    <h5><i>Ricorda che se elimini un sensore verranno eliminate anche tutte le temperature da lui registrate fino ad ora</i></h5>
+                                </div>
+                            </form>
+                        </div>
                         <div class="col-12 col-12-mobile"><hr></div>
                     </div>
                     <div th:if="${!sensors.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
@@ -67,20 +69,7 @@
         </div>
     </section>
 </div>
-<script type="application/javascript">
-    function showconfirm(tag_id){
-        $("a[id$="+tag_id+"]").hide(300,'swing');
-        setTimeout(function () {
-            $("#"+tag_id).show(300,'swing')
-        }, 300);
-    }
-    function hideconfirm(tag_id){
-        $("#"+tag_id).hide(300,'swing')
-        setTimeout(function () {
-            $("a[id$="+tag_id+"]").show(300,'swing');
-        }, 300);
-    }
-</script>
+<script type="application/javascript" th:src="@{/js/hideNshow.delete.js}"></script>
 <div th:replace="fragments/bottom :: bottom"></div>
 </body>
 </html>

@@ -85,7 +85,8 @@ public class RoomController {
     }
 
     @PutMapping("/rooms/{id}")
-    public ModelAndView updateRoom(ModelAndView mav, @PathVariable int id, @ModelAttribute("room") final Room room) {
+    public ModelAndView updateRoom(
+            ModelAndView mav, @PathVariable int id, @ModelAttribute("room") final Room room) {
         Room oldRoom = roomDAO.get(id);
         if (oldRoom == null) {
             mav.addObject("message", "Stanza non trovata, riprova.");

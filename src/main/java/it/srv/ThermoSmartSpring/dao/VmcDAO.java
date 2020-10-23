@@ -18,7 +18,12 @@ public class VmcDAO {
 
     public Vmc get(String id) { return repo.findById(id).orElse(null); }
 
-    public void delete(String id) {
-        repo.deleteById(id);
+    public void delete(String id) { repo.deleteById(id); }
+
+    public Boolean exists(String id){
+        Vmc vmc = this.get(id);
+        return vmc != null;
     }
+
+    public void update(Vmc vmc, String oldId){ repo.updateVmcById(vmc.getId(), vmc.getImpostazioneFunzione(), vmc.getStatoAttuale(), vmc.getProgrammedOnTime(), vmc.getProgrammedOffTime(), oldId);}
 }
