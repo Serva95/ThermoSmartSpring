@@ -25,8 +25,9 @@ public class RoomService {
         return roomDAO.save(room);
     }
 
-    public Room updateRoom(final Room oldRoom, Room newData) throws BlankFieldsException, InvalidFieldException {
+    public Room updateRoom(Room oldRoom, final Room newData) throws BlankFieldsException, InvalidFieldException {
         chechData(newData);
+        oldRoom.setNome(newData.getNome());
         oldRoom.setMaxTemp(newData.getMaxTemp());
         oldRoom.setMinTemp(newData.getMinTemp());
         oldRoom.setAbsoluteMin(newData.getAbsoluteMin());

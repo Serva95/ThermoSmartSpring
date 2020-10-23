@@ -4,7 +4,7 @@
 <head th:insert="fragments/header :: header"></head>
 <head>
     <meta charset="UTF-8">
-    <title>Modifica il sensore</title>
+    <title>Modifica la VMC</title>
 </head>
 <body class="landing">
 <div id="page-wrapper">
@@ -15,72 +15,45 @@
                 <section class="box">
                     <div class="row gtr-uniform">
                         <div class="col-2 col-4-mobile ">
-                            <a th:href="@{/sensors}" class="button icon solid fa-chevron-left">Indietro</a>
+                            <a th:href="@{/vmc}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
                         <div class="col-9 col-8-mobile">
-                            <h2>Modifica il sensore</h2>
+                            <h2>Modifica la VMC</h2>
                         </div>
                         <div class="col-12 col-12-mobile"><hr></div>
                         <div class="col-12 col-12-mobile"><br></div>
                     </div>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
-
-                    <!--
-                    <div class="col-6 col-12-mobile">
-                        <%= form.label :id, "ID univoco della vmc"%>
-                        <%= form.text_field :id, placeholder: "ID univoco della vmc", required: true, minlength: 32, maxlength: 32 %>
-                    </div>
-                    <div class="col-6 col-12-mobile"></div>
-                    <div class="col-3 col-6-mobile">
-                        <%= form.label :programmed_on_time, "Orario programmato di accensione"%>
-                        <%= form.time_field :programmed_on_time%>
-                    </div>
-                    <div class="col-3 col-6-mobile">
-                        <label> &nbsp;</label>
-                        <input type="button" id="removeOn" value="Rimuovi timer accensione"/>
-                    </div>
-                    <div class="col-3 col-6-mobile">
-                        <%= form.label :programmed_off_time, "Orario programmato di spegnimento"%>
-                        <%= form.time_field :programmed_off_time%>
-                    </div>
-                    <div class="col-3 col-6-mobile">
-                        <label> &nbsp;</label>
-                        <input type="button" id="removeOff" value="Rimuovi timer spegnimento"/>
-                    </div>
-                    <div class="col-12 col-12-mobile">
-                        <%= form.submit "Applica le modifiche alla VMC" %>
-                    </div>
-                    <script>
-                        $("#removeOn").click(function(){
-                            $("#vmc_programmed_on_time").val("");
-                        })
-                        $("#removeOff").click(function(){
-                            $("#vmc_programmed_off_time").val("");
-                        })
-                    </script>
-                    -->
-
-                    <h3 th:if="${sensor == null}" class="error">Sensore non trovato</h3>
-                    <form th:if="${sensor != null}" th:action="@{/sensors/__${sensor.id}__}" th:object="${sensor}" th:method="put" class="row gtr-uniform">
+                    <form th:action="@{/vmc/__${vmc.id}__}" th:object="${vmc}" th:method="put" class="row gtr-uniform">
                         <div class="col-6 col-12-mobile">
-                            <label>Nome del sensore:</label>
-                            <input type="text" th:field="*{nome}" placeholder="Nome del sensore" required>
+                            <label>ID univoco della vmc:</label>
+                            <input type="text" th:field="*{id}" placeholder="ID univoco della vmc" minlength="32" maxlength="32" required>
                         </div>
                         <div class="col-6 col-12-mobile">
-                            <label>Posizione del sensore</label>
-                            <input type="text" th:field="*{location}" placeholder="Posizione del sensore" required>
-                        </div>
-                        <div class="col-6 col-8-mobile">
-                            <label>ID del sensore</label>
-                            <input type="text" th:field="*{id}" placeholder="ID del sensore" required minlength="32" maxlength="32">
-                        </div>
-                        <div class="col-6 col-4-mobile">
                             <label>&nbsp;</label>
                             <input type="button" value="Genera id in automatico" id="makeID">
                         </div>
-                        <div class="col-12 col-12-mobile"><br></div>
+                        <div class="col-3 col-6-mobile">
+                            <label>Orario programmato di accensione:</label>
+                            <input type="time" th:field="*{programmedOnTime}">
+                        </div>
+                        <div class="col-3 col-6-mobile">
+                            <label> &nbsp;</label>
+                            <input type="button" id="removeOn" value="Rimuovi timer accensione">
+                        </div>
+                        <div class="col-3 col-6-mobile">
+                            <label>Orario programmato di spegnimento:</label>
+                            <input type="time" th:field="*{programmedOffTime}">
+                        </div>
+                        <div class="col-3 col-6-mobile">
+                            <label> &nbsp;</label>
+                            <input type="button" id="removeOff" value="Rimuovi timer spegnimento">
+                        </div>
                         <div class="col-12 col-12-mobile">
-                            <input type="submit" value="Salva le modifiche al sensore">
+                            <br>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <input type="submit" value="Applica le modifiche alla VMC">
                         </div>
                     </form>
                 </section>
@@ -89,7 +62,13 @@
     </section>
 </div>
 <div th:replace="fragments/bottom :: bottom"></div>
-<script id="random-id-creator">
+<script type="application/javascript">
+    $("#removeOn").click(function(){
+        $("#vmc_programmed_on_time").val("");
+    })
+    $("#removeOff").click(function(){
+        $("#vmc_programmed_off_time").val("");
+    })
     $("#makeID").click(function() {
         makeid(32);
     });

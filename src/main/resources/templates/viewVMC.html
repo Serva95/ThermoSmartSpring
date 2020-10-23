@@ -29,13 +29,56 @@
                             <a th:href="@{vmc/new}" class="button">Crea una nuova vmc</a>
                         </div>
                         <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
-                        <div class="col-12 col-12-mobile"><hr></div>
+                        <div th:if="${vmc != null}" class="col-12 col-12-mobile"><hr></div>
+                        <th:block th:if="${vmc != null}">
+                            <div class="col-6 col-12-narrower col-12-mobile">
+                                ID univoco della vmc: <h3><b th:text="${vmc.getId()}"></b></h3>
+                            </div>
+                            <div class="col-3 col-6-narrower col-12-mobile">
+                                Stato attuale di funzionamento della vmc: <h3><b th:text="${vmc.getStatoAttuale() ? 'Acceso' : 'Spento'}"></b></h3>
+                            </div>
+                            <div class="col-3 col-6-narrower col-12-mobile">
+                                Stato impostato della vmc: <h3><b th:text="${vmc.getImpostazioneFunzione() ? 'In accensione/acceso' : 'In spegnimento/spento'}"></b></h3>
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                Timer di accensione programmata <i>(clicca su modifica per impostarlo o cambiarlo)</i>: <h3><b th:text="${vmc.getProgrammedOnTime() == null ? 'Nessun timer impostato' : vmc.getProgrammedOnTime()}"></b></h3>
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                Timer di spegnimento programmato <i>(clicca su modifica per impostarlo o cambiarlo)</i>: <h3><b th:text="${vmc.getProgrammedOffTime() == null ? 'Nessun timer impostato' : vmc.getProgrammedOffTime()}"></b></h3>
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                <th:block th:if="${vmc.getImpostazioneFunzione()}">
+                                    <form th:action="@{/vmc/__${vmc.getId()}__/changestate}" th:method="put">
+                                        <input type="submit" value="Spegni la VMC">
+                                    </form>
+                                </th:block>
+                                <th:block th:if="${!vmc.getImpostazioneFunzione()}">
+                                    <form th:action="@{/vmc/__${vmc.getId()}__/changestate}" th:method="put">
+                                        <input type="submit" value="Accendi la VMC">
+                                    </form>
+                                </th:block>
+                            </div>
+                            <div class="col-3 col-6-mobile">
+                                <a th:href="@{/vmc/__${vmc.getId()}__/edit}" class="far fa-edit fa-3x" title='Modifica la vmc'></a>
+                            </div>
+                            <div class="col-3 col-6-mobile">
+                                <form th:action="@{/vmc/__${vmc.getId()}__}" th:method="delete">
+                                    <a th:id="${'trashcan'+vmc.getId()}" href="javascript:{}" th:onclick="'showconfirm(\''+__${vmc.getId()}__+'\')'" class='far fa-trash-alt fa-3x' title="Elimina la VMC"></a>
+                                    <div th:id="${vmc.getId()}" hidden>
+                                        <input type="submit" class="special small" value="Conferma eliminazione">
+                                        <a class="button small" th:onclick="'hideconfirm(\''+__${vmc.getId()}__+'\')'">Annulla</a>
+                                        <h5><i>Ricorda che se elimini la vmc verranno eliminate anche tutte le impostazioni a lei collegate</i></h5>
+                                    </div>
+                                </form>
+                            </div>
+                        </th:block>
                     </div>
                 </section>
             </div>
         </div>
     </section>
 </div>
+<script type="application/javascript" th:src="@{/js/hideNshow.delete.js}"></script>
 <div th:replace="fragments/bottom :: bottom"></div>
 </body>
 </html>
