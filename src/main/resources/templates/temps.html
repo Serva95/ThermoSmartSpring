@@ -31,19 +31,32 @@
                         <div class="col-12 col-12-mobile">
                             <br>
                         </div>
-                        <div class="col-12 col-12-mobile">
-                            ID sensore: <h3 th:text="${room.id}"></h3>
+                        <div class="col-6 col-12-mobile">
+                            <h3>Nome della stanza: <b th:text="${room.nome.toUpperCase()}"></b></h3>
                         </div>
-                        <div class="col-4 col-6-mobile">
-                            Nome: <h3 th:text="${room.nome}"></h3>
+                        <div th:if="${room.sensor == null}" class="col-8 col-12-mobile">
+                            <h3>Associa un sensore a questa stanza per vederne le temperature</h3>
                         </div>
-                        <div class="col-3 col-6-mobile">
-                            Posizione: <h3 th:text="${room.maxTemp}"></h3>
+                        <div th:if="${room.sensor == null}" class="col-4 col-12-mobile">
+                            link "Associa il sensore", {class: 'button'}
                         </div>
-                        <div class="col-2 col-4-mobile">
-                            <a th:href="@{/rooms/__${room.id}__}" class='far fa-edit fa-3x' title="Modifica questo sensore"></a>
-                        </div>
+                        <th:block th:if="${room.sensor != null}">
+                            <div class="col-6 col-12-mobile">
+                                ID sensore associato: <h4 th:text="${room.sensor.id}"></h4>
+                            </div>
+                            <div class="col-6 col-12-mobile">
+                                <th:block th:if="${!room.sensor.temps.iterator().hasNext()}">
+                                    <h4>Ancora non è stata letta alcuna temperatura</h4>
+                                    <h4>Torna tra un po' per permettere al sensore di leggerne almeno una</h4>
+                                </th:block>
+                                <h4 th:if="${room.sensor.temps.iterator().hasNext()}" >Ultima temperatura letta: <th:block th:text="${room.sensor.temps.iterator().next().temp}"></th:block>&deg;C il: <th:block th:text="${room.sensor.temps.iterator().next().getCreatedatFormatted()}"></th:block></h4>
+                            </div>
+                            <div th:if="${room.sensor.temps.iterator().hasNext()}" class="col-4 col-12-mobile">
+                                link "Guarda le temperature di questa stanza", {class: 'button'}
+                            </div>
+                        </th:block>
                         <div class="col-12 col-12-mobile"><hr></div>
+
                     </div>
                     <div th:if="${!rooms.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
                         <div class="col-12 col-12-mobile"><br></div>

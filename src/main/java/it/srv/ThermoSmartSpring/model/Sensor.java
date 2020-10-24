@@ -5,10 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Table(name = "sensors")
 @Entity
@@ -25,4 +23,7 @@ public class Sensor {
 
     @OneToOne(mappedBy = "sensor")
     private Room room;
+
+    @OneToMany(mappedBy = "sensor")
+    private List<Temp> temps;
 }
