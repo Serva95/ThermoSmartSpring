@@ -19,7 +19,7 @@ public class RoomService {
 
     public Room saveNewRoom(final Room room) throws BlankFieldsException, InvalidFieldException {
         chechData(room);
-        if (room.getSensor().getId().equals("")){
+        if (room.getSensor() == null || room.getSensor().getId().equals("")){
             room.setSensor(null);
         }
         return roomDAO.save(room);
