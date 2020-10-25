@@ -26,7 +26,6 @@ public class Temp {
     @JoinColumn(name = "sensorid", referencedColumnName = "id")
     private Sensor sensor;
 
-    public String getCreatedatFormatted(){
-        return this.createdAt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
-    }
+    public String getCreatedDateTimeFormatted(){ return this.createdAt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")); }
+    public String getCreatedTimeFormatted(){ return this.createdAt.format(DateTimeFormatter.ofPattern("HH:mm:ss")); }
 }
