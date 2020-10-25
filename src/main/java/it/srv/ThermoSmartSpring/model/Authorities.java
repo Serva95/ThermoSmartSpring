@@ -2,7 +2,6 @@ package it.srv.ThermoSmartSpring.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,13 +12,10 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class Authorities {
-    @NonNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NonNull
     private String authority;
-    @NonNull
     private String username;
 
     /*controllare
