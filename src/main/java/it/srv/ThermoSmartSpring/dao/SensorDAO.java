@@ -26,6 +26,11 @@ public class SensorDAO {
 
     public boolean exists(Sensor sensor){ return sensor != null; }
 
+    public boolean exists(String id){
+        Sensor s = this.get(id);
+        return s != null;
+    }
+
     public void update(Sensor sensor, String oldID){ repo.updateSensorById(sensor.getId(), sensor.getNome(), sensor.getLocation(), oldID);}
 
     public Iterable<Sensor> findAllRoomIsNull(){ return repo.findAllByRoom_SensorIsNull(); }

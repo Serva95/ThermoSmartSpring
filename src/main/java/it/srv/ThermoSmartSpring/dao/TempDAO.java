@@ -20,7 +20,7 @@ public class TempDAO {
 
     public Temp findLastBySensor(String sensorID){ return repo.findFirstBySensorIdOrderByCreatedAtDesc(sensorID);}
 
-    public List<Temp> findNBySensor(String sensorID){
+    public List<Temp> find150BySensor(String sensorID){
         List<Temp> temps = repo.findTop150BySensorIdOrderByCreatedAtDesc(sensorID);
         Collections.reverse(temps);
         return temps;

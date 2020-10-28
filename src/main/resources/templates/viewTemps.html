@@ -25,154 +25,109 @@
                         </div>
                     </div>
                     <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
+                    <h3 th:if="${sensor == false}" class="error">ID sensore non valido</h3>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
                     <br th:if="${message != null}">
-
                     <div class="row gtr-uniform">
-                         if @temps.present?
-                        <div id="ls" class="col-12 col-12-mobile"><h2><b>TEMP: </b>
-                            <th:block th:text="${last.temp}"></th:block> &deg;C <b>alle ore: </b>
-                            <th:block th:text="${last.getCreatedTimeFormatted()}"></th:block></h2></div>
-                        <div class="col-12 col-12-mobile"><br></div>
-                        <div class="chart-container oneLineGraph">
-                            <canvas id="tempChart"></canvas>
-                        </div>
-                        <div class="col-12 col-12-mobile"><hr></div>
-                        <div class="col-8 col-12-mobile">
-                            <h3>Scegli il numero di dati che vuoi vedere per le medie</h3>
-                        </div>
-                        <div class="col-4 col-12-mobile">
-                            <select id="datanumber" onchange="updateMeds(this.value)">
-                                <option value="7">7
-                                <option value="15">15
-                                <option value="30">30
-                                <option value="60">60
-                                <option value="100">100
-                            </select>
-                        </div>
-                        <div class="col-12 col-12-mobile"><br></div>
-                        <div class="chart-container oneLineGraph">
-                            <canvas id="medtempChart"></canvas>
-                        </div>
-                        else
-                        <div class="col-12 col-12-mobilep">
+                        <th:block th:if="${last!=null}">
+                            <div id="ls" class="col-12 col-12-mobile"><h2><b>TEMP: </b>
+                                <th:block th:text="${last.temp}"></th:block> &deg;C <b>alle ore: </b>
+                                <th:block th:text="${last.getCreatedTimeFormatted()}"></th:block></h2></div>
+                            <div class="col-12 col-12-mobile"><br></div>
+                            <div class="chart-container oneLineGraph">
+                                <canvas id="tempChart"></canvas>
+                            </div>
+                            <div class="col-12 col-12-mobile"><hr></div>
+                            <div class="col-8 col-12-mobile">
+                                <h3>Scegli il numero di dati che vuoi vedere per le medie</h3>
+                            </div>
+                            <div class="col-4 col-12-mobile">
+                                <select id="datanumber" onchange="updateMeds(this.value)">
+                                    <option value="7">7
+                                    <option value="15">15
+                                    <option value="30">30
+                                    <option value="60">60
+                                    <option value="100">100
+                                </select>
+                            </div>
+                            <div class="col-12 col-12-mobile"><br></div>
+                            <div class="chart-container oneLineGraph">
+                                <canvas id="medtempChart"></canvas>
+                            </div>
+                        </th:block>
+                        <div th:if="${last==null && sensor == null}" class="col-12 col-12-mobilep">
                             <h3>Non c'&egrave; alcuna temperatura disponibile, attendi che il sensore ne legga qualcuna, poi torna qua</h3>
                         </div>
-                         end
                     </div>
-
                 </section>
             </div>
         </div>
     </section>
 </div>
-<script type="application/javascript" th:inline="javascript">
+<script type="application/javascript" th:inline="javascript" th:if="${last!=null}">
     $(document).ready(function(){
-        $.getJSON("/api/temps/"+[[${id}]], function(result){
-            $.each(result.tempVals, function(i, field){
-                tempChart.data.datasets[0].data.push(field);
-            });
-            $.each(result.times, function(i, field){
-                tempChart.data.labels.push(field);
-            });
-            tempChart.update();
-            $.each(result.tempsAVG, function(i, field){
-                medtempChart.data.datasets[0].data.push(field);
-            });
-            $.each(result.avgDates, function(i, field){
-                medtempChart.data.labels.push(field);
-            });
-            medtempChart.update();
+        $.getJSON("/api/temps/"+[[${id}]],function(t){
+            $.each(t.tempVals,function(t,a){tempChart.data.datasets[0].data.push(a)}),
+            $.each(t.times,function(t,a){tempChart.data.labels.push(a)}),
+            tempChart.update(),
+            $.each(t.tempsAVG,function(t,a){medtempChart.data.datasets[0].data.push(a)}),
+            $.each(t.avgDates,function(t,a){medtempChart.data.labels.push(a)}),
+            medtempChart.update()
         });
     });
-    var crtTemps = document.getElementById("tempChart").getContext("2d");
-    var crtMedTemp = document.getElementById("medtempChart").getContext("2d");
-
-    var tempChart = new Chart(crtTemps, {
-        type:'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Temperatures \u00B0C',
+    crtTemps = document.getElementById("tempChart").getContext("2d");
+    crtMedTemp = document.getElementById("medtempChart").getContext("2d");
+    tempChart = new Chart(crtTemps,{type:'line',
+        data: {labels: [],
+            datasets: [{label: 'Temperatures \u00B0C',
                 data: [],
-                fill:!1, borderColor:"#3cb371", lineTension:0.1}]},
+                fill:!1,borderColor:"#3cb371",lineTension:0.1}]},
         options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
     });
-    var medtempChart = new Chart(crtMedTemp, {
-        type:'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Medium Temps \u00B0C',
+    medtempChart = new Chart(crtMedTemp,{type:'line',
+        data: {labels: [],
+            datasets: [{label: 'Medium Temps \u00B0C',
                 data: [],
                 fill:!1,borderColor:"#216bff",lineTension:0.1}]},
         options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
     });
-
     function updateTemps(){
-        $.ajax({ url: '<%= params[:sensor_id]%>'+'/updateTemps.json',
-            type: 'POST',
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            dataType: "json",
-            data: { previous:tempChart.data.labels[tempChart.data.labels.length - 1]},
-            success: function(data) {
-                if(!(data.temp == null && data.created_at == null)){
-                    //output from the post call
-                    //21.5?01:10:18?55.9
-                    //0-4  5-8     14-4
-                    //for temp
-                    tempChart.data.labels.push(data.created_at);
-                    tempChart.data.datasets[0].data.push(data.temp);
-
-                    if(tempChart.data.labels.length >= 100) {
-                        tempChart.data.labels.shift();
-                        tempChart.data.datasets[0].data.shift();
-                    }
-                    tempChart.update();
-                    $("#ls").html("<h2><b>TEMP:</b> "+data.temp+"&deg;C <b>alle ore: </b>"+data.created_at+"</h2>");
+        $.getJSON("/api/temps/"+[[${id}]]+"/update", { previous: tempChart.data.labels[tempChart.data.labels.length - 1]}, function(result){
+            if(!(result.temp == null && result.created == null)){
+                tempChart.data.labels.push(result.created);
+                tempChart.data.datasets[0].data.push(result.temp);
+                if(tempChart.data.labels.length >= 150) {
+                    tempChart.data.labels.shift();
+                    tempChart.data.datasets[0].data.shift();
                 }
-            },
-            error: function (request, status, error) {
-                console.log(request.responseText + " STATUS: " + status + " ERROR: " + error);
+                tempChart.update();
+                $("#ls").html("<h2><b>TEMP:</b> "+result.temp+"&deg;C <b>alle ore: </b>"+result.created+"</h2>");
             }
         });
-        //setTimeout( updateTemps, 840000 );
         // ogni 14 minuti
-        console.log("update temps @: "+ Date());
-        setTimeout( updateTemps, 540000 )
+        //console.log("update temps @: "+ Date());
+        //setTimeout( updateTemps, 14*60*1000 )
         // un update ogni 9 minuti
-        //setTimeout( updateTemps, 25000 );
+        setTimeout( updateTemps, 60*9*1000 );
     }
-
     function updateMeds(numberOfValues){
-        $.ajax({ url: '<%= params[:sensor_id]%>'+'/updateMeds.json',
-            type: 'POST',
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            dataType: "json",
-            data: { days:numberOfValues},
-            success: function(data) {
-                if(data.meds != null){
-                    let valueNumber = medtempChart.data.labels.length;
-                    for(let i=0; i<valueNumber; i++) {
-                        medtempChart.data.labels.pop();
-                        medtempChart.data.datasets[0].data.pop();
-                    }
-                    $.each(data.meds, function( index, value ) {
-                        medtempChart.data.labels.push(value.giorno);
-                        medtempChart.data.datasets[0].data.push(value.temp);
-                    });
-                    medtempChart.update();
+        $.getJSON("/api/temps/"+[[${id}]]+"/updateMeds", { days:numberOfValues}, function(result){
+            if(result.tempsAVG != null && result.avgDates != null){
+                let valueNumber = medtempChart.data.labels.length;
+                for(let i=0; i<valueNumber; i++) {
+                    medtempChart.data.labels.pop();
+                    medtempChart.data.datasets[0].data.pop();
                 }
-            },
-            error: function (request, status, error) {
-                console.log(request.responseText + " STATUS: " + status + " ERROR: " + error);
+                $.each(result.tempsAVG, function(i, field){medtempChart.data.datasets[0].data.push(field);});
+                $.each(result.avgDates, function(i, field){medtempChart.data.labels.push(field);});
+                medtempChart.update();
             }
         });
     }
     function startUpdate(){
         setTimeout( updateTemps, 5000 );
     }
-    //window.addEventListener("load", startUpdate);
+    window.addEventListener("load", startUpdate);
 </script>
 <div th:replace="fragments/bottom :: bottom"></div>
 </body>
