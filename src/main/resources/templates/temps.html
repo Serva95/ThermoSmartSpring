@@ -45,15 +45,14 @@
                                 ID sensore associato: <h4 th:text="${room.sensor.id}"></h4>
                             </div>
                             <div class="col-6 col-12-mobile">
-                                <th:block th:if="${!room.sensor.temps.iterator().hasNext()}">
+                                <th:block th:if="${lastTemps.get(room.sensor.id)==null}">
                                     <h4>Ancora non è stata letta alcuna temperatura</h4>
                                     <h4>Torna tra un po' per permettere al sensore di leggerne almeno una</h4>
                                 </th:block>
-                                <h4 th:if="${room.sensor.temps.iterator().hasNext()}" >Ultima temperatura letta:
-                                    <th:block th:text="${room.sensor.temps.iterator().next().temp}"></th:block>&deg;C il:
-                                    <th:block th:text="${room.sensor.temps.iterator().next().getCreatedDateTimeFormatted()}"></th:block></h4>
+                                <h4 th:if="${lastTemps.get(room.sensor.id)!=null}" >Ultima temperatura letta:
+                                    <th:block th:text="${lastTemps.get(room.sensor.id)}"></th:block></h4>
                             </div>
-                            <div th:if="${room.sensor.temps.iterator().hasNext()}" class="col-4 col-12-mobile">
+                            <div th:if="${lastTemps.get(room.sensor.id)!=null}" class="col-4 col-12-mobile">
                                 <a th:href="@{/temps/__${room.sensor.id}__}" class="button">Guarda le temperature di questa stanza</a>
                             </div>
                         </th:block>

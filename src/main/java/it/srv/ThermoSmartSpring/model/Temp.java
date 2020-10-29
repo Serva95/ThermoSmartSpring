@@ -1,6 +1,7 @@
 package it.srv.ThermoSmartSpring.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Temp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
