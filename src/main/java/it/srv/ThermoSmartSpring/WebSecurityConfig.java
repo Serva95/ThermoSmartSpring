@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .sessionManagement()
-                .invalidSessionUrl("/error")
+                .invalidSessionUrl("/error?message=\"Session timeout, login again.\"")
                 .maximumSessions(3)
                 .sessionRegistry(sessionRegistry())
                 .and()
@@ -55,13 +55,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .none()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/login?logout")
                 .permitAll()
         ;
-        http
-                .headers()
-                .and()
-                .csrf().ignoringAntMatchers("/api/**")
+        http    .headers()
+                .and().cors();
+
+        http    .csrf().ignoringAntMatchers("/api/**")
                 .and()
                 .rememberMe()
                 .alwaysRemember(true)
