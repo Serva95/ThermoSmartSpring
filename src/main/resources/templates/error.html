@@ -14,6 +14,7 @@
             <div class="col-12">
                 <section class="box">
                     <div align="center">
+                        <h2 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h2>
                         <h2 class="error" th:text="${message}"></h2>
                         <a th:href="@{/}" class="button">Ritorna alla home</a>
                     </div>
