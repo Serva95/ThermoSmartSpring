@@ -41,7 +41,7 @@ public class TempController {
     public ModelAndView Temps(ModelAndView mav) {
         mav.setViewName("temps");
         Map<String, String> lastTemps = new HashMap<>();
-        Iterable<Room> rooms = roomDAO.getAll();
+        Iterable<Room> rooms = roomDAO.getAll(true);
         rooms.iterator().forEachRemaining((t) -> {
             if (t.getSensor() != null){
                 Temp tm = tempDAO.findLastBySensor(t.getSensor().getId());

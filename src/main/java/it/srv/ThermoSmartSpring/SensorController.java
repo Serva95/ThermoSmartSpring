@@ -20,7 +20,7 @@ public class SensorController {
     @GetMapping("/sensors")
     public ModelAndView sensors(ModelAndView mav) {
         mav.setViewName("sensors");
-        Iterable<Sensor> sensors = sensorDAO.getAll();
+        Iterable<Sensor> sensors = sensorDAO.getAll(true);
         mav.addObject("sensors", sensors);
         return mav;
     }

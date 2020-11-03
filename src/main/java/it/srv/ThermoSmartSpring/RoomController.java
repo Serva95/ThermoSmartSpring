@@ -25,7 +25,7 @@ public class RoomController {
     @GetMapping("/rooms")
     public ModelAndView Rooms(ModelAndView mav) {
         mav.setViewName("rooms");
-        mav.addObject("rooms", roomDAO.getAll());
+        mav.addObject("rooms", roomDAO.getAll(true));
         return mav;
     }
 
