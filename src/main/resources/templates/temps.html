@@ -38,7 +38,7 @@
                             <h3>Associa un sensore a questa stanza per vederne le temperature</h3>
                         </div>
                         <div th:if="${room.sensor == null}" class="col-4 col-12-mobile">
-                            link "Associa il sensore", {class: 'button'}
+                            <a th:href="@{/rooms/__${room.id}__/edit}" class='button'>Associa il sensore alla stanza</a>
                         </div>
                         <th:block th:if="${room.sensor != null}">
                             <div class="col-6 col-12-mobile">

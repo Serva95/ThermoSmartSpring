@@ -12,7 +12,7 @@ public class SensorDAO {
     @Autowired
     private SensorRepository repo;
 
-    public Iterable<Sensor> getAll() { return repo.findAll(); }
+    public Iterable<Sensor> getAll(Boolean asc) { return asc ? repo.findAllByOrderByIdAsc() : repo.findAllByOrderByIdDesc(); }
 
     public Sensor save(Sensor sensor) {
         return repo.save(sensor);

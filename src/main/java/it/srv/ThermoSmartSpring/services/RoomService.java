@@ -18,7 +18,7 @@ public class RoomService {
     RoomDAO roomDAO;
 
     public Room saveNewRoom(final Room room) throws BlankFieldsException, InvalidFieldException {
-        chechData(room);
+        checkData(room);
         if (room.getSensor() == null || room.getSensor().getId().equals("")){
             room.setSensor(null);
         }
@@ -26,12 +26,12 @@ public class RoomService {
     }
 
     public Room updateRoom(Room oldRoom, final Room newData) throws BlankFieldsException, InvalidFieldException {
-        chechData(newData);
+        checkData(newData);
         oldRoom.setNome(newData.getNome());
         oldRoom.setMaxTemp(newData.getMaxTemp());
         oldRoom.setMinTemp(newData.getMinTemp());
         oldRoom.setAbsoluteMin(newData.getAbsoluteMin());
-        if (newData.getSensor().getId().equals("")){
+        if (newData.getSensor() == null || newData.getSensor().getId().equals("")){
             oldRoom.setSensor(null);
         } else {
             Sensor sensor = new Sensor();
@@ -53,7 +53,7 @@ public class RoomService {
         return roomDAO.save(room);
     }
 
-    private void chechData(Room room) throws BlankFieldsException, InvalidFieldException {
+    private void checkData(Room room) throws BlankFieldsException, InvalidFieldException {
         if(room.getNome().isEmpty()
                 || room.getMaxTemp() == null
                 || room.getMinTemp() == null
