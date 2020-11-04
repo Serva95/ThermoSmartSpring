@@ -46,7 +46,8 @@ public class OrariOnOffService {
         orariOnOffDAO.saveAll(toSave);
     }
 
-    private void orariObjectConverter(OrariOnOffDTO orari, Room room, ArrayList<OrariOnOff> toSave, List<OrariOnOff> orariOnOffs) throws BlankFieldsException, InvalidFieldException {
+    private void orariObjectConverter(OrariOnOffDTO orari, Room room, ArrayList<OrariOnOff> toSave, List<OrariOnOff> orariOnOffs)
+            throws BlankFieldsException, InvalidFieldException {
         final String msg1 = "L'orario di accensione non può essere successivo a quello di spegnimento, riprova.";
         final String msg2 = "L'orario di accensione di una fascia deve essere successivo a quello di spegnimento della fascia precedente, riprova.";
         Iterator<OrariOnOff> iter = null;
@@ -58,7 +59,7 @@ public class OrariOnOffService {
             if (orariOnOffs!= null ){
                 tmp.setId(iter.next().getId());
             }
-            tmp.setGiorno((short) (e.getGiorno()+1));
+            tmp.setGiorno((short) (e.getGiorno()));
             tmp.setRoom(room);
             try {
                 if (e.getOrarioAccensioneA().equals(""))

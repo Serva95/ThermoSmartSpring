@@ -51,6 +51,8 @@
                                 </th:block>
                                 <h4 th:if="${lastTemps.get(room.sensor.id)!=null}" >Ultima temperatura letta:
                                     <th:block th:text="${lastTemps.get(room.sensor.id)}"></th:block></h4>
+                                <h4 th:if="${sensorReadError.get(room.sensor.id)}" class="error">
+                                    Attenzione, ultima lettura del sensore risale ad oltre mezz'ora fa. Controlla il sensore!</h4>
                             </div>
                             <div th:if="${lastTemps.get(room.sensor.id)!=null}" class="col-4 col-12-mobile">
                                 <a th:href="@{/temps/__${room.sensor.id}__}" class="button">Guarda le temperature di questa stanza</a>
