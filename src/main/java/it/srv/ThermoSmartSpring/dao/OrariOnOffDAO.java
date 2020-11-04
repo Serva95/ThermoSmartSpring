@@ -18,6 +18,6 @@ public class OrariOnOffDAO {
 
     public void saveAll(List<OrariOnOff> orariOnOffs) { repo.saveAll(orariOnOffs);}
 
-    public List<OrariOnOff> getByRoomId(long roomId) { return repo.findByRoom_Id(roomId); }
+    public List<OrariOnOff> getByRoomId(long roomId) { return repo.findByRoom_IdOrderByGiorno(roomId); }
 
 }
