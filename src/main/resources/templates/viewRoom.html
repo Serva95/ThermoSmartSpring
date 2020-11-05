@@ -53,7 +53,7 @@
                                 <i class="smallText pointer">(clicca per ulteriori dettagli)</i> <span th:text="${room.minTemp}+' °C'" th:remove="tag"></span></h4>
                         </div>
                         <div class="col-12 col-12-mobile" id="hint2" hidden>
-                            <h5 onclick="$('#hint2').hide(1000,'swing')">Temperatura Minima (Nei momenti in cui il riscaldamento &egrave; in modalit&agrave; programma, se la temperatura scender&agrave; sotto questo valore, verr&agrave; attivato il riscaldamento per riportarla a tale valore)<b class="pointer"> CHIUDI [X]</b></h5>
+                            <h5 onclick="$('#hint2').hide(1000,'swing')">Temperatura Minima (Nei momenti in cui il riscaldamento &egrave; spento in modalit&agrave; programmata, se la temperatura scender&agrave; sotto questo valore, verr&agrave; attivato il riscaldamento per riportarla e mantenerla a tale valore)<b class="pointer"> CHIUDI [X]</b></h5>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <h4 onclick="$('#hint3').show(500,'swing')">
@@ -61,12 +61,12 @@
                                 <i class="smallText pointer">(clicca per ulteriori dettagli)</i> <span th:text="${room.absoluteMin}+' °C'" th:remove="tag"></span></h4>
                         </div>
                         <div class="col-12 col-12-mobile" id="hint3" hidden>
-                            <h5 onclick="$('#hint3').hide(1000,'swing')">Temperatura Minima Assoluta (Temperatura sotto la quale il sistema &egrave; sempre attivo e riscalda anche se &egrave; impostato su spento. Questo avviene per evitare temperature troppo basse che potrebbero danneggiare le tubature.)<b class="pointer"> CHIUDI [X]</b></h5>
+                            <h5 onclick="$('#hint3').hide(1000,'swing')">Temperatura Minima Assoluta (Temperatura sotto la quale il sistema &egrave; sempre attivo e riscalda anche se &egrave; impostato su spento. Questo avviene per evitare temperature troppo basse che potrebbero danneggiare l'impianto.)<b class="pointer"> CHIUDI [X]</b></h5>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <h2><b>Stato attuale del sistema relativo alla stanza</b></h2>
                         </div>
-                        <div class="col-12 col-12-mobile"><br></div>
+                        <div class="col-12 col-12-mobile"><h3>Stato attuale riscaldamento: <th:block th:text="${room.actualStatus ? 'acceso' : 'spento'}"></th:block></h3></div>
                     </div>
                     <div th:if="${room.manualActive}" class="row gtr-uniform">
                         <div class="col-12 col-12-mobile">
@@ -96,21 +96,21 @@
                         <div class="col-12 col-12-mobile">
                             <h4>Attualmente la stanza &egrave; controllata automaticamente dal sistema secondo gli orari impostati</h4>
                         </div>
-                        <div class="col-12 col-12-mobile"><hr></div>
+                        <div class="col-12 col-12-mobile"><hr class="NoMarginNoPadding"></div>
                         <div class="col-8 col-12-mobile">
-                            <h4>Clicca sul bottone e attiva controllo manuale per mantenere la temperatura massima impostata</h4>
+                            <h4>Clicca sul bottone e attiva controllo manuale per mantenere la temperatura massima impostata e ignorare la programmazione oraria</h4>
                         </div>
                         <form th:action="@{/rooms/__${room.id}__/manualActive}" th:method="put" id="manualMax" th:object="${room}" class="col-4 col-12-mobile">
                             <a href="javascript:{}" onclick="$('#manualMax').submit()" class='button'>Attiva manuale massimo</a>
                         </form>
                         <div class="col-8 col-12-mobile">
-                            <h4>Clicca sul bottone e attiva controllo manuale per mantenere la temperatura minima impostata</h4>
+                            <h4>Clicca sul bottone e attiva controllo manuale per mantenere la temperatura minima impostata e ignorare la programmazione oraria</h4>
                         </div>
                         <form th:action="@{/rooms/__${room.id}__/manualInactive}" th:method="put" id="manualMin" th:object="${room}" class="col-4 col-12-mobile">
                             <a href="javascript:{}" onclick="$('#manualMin').submit()" class='button'>Attiva manuale minimo</a>
                         </form>
                         <div class="col-8 col-12-mobile">
-                            <h4>Clicca sul bottone e disattiva il controllo automatico sulla stanza, verr&agrave; mantenuta la temperatura minima assoluta</h4>
+                            <h4>Clicca sul bottone e disattiva il controllo automatico sulla stanza, verr&agrave; mantenuta la temperatura minima assoluta e ignorata la programmazione oraria</h4>
                         </div>
                         <form th:action="@{/rooms/__${room.id}__/manualOff}" th:method="put" id="allOff" th:object="${room}" class="col-4 col-12-mobile">
                             <a href="javascript:{}" onclick="$('#allOff').submit()" class='button'>Spegni il sistema di controllo</a>

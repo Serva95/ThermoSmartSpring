@@ -34,21 +34,20 @@
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
                     <br th:if="${message != null}">
                     <div th:if="${rooms.iterator().hasNext()}" class="row gtr-uniform" th:each="room : ${rooms}">
-                        <div class="col-12 col-12-mobile">
-                            <br>
+                        <div class="col-12 col-12-mobile"><br></div>
+                        <div class="col-6 col-12-mobile">
+                            Nome della stanza: <h2><b><a th:href="@{/rooms/__${room.id}__}" th:text="${room.nome}"></a></b></h2>
+                            Stato attuale riscaldamento: <th:block th:text="${room.actualStatus ? 'acceso' : 'spento'}"></th:block>
                         </div>
-                        <div class="col-6 col-8-mobile">
-                            Nome della stanza: <h3><b><a th:href="@{/rooms/__${room.id}__}" th:text="${room.nome}"></a></b></h3>
-                        </div>
-                        <div class="col-2 col-2-mobile">
+                        <div class="col-2 col-6-mobile">
                             <a th:href="@{/rooms/__${room.id}__/edit}" class='far fa-edit fa-3x' title="Modifica questa stanza"></a>
                         </div>
                         <div class="col-4 col-6-mobile">
                             <form th:action="@{/rooms/__${room.id}__}" th:method="delete">
-                                <a th:id="${'trashcan'+room.id}" href="javascript:{}" th:attr="onclick=|showconfirm('${room.id}')|" class='far fa-trash-alt fa-3x' title="Elimina questa stanza"></a>
+                                <a th:id="${'trashcan'+room.id}" href="javascript:{}" th:onclick="'showconfirm(\''+__${room.id}__+'\')'" class='far fa-trash-alt fa-3x' title="Elimina questa stanza"></a>
                                 <p th:id="${room.id}" hidden>
                                     <input type="submit" class="special small" value="Conferma eliminazione">
-                                    <a class="button small" th:attr="onclick=|hideconfirm('${room.id}')|">Annulla</a>
+                                    <a class="button small" th:onclick="'hideconfirm(\''+__${room.id}__+'\')'">Annulla</a>
                                 </p>
                             </form>
                         </div>

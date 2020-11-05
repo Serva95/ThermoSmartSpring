@@ -29,6 +29,8 @@ public class Room {
     private boolean manualInactive;
     @Column(name = "manualoff")
     private boolean manualOff;
+    @Column(name = "actualstatus")
+    private boolean actualStatus;
 
     @OneToOne(targetEntity = Sensor.class, fetch= FetchType.LAZY)
     @JoinColumn(name = "sensorid", referencedColumnName = "id")
