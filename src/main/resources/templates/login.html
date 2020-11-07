@@ -30,10 +30,12 @@
                     </div>
                     <form th:action="@{/login}" th:object="${user}" method="post" class="row gtr-uniform">
                         <div class="col-6 col-12-mobile">
-                            <label> Username: <input type="text" th:field="*{username}" autocomplete="username"/> </label>
+                            <label for="username"> Username: </label>
+                            <input type="text" th:field="*{username}" id="username" autocomplete="username"/>
                         </div>
                         <div class="col-6 col-12-mobile">
-                            <label> Password: <input type="password" th:field="*{password}"/> </label>
+                            <label for="password"> Password: </label>
+                            <input type="password" th:field="*{password}" id="password" autocomplete="password"/>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <input type="submit" value="Sign In"/>

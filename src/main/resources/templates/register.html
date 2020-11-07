@@ -24,10 +24,9 @@
                     <br>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
                     <form th:action="@{/register}" th:object="${user}" method="POST" enctype="utf8" class="row gtr-uniform">
-
                         <div class="col-6 col-12-mobile">
                             <label> La tua mail : </label>
-                            <input type="email" th:field="*{email}"/>
+                            <input type="email" th:field="*{email}" autocomplete="username email"/>
                         </div>
                         <div class="col-6 col-12-mobile">
                             <label> Il tuo username (verrai chiamato con questo in tutta l'applicazione - sceglilo bene, non puoi cambiarlo): </label>
@@ -39,7 +38,7 @@
                         </div>
                         <div class="col-6 col-12-mobile">
                             <label> Ripeti la passowrd: </label>
-                            <input type="password" th:field="*{matchingPassword}" autocomplete="new-password" placeholder="8 caratteri minimo" minlength="8"/>
+                            <input type="password" th:field="*{matchingPassword}" placeholder="8 caratteri minimo" minlength="8"/>
                         </div>
                         <div class="col-12 col-12-mobile"><br></div>
                         <div class="col-12 col-12-mobile">

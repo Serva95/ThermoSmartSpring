@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 @Transactional
@@ -51,5 +55,30 @@ public class TempService {
             tempDAO.save(t);
         } else
             throw new InvalidFieldException("apiKey non valida");
+    }
+
+    public List<Temp> getTempsClear(String sensorId){
+        List<Temp> temps = tempDAO.findLastDayBySensor(720, sensorId);
+        List<Temp> toret = new ArrayList<>();
+        Iterator<Temp> iter = temps.iterator();
+        while (iter.hasNext()){
+            Temp avg = new Temp();
+            BigDecimal tmp = new BigDecimal(0);
+            for (int i = 0; i < 5; i++) {
+                if (iter.hasNext()) {
+                    Temp next = iter.next();
+                    avg.setSensor(next.getSensor());
+                    avg.setCreatedAt(next.getCreatedAt());
+                    avg.setId(next.getId());
+                    tmp = tmp.add(next.getTemp());
+                } else
+                    tmp = tmp.divide(new BigDecimal(i), 2, RoundingMode.HALF_UP);
+                if (i==4)
+                    tmp = tmp.divide(new BigDecimal(5), 2, RoundingMode.HALF_UP);
+            }
+            avg.setTemp(tmp);
+            toret.add(avg);
+        }
+        return toret;
     }
 }
