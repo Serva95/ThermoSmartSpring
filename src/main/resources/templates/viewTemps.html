@@ -14,11 +14,14 @@
             <div class="col-12">
                 <section class="box">
                     <div class="row gtr-uniform">
-                        <div class="col-2 col-4-mobile ">
+                        <div class="col-2 col-4-mobile col-4-narrower">
                             <a th:href="@{/temps}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
-                        <div class="col-10 col-8-mobile">
+                        <div class="col-7 col-8-mobile col-8-narrower">
                             <h2>Le temperature della stanza</h2>
+                        </div>
+                        <div class="col-3 col-12-mobile col-12-narrower ">
+                            <a th:href="@{/temps/__${id}__}" class="button icon solid fa-sync-alt">Aggiorna la pagina</a>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <hr>
@@ -108,7 +111,9 @@
         //console.log("update temps @: "+ Date());
         //setTimeout( updateTemps, 14*60*1000 )
         // un update ogni 9 minuti
-        setTimeout( updateTemps, 60*9*1000 );
+        //setTimeout( updateTemps, 60*9*1000 );
+        // un update ogni minuto e 3/4
+        setTimeout( updateTemps, (60+45)*1000 );
     }
     function updateMeds(numberOfValues){
         $.getJSON("/api/temps/"+[[${id}]]+"/updateMeds", { days:numberOfValues}, function(result){

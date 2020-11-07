@@ -4,6 +4,7 @@ import it.srv.ThermoSmartSpring.dto.AVGDTO;
 import it.srv.ThermoSmartSpring.model.Temp;
 import it.srv.ThermoSmartSpring.repo.TempRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +21,8 @@ public class TempDAO {
 
     public Temp findLastBySensor(String sensorID){ return repo.findFirstBySensorIdOrderByCreatedAtDesc(sensorID);}
 
-    public List<Temp> find150BySensor(String sensorID){
-        List<Temp> temps = repo.findTop150BySensorIdOrderByCreatedAtDesc(sensorID);
+    public List<Temp> findLastDayBySensor(int numberOfReads, String sensorID){
+        List<Temp> temps = repo.findBySensorIdOrderByCreatedAtDesc(sensorID, PageRequest.of(0, numberOfReads));
         Collections.reverse(temps);
         return temps;
     }

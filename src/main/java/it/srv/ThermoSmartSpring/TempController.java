@@ -71,11 +71,15 @@ public class TempController {
 
     @GetMapping(path = "/api/temps/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, ArrayList<String>> getTempNMeds(@PathVariable String id){
-        List<Temp> temps = tempDAO.find150BySensor(id);
+        HashMap<String, ArrayList<String>> map = new HashMap<>();
+        if (!sensorDAO.exists(id)){
+            map.put("error", null);
+            return map;
+        }
+        List<Temp> temps = tempService.getTempsClear(id);
         List<AVGDTO> avgs = tempDAO.findAVGVals(id, 7);
         Iterator<Temp> iter = temps.iterator();
         Iterator<AVGDTO> iter1 = avgs.iterator();
-        HashMap<String, ArrayList<String>> map = new HashMap<>();
         ArrayList<String> tempsVal = new ArrayList<>();
         ArrayList<String> times = new ArrayList<>();
         while (iter.hasNext()) {
