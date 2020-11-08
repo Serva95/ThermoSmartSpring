@@ -42,6 +42,21 @@ public class RoomService {
         return newData;
     }
 
+    public boolean updateAllRooms(boolean on){
+        Iterable<Room> rooms = roomDAO.getAll(true);
+        try {
+            rooms.forEach(r -> {
+                r.setManualActive(on);
+                r.setManualInactive(on);
+                r.setManualOff(on);
+                roomDAO.save(r);
+            });
+        } catch (Exception ignored){
+            return false;
+        }
+        return true;
+    }
+
     public Room updateRoomStatus(Room room, Boolean ma, Boolean mi, Boolean mo){
         if(ma){
             room.setManualActive(!room.isManualActive());
