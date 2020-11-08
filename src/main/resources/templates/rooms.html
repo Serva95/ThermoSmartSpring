@@ -26,7 +26,14 @@
                         <div class="col-3 col-12-mobilep">
                             <a th:href="@{/rooms/new}" class="button">Inserisci una nuova stanza</a>
                         </div>
+                        <div class="col-6 col-12-mobilep">
+                            <a href="javascript:{}" onclick="sendForm('on')" class='button'>Attiva manuale massimo in tutte le stanze</a>
+                        </div>
+                        <div class="col-6 col-12-mobilep">
+                            <a href="javascript:{}" onclick="sendForm('off')" class='button'>Spegni manuale massimo in tutte le stanze</a>
+                        </div>
                         <div class="col-12 col-12-mobile">
+                            <h3 id="message" class="error" hidden></h3>
                             <hr>
                         </div>
                     </div>
@@ -67,6 +74,21 @@
         </div>
     </section>
 </div>
+<script type="application/javascript">
+    function sendForm(formid) {
+        $.ajax({
+            method: "PUT",
+            url: "/api/rooms/",
+            data: { status: formid }
+        }).done(function (msg){showmsg(msg)})}
+    async function showmsg(message){
+        let e = $('#message');
+        e.html(message);
+        e.show(1000,'swing');
+        await new Promise(r => setTimeout(r, 5000));
+        e.hide(1000,'swing');
+    }
+</script>
 <script type="application/javascript" th:src="@{/js/hideNshow.delete.js}"></script>
 <div th:replace="fragments/bottom :: bottom"></div>
 </body>

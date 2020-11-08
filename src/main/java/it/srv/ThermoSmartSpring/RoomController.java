@@ -53,6 +53,19 @@ public class RoomController {
         return mav;
     }
 
+    @PutMapping("/api/rooms")
+    public String allManualActive(@RequestParam(name = "status") String status) {
+        String msg = "Si è verificato un errore, riprova";
+        if(status.equalsIgnoreCase("on")){
+            if (roomService.updateAllRooms(true))
+                msg = "Tutte le stanze sono ora in modalità manuale massimo";
+        } else if (status.equalsIgnoreCase("off")){
+            if (roomService.updateAllRooms(false))
+                msg = "Tutte le stanze sono ora in modalità automatica secondo gli orari";
+        }
+        return msg;
+    }
+
     @GetMapping("/rooms/{id}")
     public ModelAndView viewRoom(ModelAndView mav, @PathVariable int id) {
         Room room = roomDAO.get(id);
