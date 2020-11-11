@@ -75,15 +75,15 @@
     </section>
 </div>
 <script type="application/javascript">
-    function sendForm(formid) {
+    function sendForm(e) {
         $.ajax({
             method: "PUT",
             url: "/api/rooms/",
-            data: { status: formid }
-        }).done(function (msg){showmsg(msg)})}
-    async function showmsg(message){
+            data: { status: e }
+        }).done(function (m){showmsg(m)})}
+    async function showmsg(m){
         let e = $('#message');
-        e.html(message);
+        e.html(m);
         e.show(1000,'swing');
         await new Promise(r => setTimeout(r, 5000));
         e.hide(1000,'swing');

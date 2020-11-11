@@ -58,7 +58,9 @@ public class TempService {
     }
 
     public List<Temp> getTempsClear(String sensorId){
-        List<Temp> temps = tempDAO.findLastDayBySensor(720, sensorId);
+        List<Temp> temps = tempDAO.findLastDayBySensor(750, sensorId);
+        if (temps.size()<200)
+            return temps;
         List<Temp> toret = new ArrayList<>();
         Iterator<Temp> iter = temps.iterator();
         while (iter.hasNext()){
