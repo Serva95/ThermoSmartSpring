@@ -4,7 +4,6 @@ import it.srv.ThermoSmartSpring.dto.UserDTO;
 import it.srv.ThermoSmartSpring.exception.ObjectAlreadyExistException;
 import it.srv.ThermoSmartSpring.exception.PasswordException;
 import it.srv.ThermoSmartSpring.exception.UsernameAlreadyExistException;
-import it.srv.ThermoSmartSpring.model.User;
 import it.srv.ThermoSmartSpring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +33,7 @@ public class RegistrationController {
     @PostMapping("/register")
     public ModelAndView registerUserAccount(@ModelAttribute("user") final UserDTO user) {
         try {
-            final User registered = userService.registerNewUserAccount(user);
+            userService.registerNewUserAccount(user);
         } catch (final ObjectAlreadyExistException | PasswordException | UsernameAlreadyExistException ex) {
             ModelAndView mav = new ModelAndView("register", "user", user);
             mav.addObject("message", ex.getMessage());
@@ -45,7 +44,7 @@ public class RegistrationController {
             return mav;
         }
         ModelAndView mav = new ModelAndView("success", "user", user);
-        mav.addObject("message", "Registration success. Now you can login.");
+        mav.addObject("message", "Registrazione effettuata. Ora puoi fare login.");
         return mav;
     }
 }

@@ -73,8 +73,10 @@ public class TempService {
                     avg.setCreatedAt(next.getCreatedAt());
                     avg.setId(next.getId());
                     tmp = tmp.add(next.getTemp());
-                } else
+                } else {
                     tmp = tmp.divide(new BigDecimal(i), 2, RoundingMode.HALF_UP);
+                    i=5;
+                }
                 if (i==4)
                     tmp = tmp.divide(new BigDecimal(5), 2, RoundingMode.HALF_UP);
             }
