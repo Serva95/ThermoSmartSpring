@@ -38,8 +38,15 @@ public class UserService {
             throw new UsernameAlreadyExistException(
                     "È già presente un nome utente come questo: " + account.getUsername() + ", prova con uno diverso.");
         }
-        if (!account.getPassword().equals(account.getMatchingPassword()) || account.getPassword().length()<8){
-            throw new PasswordException("La password non rispetta le caratteristiche o le due password sono diverse, ricontrolla e riprova.");
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+        if (account.getPassword() != null) {
+            if (!account.getPassword().equals(account.getMatchingPassword()) || account.getPassword().length() < 8) {
+                throw new PasswordException("Le due password sono diverse, ricontrolla e riprova.");
+            } else if (!account.getPassword().matches(regex)){
+                throw new PasswordException("La password non rispetta le caratteristiche, ricontrolla e riprova.");
+            }
+        } else {
+            throw new PasswordException("La password non può essere vuota");
         }
         User user = new User();
         user.setPassword(argon2PasswordEncoder().encode(account.getPassword()));
@@ -55,7 +62,7 @@ public class UserService {
         return user;
     }
 
-    public User updateAccountData(User actualUser, UserDTO newUser) throws
+    public void updateAccountData(User actualUser, UserDTO newUser) throws
             ObjectAlreadyExistException,
             PasswordException {
         if(!argon2PasswordEncoder().matches(newUser.getOldPassword(), actualUser.getPassword())){
@@ -66,17 +73,21 @@ public class UserService {
             throw new ObjectAlreadyExistException(
                     "È già presente un utente con questa mail: " + newUser.getEmail() + ", prova con una diversa.");
         }
-        if(newUser.getPassword() != null
-                && newUser.getPassword().length() >= 8
-                && newUser.getPassword().compareTo(newUser.getMatchingPassword()) == 0){
-            actualUser.setPassword(argon2PasswordEncoder().encode(newUser.getPassword()));
-        } else if(newUser.getPassword() != null && newUser.getPassword().equals("")){
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+        if(newUser.getPassword() != null) {
+            if (newUser.getPassword().matches(regex) && newUser.getPassword().compareTo(newUser.getMatchingPassword()) == 0) {
+                actualUser.setPassword(argon2PasswordEncoder().encode(newUser.getPassword()));
+            } else if (!newUser.getPassword().matches(regex)) {
+                throw new PasswordException("La password non rispetta i caratteri richiesti");
+            } else {
+                throw new PasswordException("La nuova password e ripeti password non corrispondono, riprova.");
+            }
         } else {
-            throw new PasswordException("La nuova password e ripeti password non corrispondono, oppure non rispetta la lunghezza minima, riprova.");
+            throw new PasswordException("La password non può essere vuota");
         }
         actualUser.setUsername(newUser.getUsername());
         actualUser.setEmail(newUser.getEmail());
-        return userDAO.save(actualUser);
+        userDAO.save(actualUser);
     }
 
 }

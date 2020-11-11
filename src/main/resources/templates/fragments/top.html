@@ -19,6 +19,8 @@
                     <li><a th:href="@{/rooms}">Le tue stanze</a></li>
                     <li><a th:href="@{/vmc}">La tua VMC</a></li>
                     <li><a href="javascript:logoutForm.submit()">Esci</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/register}">Registra un utente</a></li>
+
                 </ul>
             </li>
             <li sec:authorize="!isAuthenticated()"><a href="/login" class="button">Registrati/Accedi</a></li>

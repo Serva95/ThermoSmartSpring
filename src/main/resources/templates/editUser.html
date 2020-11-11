@@ -33,11 +33,12 @@
                             <input type="password" th:field="*{oldPassword}"  autocomplete="password" placeholder="la tua password attuale" minlength="8" required/>
                         </div>
                         <div class="col-6 col-12-mobile">
-                            <label> Nuova Password (inseriscila solo se vuoi cambiare la password attuale): </label>
+                            <label> Nuova Password (inseriscila solo se vuoi cambiare la password attuale) - <i>(deve contenere almeno 8 caratteri, una lettera maiuscola, una lettera minuscola e un numero)</i>: </label>
                             <input type="password" th:field="*{password}" placeholder="8 caratteri minimo" minlength="8"/>
                         </div>
                         <div class="col-6 col-12-mobile">
-                            <label> Ripeti la nuova passowrd (inseriscila solo se vuoi cambiare la password attuale): </label>
+                            <label> Ripeti la nuova passowrd scelta (inseriscila solo se vuoi cambiare la password attuale): </label>
+                            <br>
                             <input type="password" th:field="*{matchingPassword}" autocomplete="new-password" placeholder="8 caratteri minimo" minlength="8"/>
                         </div>
                         <div class="col-12 col-12-mobile">
