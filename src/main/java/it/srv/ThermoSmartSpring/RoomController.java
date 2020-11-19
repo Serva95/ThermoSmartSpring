@@ -53,15 +53,18 @@ public class RoomController {
         return mav;
     }
 
-    @PutMapping("/api/rooms")
+    @PutMapping("/secure-api/rooms")
     public String allManualActive(@RequestParam(name = "status") String status) {
         String msg = "Si è verificato un errore, riprova";
         if(status.equalsIgnoreCase("on")){
-            if (roomService.updateAllRooms(true))
+            if (roomService.updateAllRooms(status))
                 msg = "Tutte le stanze sono ora in modalità manuale massimo";
         } else if (status.equalsIgnoreCase("off")){
-            if (roomService.updateAllRooms(false))
+            if (roomService.updateAllRooms(status))
                 msg = "Tutte le stanze sono ora in modalità automatica secondo gli orari";
+        } else if (status.equalsIgnoreCase("alloff")){
+            if (roomService.updateAllRooms(status))
+                msg = "Il controllo è ora spento in tutte le stanze";
         }
         return msg;
     }
