@@ -17,15 +17,15 @@ public class RoomService {
     @Autowired
     RoomDAO roomDAO;
 
-    public Room saveNewRoom(final Room room) throws BlankFieldsException, InvalidFieldException {
+    public void saveNewRoom(final Room room) throws BlankFieldsException, InvalidFieldException {
         checkData(room);
         if (room.getSensor() == null || room.getSensor().getId().equals("")){
             room.setSensor(null);
         }
-        return roomDAO.save(room);
+        roomDAO.save(room);
     }
 
-    public Room updateRoom(Room oldRoom, final Room newData) throws BlankFieldsException, InvalidFieldException {
+    public void updateRoom(Room oldRoom, final Room newData) throws BlankFieldsException, InvalidFieldException {
         checkData(newData);
         oldRoom.setNome(newData.getNome());
         oldRoom.setMaxTemp(newData.getMaxTemp());
@@ -39,25 +39,34 @@ public class RoomService {
             oldRoom.setSensor(sensor);
         }
         roomDAO.save(oldRoom);
-        return newData;
     }
 
-    public boolean updateAllRooms(boolean on){
+    public boolean updateAllRooms(String status){
         Iterable<Room> rooms = roomDAO.getAll(true);
+        boolean ma = false;
+        boolean mi = false;
+        boolean mo = false;
         try {
-            rooms.forEach(r -> {
-                r.setManualActive(on);
-                r.setManualInactive(on);
-                r.setManualOff(on);
+            if(status.equalsIgnoreCase("on")){
+                ma = true;
+                mi = mo = false;
+            } else if(status.equalsIgnoreCase("alloff")){
+                mo = true;
+                ma = mi = false;
+            }
+            for (Room r : rooms) {
+                r.setManualActive(ma);
+                r.setManualInactive(mi);
+                r.setManualOff(mo);
                 roomDAO.save(r);
-            });
+            }
         } catch (Exception ignored){
             return false;
         }
         return true;
     }
 
-    public Room updateRoomStatus(Room room, Boolean ma, Boolean mi, Boolean mo){
+    public void updateRoomStatus(Room room, Boolean ma, Boolean mi, Boolean mo){
         if(ma){
             room.setManualActive(!room.isManualActive());
         } else if (mi){
@@ -65,7 +74,7 @@ public class RoomService {
         } else if (mo){
             room.setManualOff(!room.isManualOff());
         }
-        return roomDAO.save(room);
+        roomDAO.save(room);
     }
 
     private void checkData(Room room) throws BlankFieldsException, InvalidFieldException {
