@@ -92,7 +92,7 @@ public class TempController {
         while (iter1.hasNext()) {
             AVGDTO t = iter1.next();
             tempsAVG.add(t.getTemp().toString().substring(0,5));
-            LocalDate dt = t.getGiorno();
+            LocalDate dt = LocalDate.parse(t.getGiorno());
             avgDates.add(dt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         }
         map.put("tempVals", tempsVal);
@@ -130,7 +130,7 @@ public class TempController {
         while (iter.hasNext()) {
             AVGDTO t = iter.next();
             tempsAVG.add(t.getTemp().toString().substring(0,5));
-            LocalDate dt = t.getGiorno();
+            LocalDate dt = LocalDate.parse(t.getGiorno());
             avgDates.add(dt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         }
         map.put("tempsAVG", tempsAVG);
