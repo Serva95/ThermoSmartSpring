@@ -84,18 +84,12 @@ public class VmcController {
         return mav;
     }
 
-    @PutMapping("/vmc/{id}/changestate")
-    public ModelAndView changeVMCState(ModelAndView mav, @PathVariable String id) {
+    @PutMapping("/secure-api/vmc/{id}/changestate")
+    public String changeVMCState(@PathVariable String id) {
         Vmc vmc = vmcDAO.get(id);
-        if(vmc == null){
-            mav.addObject("message", "VMC non trovata.");
-            mav.setViewName("redirect:/vmc");
-            return mav;
-        }
-        vmcService.updateStatus(vmc);
-        mav.addObject("message", "Stato della VMc aggiornato.");
-        mav.setViewName("redirect:/vmc");
-        return mav;
+        if(vmc == null)
+            return "VMC non trovata.";
+        return String.valueOf(vmcService.updateStatus(vmc));
     }
 
     @DeleteMapping("/vmc/{id}")

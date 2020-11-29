@@ -14,7 +14,7 @@
                 <a href="#" th:text ="'Benvenuto ' + ${#authentication.getName()}+'!'" class="icon solid fa-angle-down"></a>
                 <ul>
                     <li><a th:href="@{/userProfile}">Il tuo profilo</a></li>
-                    <li><a th:href="@{/sensors}">I tuoi sensori</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/sensors}">I tuoi sensori</a></li>
                     <li><a th:href="@{/temps}">Le tue temperature</a></li>
                     <li><a th:href="@{/rooms}">Le tue stanze</a></li>
                     <li><a th:href="@{/vmc}">La tua VMC</a></li>
@@ -23,7 +23,7 @@
 
                 </ul>
             </li>
-            <li sec:authorize="!isAuthenticated()"><a href="/login" class="button">Registrati/Accedi</a></li>
+            <li sec:authorize="!isAuthenticated()"><a href="/login" class="button">Registrati e Accedi</a></li>
         </ul>
     </nav>
 </header>
