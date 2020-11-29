@@ -9,13 +9,13 @@ import java.util.List;
 
 @Getter @Setter
 public class OrariOnOffDTO {
-    private List<OrariOnOffStringDTO> orariOnOffs;
+    private List<OrariOnOffString> orariOnOffs;
 
     public OrariOnOffDTO (){
         this.orariOnOffs = new ArrayList<>();
     }
 
-    public void add(final OrariOnOffStringDTO orariOnOff, final short giorno) {
+    public void add(final OrariOnOffString orariOnOff, final short giorno) {
         orariOnOff.setGiorno(giorno);
         this.orariOnOffs.add(orariOnOff);
     }
@@ -27,9 +27,9 @@ public class OrariOnOffDTO {
      * @param orariOnOffs di tipo List&lt;OrariOnOff&gt; è la lista di 7 elementi da convertire
      */
     public void orariToStringDTO (final List<OrariOnOff> orariOnOffs){
-        ArrayList<OrariOnOffStringDTO> orari = new ArrayList<>();
+        ArrayList<OrariOnOffString> orari = new ArrayList<>();
         for (OrariOnOff e : orariOnOffs) {
-            OrariOnOffStringDTO stringDTO = new OrariOnOffStringDTO();
+            OrariOnOffString stringDTO = new OrariOnOffString();
             stringDTO.setId(e.getId());
             stringDTO.setGiorno(e.getGiorno());
             stringDTO.setOrarioAccensioneA(e.getOrarioAccensioneA().toString());

@@ -2,7 +2,7 @@ package it.srv.ThermoSmartSpring;
 
 import it.srv.ThermoSmartSpring.dao.OrariOnOffDAO;
 import it.srv.ThermoSmartSpring.dto.OrariOnOffDTO;
-import it.srv.ThermoSmartSpring.dto.OrariOnOffStringDTO;
+import it.srv.ThermoSmartSpring.dto.OrariOnOffString;
 import it.srv.ThermoSmartSpring.exception.BlankFieldsException;
 import it.srv.ThermoSmartSpring.exception.InvalidFieldException;
 import it.srv.ThermoSmartSpring.exception.ObjectAlreadyExistException;
@@ -39,7 +39,7 @@ public class OrariOnOffController {
     public ModelAndView newOrariOnOffs(ModelAndView mav, @PathVariable int id) {
         OrariOnOffDTO orariOnOffDTO = new OrariOnOffDTO();
         for (short i = 0; i < 7; i++) {
-            orariOnOffDTO.add(new OrariOnOffStringDTO(), i);
+            orariOnOffDTO.add(new OrariOnOffString(), i);
         }
         getDaysOfWeek(mav);
         mav.addObject("orarionoffDTO", orariOnOffDTO);

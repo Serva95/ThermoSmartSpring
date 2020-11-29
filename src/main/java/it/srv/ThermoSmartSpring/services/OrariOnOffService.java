@@ -3,7 +3,7 @@ package it.srv.ThermoSmartSpring.services;
 import it.srv.ThermoSmartSpring.dao.OrariOnOffDAO;
 import it.srv.ThermoSmartSpring.dao.RoomDAO;
 import it.srv.ThermoSmartSpring.dto.OrariOnOffDTO;
-import it.srv.ThermoSmartSpring.dto.OrariOnOffStringDTO;
+import it.srv.ThermoSmartSpring.dto.OrariOnOffString;
 import it.srv.ThermoSmartSpring.exception.BlankFieldsException;
 import it.srv.ThermoSmartSpring.exception.InvalidFieldException;
 import it.srv.ThermoSmartSpring.exception.ObjectAlreadyExistException;
@@ -54,7 +54,7 @@ public class OrariOnOffService {
         if (orariOnOffs!= null ){
             iter = orariOnOffs.iterator();
         }
-        for (OrariOnOffStringDTO e : orari.getOrariOnOffs()) {
+        for (OrariOnOffString e : orari.getOrariOnOffs()) {
             OrariOnOff tmp = new OrariOnOff();
             if (orariOnOffs!= null ){
                 tmp.setId(iter.next().getId());

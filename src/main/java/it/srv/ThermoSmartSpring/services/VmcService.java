@@ -53,7 +53,7 @@ public class VmcService {
                 newVmc.setProgrammedOffTime(LocalTime.parse(vmc.getProgrammedOffTime()));
             else
                 newVmc.setProgrammedOffTime(null);
-        } catch (DateTimeParseException ex) {
+        } catch (DateTimeParseException | NullPointerException ex) {
             throw new InvalidFieldException("Formato non valido per gli orari, controlla e riprova");
         }
         vmcDAO.update(newVmc, id);

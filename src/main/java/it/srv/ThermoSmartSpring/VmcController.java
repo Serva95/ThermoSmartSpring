@@ -36,9 +36,11 @@ public class VmcController {
     }
 
     @GetMapping("/vmc/{id}/edit")
-    public ModelAndView viewVMC(ModelAndView mav, @PathVariable String id) {
+    public ModelAndView editVMC(ModelAndView mav, @PathVariable String id) {
         Vmc vmc = vmcDAO.get(id);
-        mav.addObject("vmc", vmc);
+        VmcStringDTO stringVMC = new VmcStringDTO(vmc.getId(), vmc.getStatoAttuale(), vmc.getImpostazioneFunzione(),
+                vmc.getProgrammedOnTime().toString(), vmc.getProgrammedOffTime().toString());
+        mav.addObject("vmc", stringVMC);
         mav.setViewName("editVMC");
         return mav;
     }
