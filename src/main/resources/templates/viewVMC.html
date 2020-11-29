@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      lang="it">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="it">
 <head th:insert="fragments/header :: header"></head>
 <head>
     <meta charset="UTF-8">
@@ -17,28 +17,31 @@
                         <div class="col-2 col-4-mobile ">
                             <a th:href="@{/}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
-                        <div class="col-2 col-8-mobile">
+                        <div class="col-2 col-3-narrow col-8-mobile">
                             <h2>La tua VMC</h2>
                         </div>
-                        <div th:if="${vmc != null}" class="col-8 col-12-mobile">
+                        <div th:if="${vmc != null}" class="col-8 col-7-narrow col-12-mobile" sec:authorize="hasRole('ROLE_ADMIN')">
                             <h4>&Egrave; gi&agrave; presente una VMC nel sistema, per inserirne una nuova, elimina prima quella registrata a sistema</h4>
                         </div>
-                        <div th:if="${vmc == null}" class="col-5 col-12-mobile">
+                        <div th:if="${vmc == null}" class="col-5 col-12-mobile" sec:authorize="hasRole('ROLE_ADMIN')">
                         </div>
-                        <div th:if="${vmc == null}" class="col-3 col-12-mobilep">
+                        <div th:if="${vmc == null}" class="col-3 col-12-mobilep" sec:authorize="hasRole('ROLE_ADMIN')">
                             <a th:href="@{vmc/new}" class="button">Crea una nuova vmc</a>
                         </div>
                         <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
-                        <div th:if="${vmc != null}" class="col-12 col-12-mobile"><hr></div>
+                        <div th:if="${vmc != null}" class="col-12 col-12-mobile">
+                            <h3 class="error" id="message" hidden></h3>
+                            <hr>
+                        </div>
                         <th:block th:if="${vmc != null}">
-                            <div class="col-6 col-12-narrower col-12-mobile">
+                            <div class="col-6 col-12-narrow col-12-mobile">
                                 ID univoco della vmc: <h3><b th:text="${vmc.getId()}"></b></h3>
                             </div>
-                            <div class="col-3 col-6-narrower col-12-mobile">
+                            <div class="col-3 col-6-narrow col-12-mobile">
                                 Stato attuale di funzionamento della vmc: <h3><b th:text="${vmc.getStatoAttuale() ? 'Acceso' : 'Spento'}"></b></h3>
                             </div>
-                            <div class="col-3 col-6-narrower col-12-mobile">
-                                Stato impostato della vmc: <h3><b th:text="${vmc.getImpostazioneFunzione() ? 'In accensione/acceso' : 'In spegnimento/spento'}"></b></h3>
+                            <div class="col-3 col-6-narrow col-12-mobile">
+                                Stato impostato della vmc: <h3><b id="stato" th:text="${vmc.getImpostazioneFunzione() ? 'In accensione/acceso' : 'In spegnimento/spento'}"></b></h3>
                             </div>
                             <div class="col-6 col-12-mobile">
                                 Timer di accensione programmata <i>(clicca su modifica per impostarlo o cambiarlo)</i>: <h3><b th:text="${vmc.getProgrammedOnTime() == null ? 'Nessun timer impostato' : vmc.getProgrammedOnTime()}"></b></h3>
@@ -47,21 +50,12 @@
                                 Timer di spegnimento programmato <i>(clicca su modifica per impostarlo o cambiarlo)</i>: <h3><b th:text="${vmc.getProgrammedOffTime() == null ? 'Nessun timer impostato' : vmc.getProgrammedOffTime()}"></b></h3>
                             </div>
                             <div class="col-6 col-12-mobile">
-                                <th:block th:if="${vmc.getImpostazioneFunzione()}">
-                                    <form th:action="@{/vmc/__${vmc.getId()}__/changestate}" th:method="put">
-                                        <input type="submit" value="Spegni la VMC">
-                                    </form>
-                                </th:block>
-                                <th:block th:if="${!vmc.getImpostazioneFunzione()}">
-                                    <form th:action="@{/vmc/__${vmc.getId()}__/changestate}" th:method="put">
-                                        <input type="submit" value="Accendi la VMC">
-                                    </form>
-                                </th:block>
+                                <a id="impostazione" href="javascript:{}" onclick="sendForm()" class='button' th:text="${vmc.getImpostazioneFunzione() ? 'Spegni la VMC':'Accendi la VMC'}"></a>
                             </div>
                             <div class="col-3 col-6-mobile">
                                 <a th:href="@{/vmc/__${vmc.getId()}__/edit}" class="far fa-edit fa-3x" title='Modifica la vmc'></a>
                             </div>
-                            <div class="col-3 col-6-mobile">
+                            <div class="col-3 col-6-mobile" sec:authorize="hasRole('ROLE_ADMIN')">
                                 <form th:action="@{/vmc/__${vmc.getId()}__}" th:method="delete">
                                     <a th:id="${'trashcan'+vmc.getId()}" href="javascript:{}" th:onclick="'showconfirm(\''+__${vmc.getId()}__+'\')'" class='far fa-trash-alt fa-3x' title="Elimina la VMC"></a>
                                     <div th:id="${vmc.getId()}" hidden>
@@ -78,6 +72,13 @@
         </div>
     </section>
 </div>
+<script type="application/javascript" th:inline="javascript" >
+    function sendForm() {
+        let t=$("meta[name='_csrf']").attr("content"),h=$("meta[name='_csrf_header']").attr("content");
+        $.ajax({beforeSend:function(x){x.setRequestHeader(h,t);},method:"PUT",url:"/secure-api/vmc/"+[[${vmc.getId()}]]+"/changestate"
+        }).done(function(m){showmsg(m)})}
+    async function showmsg(e){let t=$("#message");if("true"===e||"false"===e){t.html("Stato della VMC aggiornato.");let s=$("#impostazione"),n=$("#stato");"true"===e?(s.html("Spegni la VMC"),n.html("In accensione/acceso")):(s.html("Accendi la VMC"),n.html("In spegnimento/spento"))}else t.html(e);t.show(1e3,"swing"),await new Promise(e=>setTimeout(e,5e3)),t.hide(1e3,"swing")}
+</script>
 <script type="application/javascript" th:src="@{/js/hideNshow.delete.js}"></script>
 <div th:replace="fragments/bottom :: bottom"></div>
 </body>

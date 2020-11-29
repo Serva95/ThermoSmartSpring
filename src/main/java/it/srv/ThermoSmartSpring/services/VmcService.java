@@ -59,9 +59,10 @@ public class VmcService {
         vmcDAO.update(newVmc, id);
     }
 
-    public void updateStatus(Vmc vmc){
+    public boolean updateStatus(Vmc vmc){
         vmc.setImpostazioneFunzione(!vmc.getImpostazioneFunzione());
         vmcDAO.save(vmc);
+        return vmc.getImpostazioneFunzione();
     }
 
     public void delete(Vmc vmc){

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      lang="it">
+      lang="it" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:insert="fragments/header :: header"></head>
 <head>
     <meta charset="UTF-8">
@@ -25,11 +25,11 @@
                     </div>
                     <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
                     <form th:action="@{/vmc/__${vmc.id}__}" th:object="${vmc}" th:method="put" class="row gtr-uniform">
-                        <div class="col-6 col-12-mobile">
+                        <div class="col-6 col-12-mobile" sec:authorize="hasRole('ROLE_ADMIN')">
                             <label>ID univoco della vmc:</label>
                             <input type="text" th:field="*{id}" placeholder="ID univoco della vmc" minlength="32" maxlength="32" required>
                         </div>
-                        <div class="col-6 col-12-mobile aln-self-bottom">
+                        <div class="col-6 col-12-mobile aln-self-bottom" sec:authorize="hasRole('ROLE_ADMIN')">
                             <input type="button" value="Genera id in automatico" id="makeID">
                         </div>
                         <div class="col-3 col-6-narrow col-12-mobile">
