@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class OrariOnOffStringDTO {
+public class OrariOnOffString {
     private long id;
     private short giorno;
     private String orarioAccensioneA;

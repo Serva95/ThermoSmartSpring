@@ -29,24 +29,21 @@
                             <label>ID univoco della vmc:</label>
                             <input type="text" th:field="*{id}" placeholder="ID univoco della vmc" minlength="32" maxlength="32" required>
                         </div>
-                        <div class="col-6 col-12-mobile">
-                            <label>&nbsp;</label>
+                        <div class="col-6 col-12-mobile aln-self-bottom">
                             <input type="button" value="Genera id in automatico" id="makeID">
                         </div>
-                        <div class="col-3 col-6-mobile">
+                        <div class="col-3 col-6-narrow col-12-mobile">
                             <label>Orario programmato di accensione:</label>
                             <input type="time" th:field="*{programmedOnTime}">
                         </div>
-                        <div class="col-3 col-6-mobile">
-                            <label> &nbsp;</label>
+                        <div class="col-3 col-6-narrow col-12-mobile aln-self-bottom">
                             <input type="button" id="removeOn" value="Rimuovi timer accensione">
                         </div>
-                        <div class="col-3 col-6-mobile">
+                        <div class="col-3 col-6-narrow col-12-mobile">
                             <label>Orario programmato di spegnimento:</label>
                             <input type="time" th:field="*{programmedOffTime}">
                         </div>
-                        <div class="col-3 col-6-mobile">
-                            <label> &nbsp;</label>
+                        <div class="col-3 col-6-narrow col-12-mobile aln-self-bottom">
                             <input type="button" id="removeOff" value="Rimuovi timer spegnimento">
                         </div>
                         <div class="col-12 col-12-mobile">
@@ -64,10 +61,10 @@
 <div th:replace="fragments/bottom :: bottom"></div>
 <script type="application/javascript">
     $("#removeOn").click(function(){
-        $("#vmc_programmed_on_time").val("");
+        $("#programmedOnTime").val("");
     })
     $("#removeOff").click(function(){
-        $("#vmc_programmed_off_time").val("");
+        $("#programmedOffTime").val("");
     })
     $("#makeID").click(function() {
         makeid(32);

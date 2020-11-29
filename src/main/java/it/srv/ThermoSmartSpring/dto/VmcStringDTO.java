@@ -1,12 +1,12 @@
 package it.srv.ThermoSmartSpring.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@AllArgsConstructor
 public class VmcStringDTO {
     private String id;
     private Boolean statoAttuale;
