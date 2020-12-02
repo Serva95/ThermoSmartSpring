@@ -50,7 +50,8 @@
                                 Timer di spegnimento programmato <i>(clicca su modifica per impostarlo o cambiarlo)</i>: <h3><b th:text="${vmc.getProgrammedOffTime() == null ? 'Nessun timer impostato' : vmc.getProgrammedOffTime()}"></b></h3>
                             </div>
                             <div class="col-6 col-12-mobile">
-                                <a id="impostazione" href="javascript:{}" onclick="sendForm()" class='button' th:text="${vmc.getImpostazioneFunzione() ? 'Spegni la VMC':'Accendi la VMC'}"></a>
+                                <a th:if="${vmc.getProgrammedOnTime()==null && vmc.getProgrammedOffTime()==null}" id="impostazione" href="javascript:{}" onclick="sendForm()" class='button' th:text="${vmc.getImpostazioneFunzione() ? 'Spegni la VMC':'Accendi la VMC'}"></a>
+                                <h3 th:if="${vmc.getProgrammedOnTime()!=null || vmc.getProgrammedOffTime()!=null}">&eacute; attualmente impostato un timer, rimuovi il timer per passare al controllo manuale.</h3>
                             </div>
                             <div class="col-3 col-6-mobile">
                                 <a th:href="@{/vmc/__${vmc.getId()}__/edit}" class="far fa-edit fa-3x" title='Modifica la vmc'></a>
