@@ -16,6 +16,8 @@ public class UserDAO {
 
     public User getById(int id) { return repo.findById(id).orElse(null); }
 
+    public Iterable<User> getAll() { return repo.findAll(); }
+
     public User getByMail(String email) { return repo.findByEmail(email); }
 
     public User getByUsername(String uname) { return repo.findByUsername(uname); }

@@ -20,7 +20,7 @@
                     <li><a th:href="@{/vmc}">La tua VMC</a></li>
                     <li><a href="javascript:logoutForm.submit()">Esci</a></li>
                     <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/register}">Registra un utente</a></li>
-
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/debug}">Debug</a></li>
                 </ul>
             </li>
             <li sec:authorize="!isAuthenticated()"><a href="/login" class="button">Registrati e Accedi</a></li>
