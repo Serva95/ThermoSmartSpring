@@ -73,7 +73,7 @@
         </div>
     </section>
 </div>
-<script type="application/javascript" th:inline="javascript" >
+<script type="application/javascript" th:inline="javascript" th:if="${vmc != null}">
     function sendForm() {
         let t=$("meta[name='_csrf']").attr("content"),h=$("meta[name='_csrf_header']").attr("content");
         $.ajax({beforeSend:function(x){x.setRequestHeader(h,t);},method:"PUT",url:"/secure-api/vmc/"+[[${vmc.getId()}]]+"/changestate"
