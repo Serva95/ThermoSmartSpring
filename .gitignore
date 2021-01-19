@@ -33,3 +33,6 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/resources/keystore/
+
+### .properties files ###
+/src/main/resources/application.properties
