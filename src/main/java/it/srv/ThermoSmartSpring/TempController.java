@@ -63,6 +63,8 @@ public class TempController {
             mav.addObject("sensor", false);
         }else {
             Temp last = tempDAO.findLastBySensor(id);
+            Room room = roomDAO.getBySensorId(id);
+            mav.addObject("room", room);
             mav.addObject("last", last);
         }
         mav.setViewName("viewTemps");
