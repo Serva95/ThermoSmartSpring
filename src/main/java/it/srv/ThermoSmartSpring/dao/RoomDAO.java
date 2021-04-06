@@ -18,6 +18,8 @@ public class RoomDAO {
 
     public Room get(long id) { return repo.findById(id); }
 
+    public Room getBySensorId(String id) { return repo.findBySensor_Id(id); }
+
     public void delete(long id) {
         repo.deleteById(id);
     }

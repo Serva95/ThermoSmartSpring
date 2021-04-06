@@ -15,16 +15,22 @@
                 <section class="box" sec:authorize="!hasRole('ROLE_ADMIN')">
                     <div class="row gtr-uniform">
                         <div class="col-12 col-12-mobile">
-                            <h3>Pagina di debug visibile solo agli amministratori</h3>
+                            <h2>Pagina di debug visibile solo agli amministratori, VAI VIA O VERRAI PUNITO</h2>
                         </div>
                     </div>
                 </section>
                 <section class="box" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="row gtr-uniform">
+                        <div class="col-12 col-12-mobile">
+                            <h2>Pagina di debug</h2>
+                        </div>
+                        <div class="col-12 col-12-mobile"><hr></div>
+                    </div>
                     <div th:if="${infos.iterator().hasNext()}" class="row gtr-uniform" th:each="info : ${infos}">
                         <div class="col-12 col-12-mobile">
                             <h3><b th:text="${info.id}"></b></h3>
                         </div>
-                        <div class="col-8 col-12-narrow col-12-mobile">
+                        <div class="col-8 col-12-narrow col-12-mobile wrap-text">
                             <h4 th:text="${info.value}"></h4>
                         </div>
                         <div class="col-4 col-12-narrow col-12-mobile">

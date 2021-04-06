@@ -18,7 +18,7 @@
                             <a th:href="@{/temps}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
                         <div class="col-7 col-8-mobile col-8-narrower">
-                            <h2>Le temperature della stanza</h2>
+                            <h2>Le temperature di "<th:block th:text="${room.nome}"></th:block>"</h2>
                         </div>
                         <div class="col-3 col-12-mobile col-12-narrower ">
                             <a th:href="@{/temps/__${id}__}" class="button icon solid fa-sync-alt">Aggiorna la pagina</a>
