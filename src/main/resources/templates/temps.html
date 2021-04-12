@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       lang="it">
 <head th:insert="fragments/header :: header"></head>
 <head>
@@ -31,7 +32,7 @@
                         <div class="col-12 col-12-mobile">
                             <br>
                         </div>
-                        <div class="col-6 col-12-mobile">
+                        <div class="col-7 col-12-mobile">
                             <h3>Nome della stanza: <b th:text="${room.nome.toUpperCase()}"></b></h3>
                         </div>
                         <div th:if="${room.sensor == null}" class="col-8 col-12-mobile">
@@ -41,10 +42,10 @@
                             <a th:href="@{/rooms/__${room.id}__/edit}" class='button'>Associa il sensore alla stanza</a>
                         </div>
                         <th:block th:if="${room.sensor != null}">
-                            <div class="col-6 col-12-mobile">
+                            <div class="col-5 col-12-mobile" sec:authorize="hasRole('ROLE_ADMIN')">
                                 ID sensore associato: <h4 th:text="${room.sensor.id}"></h4>
                             </div>
-                            <div class="col-6 col-12-mobile">
+                            <div class="col-7 col-12-mobile">
                                 <th:block th:if="${lastTemps.get(room.sensor.id)==null}">
                                     <h4>Ancora non è stata letta alcuna temperatura</h4>
                                     <h4>Torna tra un po' per permettere al sensore di leggerne almeno una</h4>
@@ -54,7 +55,7 @@
                                 <h4 th:if="${sensorReadError.get(room.sensor.id)}" class="error">
                                     Attenzione, ultima lettura del sensore risale ad oltre mezz'ora fa. Controlla il sensore!</h4>
                             </div>
-                            <div th:if="${lastTemps.get(room.sensor.id)!=null}" class="col-4 col-12-mobile">
+                            <div th:if="${lastTemps.get(room.sensor.id)!=null}" class="col-5 col-12-mobile">
                                 <a th:href="@{/temps/__${room.sensor.id}__}" class="button">Guarda le temperature di questa stanza</a>
                             </div>
                         </th:block>
