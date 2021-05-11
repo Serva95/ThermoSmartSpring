@@ -4,7 +4,7 @@
 <head th:insert="fragments/header :: header"></head>
 <head>
     <meta charset="UTF-8">
-    <title>Le tue temperature</title>
+    <title>Temperature della stanza</title>
 </head>
 <body class="landing">
 <div id="page-wrapper">
@@ -85,14 +85,14 @@
             datasets: [{label: 'Temperatures \u00B0C',
                 data: [],
                 fill:!1,borderColor:"#3cb371",lineTension:0.1}]},
-        options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
+        options:{animation:{duration:100},responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{y:{beginAtZero:!1}}}
     });
     medtempChart = new Chart(crtMedTemp,{type:'line',
         data: {labels: [],
             datasets: [{label: 'Medium Temps \u00B0C',
                 data: [],
                 fill:!1,borderColor:"#216bff",lineTension:0.1}]},
-        options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
+        options:{animation:{duration:100},responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{y:{beginAtZero:!1}}}
     });
     function updateTemps(){
         $.getJSON("/api/temps/"+[[${id}]]+"/update", { previous: tempChart.data.labels[tempChart.data.labels.length - 1]}, function(result){
