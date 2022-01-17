@@ -12,9 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class LoginController {
 
-    @Autowired
-    UserService userService;
-
     @GetMapping("/login")
     public ModelAndView viewLoginPage(ModelAndView mav) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -1,6 +1,8 @@
 package it.srv.ThermoSmartSpring.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +11,9 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "info")
-@Data
 public class Info{
 
     @Id

@@ -6,13 +6,11 @@ import it.srv.ThermoSmartSpring.exception.PasswordException;
 import it.srv.ThermoSmartSpring.exception.UsernameAlreadyExistException;
 import it.srv.ThermoSmartSpring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
+@RequestMapping("/register")
 public class RegistrationController {
 
     @Autowired
@@ -22,7 +20,7 @@ public class RegistrationController {
         super();
     }
 
-    @GetMapping("/register")
+    @GetMapping("")
     public ModelAndView viewHomePage(ModelAndView mav) {
         UserDTO user = new UserDTO();
         mav.setViewName("register");
@@ -30,7 +28,7 @@ public class RegistrationController {
         return mav;
     }
 
-    @PostMapping("/register")
+    @PostMapping("")
     public ModelAndView registerUserAccount(@ModelAttribute("user") final UserDTO user) {
         try {
             userService.registerNewUserAccount(user);

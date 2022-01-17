@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
+@RequestMapping("/rooms")
 public class RoomController {
 
     @Autowired
@@ -22,14 +23,14 @@ public class RoomController {
     @Autowired
     RoomService roomService;
 
-    @GetMapping("/rooms")
+    @GetMapping("")
     public ModelAndView Rooms(ModelAndView mav) {
         mav.setViewName("rooms");
         mav.addObject("rooms", roomDAO.getAll(true));
         return mav;
     }
 
-    @GetMapping("/rooms/new")
+    @GetMapping("/new")
     public ModelAndView newRoom(ModelAndView mav) {
         mav.addObject("room", new Room());
         mav.addObject("sensors", sensorDAO.findAllRoomIsNull());
@@ -37,7 +38,7 @@ public class RoomController {
         return mav;
     }
 
-    @PostMapping("/rooms/new")
+    @PostMapping("/new")
     public ModelAndView createRoom(ModelAndView mav, @ModelAttribute("room") final Room room) {
         try {
             roomService.saveNewRoom(room);
@@ -53,23 +54,7 @@ public class RoomController {
         return mav;
     }
 
-    @PutMapping("/secure-api/rooms")
-    public String allManualActive(@RequestParam(name = "status") String status) {
-        String msg = "Si è verificato un errore, riprova";
-        if(status.equalsIgnoreCase("on")){
-            if (roomService.updateAllRooms(status))
-                msg = "Tutte le stanze sono ora in modalità manuale massimo";
-        } else if (status.equalsIgnoreCase("off")){
-            if (roomService.updateAllRooms(status))
-                msg = "Tutte le stanze sono ora in modalità automatica secondo gli orari";
-        } else if (status.equalsIgnoreCase("alloff")){
-            if (roomService.updateAllRooms(status))
-                msg = "Il controllo è ora spento in tutte le stanze";
-        }
-        return msg;
-    }
-
-    @GetMapping("/rooms/{id}")
+    @GetMapping("/{id}")
     public ModelAndView viewRoom(ModelAndView mav, @PathVariable int id) {
         Room room = roomDAO.get(id);
         if (room == null) {
@@ -82,7 +67,7 @@ public class RoomController {
         return mav;
     }
 
-    @GetMapping("/rooms/{id}/edit")
+    @GetMapping("/{id}/edit")
     public ModelAndView editRoom(ModelAndView mav, @PathVariable int id) {
         Room room = roomDAO.get(id);
         if (room == null) {
@@ -100,7 +85,7 @@ public class RoomController {
         return mav;
     }
 
-    @PutMapping("/rooms/{id}")
+    @PutMapping("/{id}")
     public ModelAndView updateRoom(
             ModelAndView mav, @PathVariable int id, @ModelAttribute("room") final Room room) {
         Room oldRoom = roomDAO.get(id);
@@ -127,7 +112,7 @@ public class RoomController {
         return mav;
     }
 
-    @PutMapping("/rooms/{id}/manualActive")
+    @PutMapping("/{id}/manualActive")
     public ModelAndView updateRoomManAct(ModelAndView mav, @PathVariable int id) {
         Room room = roomDAO.get(id);
         if (room == null) {
@@ -141,7 +126,7 @@ public class RoomController {
         return mav;
     }
 
-    @PutMapping("/rooms/{id}/manualInactive")
+    @PutMapping("/{id}/manualInactive")
     public ModelAndView updateRoomManInact(ModelAndView mav, @PathVariable int id) {
         Room room = roomDAO.get(id);
         if (room == null) {
@@ -155,7 +140,7 @@ public class RoomController {
         return mav;
     }
 
-    @PutMapping("/rooms/{id}/manualOff")
+    @PutMapping("/{id}/manualOff")
     public ModelAndView updateRoomManOff(ModelAndView mav, @PathVariable int id) {
         Room room = roomDAO.get(id);
         if (room == null) {
@@ -169,7 +154,7 @@ public class RoomController {
         return mav;
     }
 
-    @DeleteMapping("/rooms/{id}")
+    @DeleteMapping("/{id}")
     public ModelAndView deleteRoom(ModelAndView mav, @PathVariable int id) {
         Room room = roomDAO.get(id);
         try {

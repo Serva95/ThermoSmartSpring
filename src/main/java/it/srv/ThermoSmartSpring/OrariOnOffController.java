@@ -20,11 +20,22 @@ import java.util.Locale;
 
 @RestController
 public class OrariOnOffController {
+
     @Autowired
     OrariOnOffDAO orariOnOffDAO;
 
     @Autowired
     OrariOnOffService orariOnOffService;
+
+    /*
+    @Autowired
+    public void setOrariOnOffDAO(OrariOnOffDAO orariOnOffDAO) {
+        this.orariOnOffDAO = orariOnOffDAO;
+    }
+
+    @Autowired
+    public void setOrariOnOffService(OrariOnOffService orariOnOffService) { this.orariOnOffService = orariOnOffService; }
+     */
 
     @GetMapping("/rooms/{id}/orarionoff")
     public ModelAndView orariOnOffs(ModelAndView mav, @PathVariable int id) {

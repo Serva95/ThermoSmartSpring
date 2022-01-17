@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 
 @RestController
+@RequestMapping("/userProfile")
 public class UserController {
 
     @Autowired
@@ -28,7 +29,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/userProfile")
+    @GetMapping("")
     public ModelAndView userProfile(ModelAndView mav) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userDAO.getByUsername(authentication.getName());
@@ -41,7 +42,7 @@ public class UserController {
         return mav;
     }
 
-    @GetMapping("/userProfile/{id}")
+    @GetMapping("/{id}")
     public ModelAndView userProfileEdit(@PathVariable int id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userDAO.getByUsername(authentication.getName());
@@ -52,7 +53,7 @@ public class UserController {
         return mav;
     }
 
-    @PutMapping("/userProfile/{id}")
+    @PutMapping("/{id}")
     public ModelAndView userProfileEditSave (
             ModelAndView mav,
             @PathVariable int id,
