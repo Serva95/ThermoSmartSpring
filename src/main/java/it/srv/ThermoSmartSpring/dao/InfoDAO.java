@@ -13,4 +13,6 @@ public class InfoDAO {
     InfoRepository repo;
 
     public Iterable<Info> getAll() { return repo.findAllByOrderByIdAsc(); }
+
+    public Info get(String id) { return repo.findById(id).orElse(null); }
 }

@@ -3,27 +3,21 @@ package it.srv.ThermoSmartSpring;
 import it.srv.ThermoSmartSpring.dao.RoomDAO;
 import it.srv.ThermoSmartSpring.dao.SensorDAO;
 import it.srv.ThermoSmartSpring.dao.TempDAO;
-import it.srv.ThermoSmartSpring.dto.AVGDTO;
-import it.srv.ThermoSmartSpring.exception.InvalidFieldException;
 import it.srv.ThermoSmartSpring.model.Room;
 import it.srv.ThermoSmartSpring.model.Temp;
-import it.srv.ThermoSmartSpring.services.TempService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
+@RequestMapping("/temps")
 public class TempController {
 
     @Autowired
@@ -35,10 +29,18 @@ public class TempController {
     @Autowired
     SensorDAO sensorDAO;
 
+    /*
     @Autowired
-    TempService tempService;
+    public void setRoomDAO(RoomDAO roomDAO) { this.roomDAO = roomDAO; }
 
-    @GetMapping("/temps")
+    @Autowired
+    public void setTempDAO(TempDAO tempDAO) { this.tempDAO = tempDAO; }
+
+    @Autowired
+    public void setSensorDAO(SensorDAO sensorDAO) { this.sensorDAO = sensorDAO; }
+     */
+
+    @GetMapping("")
     public ModelAndView Temps(ModelAndView mav) {
         mav.setViewName("temps");
         Map<String, String> lastTemps = new HashMap<>();
@@ -57,7 +59,7 @@ public class TempController {
         return mav;
     }
 
-    @GetMapping("/temps/{id}")
+    @GetMapping("/{id}")
     public ModelAndView viewTemp(ModelAndView mav, @PathVariable String id) {
         if (!sensorDAO.exists(id)){
             mav.addObject("sensor", false);
@@ -71,84 +73,4 @@ public class TempController {
         return mav;
     }
 
-    @GetMapping(path = "/api/temps/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, ArrayList<String>> getTempNMeds(@PathVariable String id){
-        HashMap<String, ArrayList<String>> map = new HashMap<>();
-        if (!sensorDAO.exists(id)){
-            map.put("error", null);
-            return map;
-        }
-        List<Temp> temps = tempService.getTempsClear(id);
-        List<AVGDTO> avgs = tempDAO.findAVGVals(id, 7);
-        Iterator<Temp> iter = temps.iterator();
-        Iterator<AVGDTO> iter1 = avgs.iterator();
-        ArrayList<String> tempsVal = new ArrayList<>();
-        ArrayList<String> times = new ArrayList<>();
-        while (iter.hasNext()) {
-            Temp t = iter.next();
-            tempsVal.add(t.getTemp().toString());
-            times.add(t.getCreatedTimeFormatted());
-        }
-        ArrayList<String> tempsAVG = new ArrayList<>();
-        ArrayList<String> avgDates = new ArrayList<>();
-        while (iter1.hasNext()) {
-            AVGDTO t = iter1.next();
-            tempsAVG.add(t.getTemp().toString().substring(0,5));
-            LocalDate dt = LocalDate.parse(t.getGiorno());
-            avgDates.add(dt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-        }
-        map.put("tempVals", tempsVal);
-        map.put("times", times);
-        map.put("tempsAVG", tempsAVG);
-        map.put("avgDates", avgDates);
-        return map;
-    }
-
-    @GetMapping(path = "/api/temps/{id}/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, String> updateTemp(@PathVariable String id, @RequestParam(name = "previous") String previous){
-        Temp last = tempDAO.findLastBySensor(id);
-        HashMap<String, String> map = new HashMap<>();
-        try {
-            LocalTime prev = LocalTime.parse(previous);
-            if (prev.isBefore(last.getCreatedAt().toLocalTime().truncatedTo(ChronoUnit.SECONDS))) {
-                String temp = last.getTemp().toString();
-                String time = last.getCreatedTimeFormatted();
-                map.put("temp", temp);
-                map.put("created", time);
-            }
-            return map;
-        }catch (DateTimeParseException ignored){
-            return map;
-        }
-    }
-
-    @GetMapping(path = "/api/temps/{id}/updateMeds", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, ArrayList<String>> updateMeds(@PathVariable String id, @RequestParam(name = "days") int days){
-        List<AVGDTO> avgs = tempDAO.findAVGVals(id, days);
-        Iterator<AVGDTO> iter = avgs.iterator();
-        HashMap<String, ArrayList<String>> map = new HashMap<>();
-        ArrayList<String> tempsAVG = new ArrayList<>();
-        ArrayList<String> avgDates = new ArrayList<>();
-        while (iter.hasNext()) {
-            AVGDTO t = iter.next();
-            tempsAVG.add(t.getTemp().toString().substring(0,5));
-            LocalDate dt = LocalDate.parse(t.getGiorno());
-            avgDates.add(dt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-        }
-        map.put("tempsAVG", tempsAVG);
-        map.put("avgDates", avgDates);
-        return map;
-    }
-
-    @PostMapping(value = "/api/temps/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<String> createTemp(@PathVariable String id, @RequestBody Map<String, String> data) {
-        String apiKey = data.get("apikey");
-        String temp = data.get("temp");
-        try {
-            tempService.save(id, temp, apiKey);
-        } catch (InvalidFieldException e) {
-            return new ResponseEntity<String>("{\"status\": \""+e.getMessage()+"\"}", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<String>("{\"status\": \"ok\"}", HttpStatus.CREATED);
-    }
 }

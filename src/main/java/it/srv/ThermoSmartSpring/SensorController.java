@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
+@RequestMapping("/sensors")
 public class SensorController {
     @Autowired
     SensorDAO sensorDAO;
@@ -17,7 +18,7 @@ public class SensorController {
     @Autowired
     SensorService sensorService;
 
-    @GetMapping("/sensors")
+    @GetMapping("")
     public ModelAndView sensors(ModelAndView mav) {
         mav.setViewName("sensors");
         Iterable<Sensor> sensors = sensorDAO.getAll(true);
@@ -25,7 +26,7 @@ public class SensorController {
         return mav;
     }
 
-    @GetMapping("/sensors/new")
+    @GetMapping("/new")
     public ModelAndView newSensor(ModelAndView mav) {
         Sensor sensor = new Sensor();
         mav.addObject("sensor", sensor);
@@ -33,7 +34,7 @@ public class SensorController {
         return mav;
     }
 
-    @PostMapping("/sensors/new")
+    @PostMapping("/new")
     public ModelAndView createSensor(ModelAndView mav, @ModelAttribute("sensor") final Sensor sensor) {
         try {
             Sensor newSensor = sensorService.saveNewSensor(sensor);
@@ -51,14 +52,14 @@ public class SensorController {
         return mav;
     }
 
-    @GetMapping("/sensors/{id}")
+    @GetMapping("/{id}")
     public ModelAndView editSensor(ModelAndView mav, @PathVariable String id) {
         mav.addObject("sensor", sensorDAO.get(id));
         mav.setViewName("editSensor");
         return mav;
     }
 
-    @PutMapping("/sensors/{id}")
+    @PutMapping("/{id}")
     public ModelAndView updateSensor(ModelAndView mav, @PathVariable String id, @ModelAttribute("sensor") final Sensor newData) {
         Sensor sensor = sensorDAO.get(id);
         if (!sensorDAO.exists(sensor)){
@@ -78,7 +79,7 @@ public class SensorController {
         return mav;
     }
 
-    @DeleteMapping("/sensors/{id}")
+    @DeleteMapping("/{id}")
     public ModelAndView deleteSensor(ModelAndView mav, @PathVariable String id) {
         Sensor sensor = sensorDAO.get(id);
         try {
