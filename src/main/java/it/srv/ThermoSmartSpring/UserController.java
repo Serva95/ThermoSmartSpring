@@ -3,12 +3,15 @@ package it.srv.ThermoSmartSpring;
 import it.srv.ThermoSmartSpring.dao.AuthoritiesDAO;
 import it.srv.ThermoSmartSpring.dao.UserDAO;
 import it.srv.ThermoSmartSpring.dto.UserDTO;
+import it.srv.ThermoSmartSpring.exception.InvalidAuthorityException;
 import it.srv.ThermoSmartSpring.exception.ObjectAlreadyExistException;
 import it.srv.ThermoSmartSpring.exception.PasswordException;
+import it.srv.ThermoSmartSpring.exception.UsernameAlreadyExistException;
 import it.srv.ThermoSmartSpring.model.Authorities;
 import it.srv.ThermoSmartSpring.model.User;
 import it.srv.ThermoSmartSpring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +31,19 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Bean
+    private void AdminChecker(){
+        User admin = userDAO.getByUsername("thermo-admin");
+        ArrayList<Authorities> admins = authoritiesDAO.getByAuthority("ROLE_ADMIN");
+        if (admin == null && admins.isEmpty()) {
+            admin = new User();
+            admin.setUsername("thermo-admin");
+            admin.setEmail("admin@thermo.app");
+            admin.setPassword("thermo-admin");
+            userService.registerAdmin(admin);
+        }
+    }
 
     @GetMapping("")
     public ModelAndView userProfile(ModelAndView mav) {

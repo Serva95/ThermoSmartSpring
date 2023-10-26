@@ -25,4 +25,6 @@ public class AuthoritiesDAO {
     public ArrayList<Authorities> getByUsername(String uname) { return repo.findByUsername(uname); }
 
     public void delete(short id) { repo.deleteById(id); }
+
+    public ArrayList<Authorities> getByAuthority(String auth) { return repo.findByAuthority(auth); }
 }

@@ -41,8 +41,8 @@ public class TempService {
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException ignored) { }
-        byte[] hash = digest.digest(
-                tosha.getBytes(StandardCharsets.UTF_8));
+        byte[] hash = digest != null ? digest.digest(
+                tosha.getBytes(StandardCharsets.UTF_8)) : new byte[0];
         String sha256hex = new String(Hex.encode(hash));
         if(sha256hex.equals(apikey)){
             Temp t = new Temp();

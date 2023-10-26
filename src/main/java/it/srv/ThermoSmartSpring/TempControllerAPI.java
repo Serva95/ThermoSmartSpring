@@ -51,7 +51,7 @@ public class TempControllerAPI {
             return map;
         }
         List<Temp> temps = tempService.getTempsClear(id);
-        List<AVGDTO> avgs = tempDAO.findAVGVals(id, 7);
+        List<AVGDTO> avgs = tempDAO.findAVGVals(id, 3);
         Iterator<Temp> iter = temps.iterator();
         Iterator<AVGDTO> iter1 = avgs.iterator();
         ArrayList<String> tempsVal = new ArrayList<>();
