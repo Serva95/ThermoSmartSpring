@@ -26,6 +26,20 @@ public class UserService {
     @Autowired
     AuthoritiesDAO authoritiesDAO;
 
+    public void registerAdmin(final User admin) {
+        User user = new User();
+        user.setPassword(argon2PasswordEncoder().encode(admin.getPassword()));
+        user.setEmail(admin.getEmail());
+        user.setUsername(admin.getUsername());
+        userDAO.save(user);
+        Authorities authorities = new Authorities(admin.getUsername(), "ROLE_ADMIN");
+        try {
+            authoritiesDAO.save(authorities);
+        } catch (InvalidAuthorityException e) {
+            e.printStackTrace();
+        }
+    }
+
     public User registerNewUserAccount(final UserDTO account) throws
             ObjectAlreadyExistException,
             UsernameAlreadyExistException,
