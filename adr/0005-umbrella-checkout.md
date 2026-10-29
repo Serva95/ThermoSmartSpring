@@ -26,7 +26,7 @@ ADR 0004 answered that friction with a **monorepo**: one git repository, one rem
 
 What the monorepo gave up, and what this decision must therefore not give up:
 
-- **Three identities.** Each component keeps its own remote, its own branch model, its own history, and its own CI. `ThermoTools` still has its legacy `2.7.18-J` branch alongside the active `3.5.X`; `ThermoWrapperK` is a distinct supervisor, not a sub-package of the app. A monorepo would have had to absorb or archive those identities.
+- **Three identities.** Each component keeps its own remote, its own branch model, its own history, and its own CI. `ThermoTools`'s canonical tree is the Java `2.7.18-J/` (the `3.5.X-K/` Kotlin experiment was retired by owner decision — see revision 4); `ThermoWrapperK` is a distinct supervisor, not a sub-package of the app. A monorepo would have had to absorb or archive those identities.
 - **Independent release cadence and ownership.** Each component is committed, reviewed, and pushed on its own schedule. A single root repository couples three independent change streams.
 - **The existing trust model.** Builders already have three remotes, three sets of credentials, and muscle memory for three checkouts. A fresh root remote would add a fourth artefact to manage while removing three.
 
@@ -47,14 +47,14 @@ The system is developed in **three independent git repositories**, each retainin
 ## User stories / scenarios
 
 - As a **builder**, I want app, decision backend, and supervisor in one working tree, so that a cross-component change (shared DB schema, relay-message contract, cert-bundling path) is one `ls`, one search, one set of builds — not a three-checkout dance — while I still commit and push each component to *its own* remote.
-- As a **builder**, I want each component to keep its own remote, branch, history, and CI, so that the monorepo's coupling of three independent change streams does not happen, and `ThermoTools`'s legacy `2.7.18-J` branch is neither absorbed nor rewritten.
+- As a **builder**, I want each component to keep its own remote, branch, history, and CI, so that the monorepo's coupling of three independent change streams does not happen, and `ThermoTools`'s tree — now the canonical Java `2.7.18-J/`, per revision 4 — is neither absorbed nor rewritten.
 - As an **agent or new contributor**, I want one `AGENTS.md`, one ADR catalogue, and one `plan/` queue, so that the conventions I follow are the same wherever in the tree I work, and the catalogue home is unambiguous.
 - As a **builder**, I want the umbrella to be reproducible with `git clone` + `git submodule update --init`, so that a fresh machine yields a working tree of all three components without manual path surgery.
 
 ## Acceptance criteria
 
 1. **Umbrella with exactly the three submodules.** One umbrella repository (remote `https://github.com/Serva95/Thermo-monorepo.git`, branch `master`) whose only repository-level contents are `.gitmodules`, `README.md`, `AGENTS.md`, and `.gitignore`; exactly three submodules — `ThermoSmartSpring/`, `ThermoTools/`, `ThermoWrapperK/` — and its `.gitmodules` entries point at the real component remotes (`https://github.com/Serva95/ThermoSmartSpring.git`, `https://github.com/Serva95/ThermoTools.git`, `https://github.com/Serva95/ThermoWrapperK.git`). No component source code of its own.
-2. **No history or branch rewritten.** All three components retain their own remotes, own branches (including `ThermoTools/2.7.18-J` and `ThermoTools/3.5.X`), and full commit histories. No history is squashed, re-authored, rebased, or imported into another repository.
+2. **No history or branch rewritten.** All three components retain their own remotes, own branches (including `ThermoTools/2.7.18-J`; the `ThermoTools/3.5.X` branch was retired in revision 4 with its tip left reachable in the new `opencode` ancestry), and full commit histories. No history is squashed, re-authored, rebased, or imported into another repository.
 3. **Reproducible fresh checkout.** `git clone https://github.com/Serva95/Thermo-monorepo.git` followed by `git submodule update --init` yields a working tree containing all three components at their pinned commits.
 4. **All three builds pass in place.** `./gradlew build` succeeds for `ThermoSmartSpring`, `ThermoTools`, and `ThermoWrapperK` inside the umbrella working tree, with no source changes other than path-dependent config. No component's build, run, or deploy behaviour changes as a result of the umbrella.
 5. **Exactly one conventions home.** The system's cross-component decision record is exactly one catalogue: `ThermoSmartSpring/adr/` (ADRs 0001–0005) plus `ThermoSmartSpring/INDEX.md`, with its `CONVENTIONS.md` and `plan/` queue beside it. The umbrella `README.md` and `AGENTS.md` both name it the authoritative conventions home, and the umbrella root adds **no** second `CONVENTIONS.md`, `adr/`, or `plan/` of its own. Catalogues that a component repository already carries internally (for example `ThermoWrapperK/adr/`) are that component's own and remain untouched by the umbrella.
@@ -69,7 +69,7 @@ The system is developed in **three independent git repositories**, each retainin
 - A root-level CI gate, release pipeline, or shared build orchestrator at the umbrella. Each component keeps its own build and CI; the umbrella adds none.
 - Adopting or migrating any dependency-lock or build-toolchain configuration.
 - Moving the database, its host, or its credentials.
-- Rewriting, merging, or archiving any component's history or branches (including the legacy `2.7.18-J`).
+- Rewriting, merging, or archiving any component's history or branches: the canonical `ThermoTools` tree is the Java `2.7.18-J/`, and the `3.5.X` branch retirement in revision 4 removed only a redundant ref, leaving that history and its tip intact in the `opencode` ancestry.
 - Renaming or restructuring the component source trees inside their own repositories.
 
 ## Open questions
@@ -92,6 +92,7 @@ The system is developed in **three independent git repositories**, each retainin
 | 2026-10-29 | 1        | agent  | Initial draft. Accepted; supersedes ADR 0004.                 |
 | 2026-10-29 | 2        | agent  | Capability statement + AC-5: scope the single-conventions-home prohibition to the umbrella root; pre-existing component-internal catalogues (e.g. `ThermoWrapperK/adr/`) are that component's own and untouched. |
 | 2026-10-29 | 3        | agent  | Status Accepted → Implemented; plan item 0002 completed.          |
+| 2026-10-29 | 4        | agent  | Owner re-scope: `ThermoTools`'s Java `2.7.18-J/` tree is canonical; the `3.5.X-K/` Kotlin experiment (tree, WIP files, component branch `3.5.X`) is retired and the component now lives on branch `opencode` (ThermoTools commits `23f6361`, `ff67e5e`). Context, user story, AC-2, and out-of-scope wording updated to match. Status unchanged (Implemented). |
 
 ## Approvals
 
@@ -99,3 +100,5 @@ The system is developed in **three independent git repositories**, each retainin
 |---------|------|------------|-----------|
 | Agent   | agent| 2026-10-29 | [Verified]|
 | Owner   | lse  | 2026-10-29 | "ok let's go" |
+| Agent   | agent| 2026-10-29 | [Verified] (revision 4)|
+| Owner   | lse  | 2026-10-29 | "java the real working one" (revision 4 re-scope)|
