@@ -58,4 +58,4 @@ A single agent owns this repo. The `_agent/` directory tracks live state and his
 
 ## Integration model
 
-- **Integration:** direct-to-main, **fast-forward only**. No merge commits on `main`. The verify gate (`./gradlew build`) runs locally and must pass before push. Completion event: fast-forwarded to `main` + remote push succeeded.
+- **Integration:** direct-to-`opencode`, **fast-forward only**. No merge commits on `opencode`. The verify gate (`./gradlew build`) runs locally and must pass before push. Completion event: fast-forwarded to `opencode` + remote push succeeded.

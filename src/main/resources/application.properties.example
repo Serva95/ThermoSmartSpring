@@ -1,0 +1,42 @@
+# =============================================================================
+# TEMPLATE — src/main/resources/application.properties
+# -----------------------------------------------------------------------------
+# The real `application.properties` is git-ignored and must NEVER be committed
+# (see README → Configuration). To create it locally, copy this file and fill
+# in real values:
+#
+#     cp application.properties.example application.properties
+#
+# Placeholders are written as <...> and MUST be replaced before running.
+# Enable exactly ONE data-source block at a time (test vs. production).
+# =============================================================================
+
+# Hibernate / schema
+spring.jpa.hibernate.ddl-auto=none
+
+# Data source — LOCAL / TEST (MariaDB):
+spring.datasource.url=jdbc:mariadb://localhost:3306/thermo
+spring.datasource.username=<db-user>
+spring.datasource.password=<db-password>
+
+# Data source — PRODUCTION (PostgreSQL): enable instead of the block above
+# spring.datasource.url=jdbc:postgresql://<db-host>:5432/thermo
+# spring.datasource.username=<db-user>
+# spring.datasource.password=<db-password>
+
+# Session
+server.servlet.session.timeout=60m
+
+# SSL / TLS
+server.port=8443
+server.ssl.key-store=classpath:keystore/thermo.p12
+server.ssl.key-store-password=<keystore-password>
+# JKS or PKCS12
+server.ssl.keyStoreType=PKCS12
+# Spring Security
+server.ssl.enabled=true
+
+# Optional: verbose logging (uncomment to enable)
+# logging.level.org.springframework=TRACE
+# logging.level.org.hibernate.SQL=TRACE
+# logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE

@@ -42,9 +42,9 @@ The artifact will be available in `build/libs/`.
 
 ### 2. Configuration
 
-The application uses `src/main/resources/application.properties`. **Never commit real credentials to the repository.**
+The application uses `src/main/resources/application.properties`. **Never commit real credentials to the repository.** The real `application.properties` is git-ignored; a ready-to-copy template is committed at `src/main/resources/application.properties.example`.
 
-Create a local file based on the following template:
+Create a local file from the committed example (or the template below):
 
 ```properties
 # Database Configuration

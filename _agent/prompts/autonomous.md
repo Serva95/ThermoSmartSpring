@@ -34,15 +34,15 @@ Conventional Commits per `AGENTS.md` §Git contract. `Rationale:` footer require
 
 ## Step 6 — Integrate
 
-- Fast-forward the work branch onto `main`:
-  `git merge --ff-only <work-branch>` (or commit directly on `main` if that is the project's flow).
-- Push: `git push origin main`.
+- Fast-forward the work branch onto `opencode`:
+  `git merge --ff-only <work-branch>` (or commit directly on `opencode` if that is the project's flow).
+- Push: `git push origin opencode`.
 - The verify gate has already passed locally (Step 4); no CI wait.
-- Completion event: fast-forwarded to `main` + remote push succeeded.
+- Completion event: fast-forwarded to `opencode` + remote push succeeded.
 
 ## Step 7 — Ship the queue item
 
-Once the change is on `main` (fast-forwarded or PR-merged):
+Once the change is on `opencode` (fast-forwarded or PR-merged):
 
 - `git mv plan/todo/NNNN-<slug>.md plan/done/<YYYY-MM-DD>-<slug>.md`.
 - Amend the moved file with a "Shipped at HEAD `<sha>`" footer (and any artefact id, image tag, deploy id, PR link).
