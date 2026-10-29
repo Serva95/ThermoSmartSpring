@@ -1,7 +1,7 @@
 ---
 adr: 0005
 title: Umbrella checkout of the three thermo component repositories
-status: Accepted
+status: Implemented
 date: 2026-10-29
 owner: agent
 supersedes: [0004]
@@ -91,6 +91,7 @@ The system is developed in **three independent git repositories**, each retainin
 |------------|----------|--------|---------------------------------------------------------------|
 | 2026-10-29 | 1        | agent  | Initial draft. Accepted; supersedes ADR 0004.                 |
 | 2026-10-29 | 2        | agent  | Capability statement + AC-5: scope the single-conventions-home prohibition to the umbrella root; pre-existing component-internal catalogues (e.g. `ThermoWrapperK/adr/`) are that component's own and untouched. |
+| 2026-10-29 | 3        | agent  | Status Accepted → Implemented; plan item 0002 completed.          |
 
 ## Approvals
 
