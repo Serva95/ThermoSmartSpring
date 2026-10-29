@@ -1,16 +1,18 @@
 ---
 adr: 0004
 title: Consolidate the three thermo component repositories into a single monorepo
-status: Proposed
+status: Superseded
 date: 2026-10-29
 owner: agent
 supersedes:
-superseded-by:
+superseded-by: [0005]
 depends-on: [0003]
 tags: [repository, monorepo, engineering-process, collaboration, adr-catalogue, ci]
 ---
 
 # ADR 0004 — Consolidate the three thermo component repositories into a single monorepo
+
+> **Superseded by [ADR 0005 — Umbrella checkout of the three thermo component repositories](0005-umbrella-checkout.md)** (2026-10-29). The monorepo consolidation was withdrawn at the proposal stage: the three components keep their own remotes, branches, and histories, and are joined in a single working tree via submodules in a new umbrella repository. The adopted decision is recorded in ADR 0005. This document is retained as the historical record of the considered-and-rejected approach.
 
 ## Context
 
@@ -81,6 +83,7 @@ The system is developed in **one git repository** that contains all three compon
 | Date       | Revision | Author | Change                                                        |
 |------------|----------|--------|---------------------------------------------------------------|
 | 2026-10-29 | 1        | agent  | Initial draft. Proposed.                                       |
+| 2026-10-29 | 2        | agent  | Superseded by ADR 0005 (umbrella checkout). Monorepo approach withdrawn; status set to Superseded. |
 
 ## Approvals
 
