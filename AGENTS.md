@@ -6,6 +6,8 @@ This file provides guidance to coding agents working in this repository.
 
 thermoSmartSpring: An application running on Raspberry Pi to manage a home heating system via phone/tablet/PC using valves and temperature sensors in each room. Includes a separate backend for routing and logic management.
 
+This repository is the **conventions home** of the three-component thermo system (`ThermoSmartSpring`, `ThermoTools`, `ThermoWrapperK`): the ADR catalogue, authoring rules, and plan queue here (`adr/`, `INDEX.md`, `CONVENTIONS.md`, `plan/`) are the authoritative cross-component record, and the companion repositories name it as such in their READMEs. The umbrella checkout that pins the three components in one working tree is recorded in `adr/0005-umbrella-checkout.md`.
+
 ## Repository structure
 
 - `adr/0000-template.md` — canonical ADR template.

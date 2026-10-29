@@ -4,6 +4,24 @@
 
 The application is designed to run in a controlled environment (Raspberry Pi) and is orchestrated by the **ThermoWrapperK** component, which manages its lifecycle, automatic updates, and process monitoring.
 
+## System context
+
+**ThermoSmartSpring** is one of three components of the thermo heating
+system. Its companions are **ThermoTools** (the headless decision
+backend: room on/off algorithms, relay control) and **ThermoWrapperK**
+(the always-on supervisor, owner of the Let's Encrypt certificate
+lifecycle). All three run on the same host, share the same `thermo`
+database, and keep their own git remotes (`github.com/Serva95/<name>`).
+For a single working tree, use the **Thermo-monorepo** umbrella
+(`https://github.com/Serva95/Thermo-monorepo.git`, branch `master`):
+`git clone` + `git submodule update --init` yields all three components
+at their pinned commits (see `adr/0005-umbrella-checkout.md`).
+
+This repository is the **conventions home** of the whole system: its
+`adr/` + `INDEX.md` hold the cross-component ADR catalogue, and its
+`CONVENTIONS.md` + `plan/` are the shared authoring rules and work
+queue. The companion repositories point here.
+
 ## System Architecture
 
 The system is based on a centralized control model:
