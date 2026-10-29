@@ -1,46 +1,50 @@
 # ThermoSmartSpring
 
-**ThermoSmartSpring** è l'applicazione core di controllo per un sistema di riscaldamento domestico distribuito. Gestisce la logica di business, la programmazione delle routine e la persistenza dello stato del sistema.
+**ThermoSmartSpring** is the core control application for a distributed home heating system. It manages the business logic, routine scheduling, and system state persistence.
 
-L'applicazione è progettata per essere eseguita in un ambiente controllato (Raspberry Pi) ed è orchestrata dal componente **ThermoWrapperK**, che ne gestisce il ciclo di vita, l'aggiornamento automatico e il monitoraggio del processo.
+The application is designed to run in a controlled environment (Raspberry Pi) and is orchestrated by the **ThermoWrapperK** component, which manages its lifecycle, automatic updates, and process monitoring.
 
-## Architettura del Sistema
+## System Architecture
 
-Il sistema si basa su un modello di controllo centralizzato:
+The system is based on a centralized control model:
 
-*   **Central Controller (Raspberry Pi):** Esegue l'applicazione **ThermoSmartSpring**. Gestisce le decisioni di riscaldamento, le programmazioni orarie e l'interfaccia di controllo.
+*   **Central Controller (Raspberry Pi):** Runs the **ThermoSmartSpring** application. It manages heating decisions, hourly scheduling, and the control interface.
 *   **End Nodes (ESP32):**
-    *   **Sensing:** Sensori di temperatura digitali DS18B20.
-    *   **Actuation:** Moduli relè per il controllo delle valvole termostatiche.
-*   **Orchestratore (ThermoWrapperK):** Un servizio separato che monitora le versioni, scarica i nuovi artefatti e lancia `ThermoSmartSpring` come processo figlio supervisionato.
+    *   **Sensing:** DS18B20 digital temperature sensors.
+    *   **Actuation:** Relay modules for thermostatic valve control.
+*   **Orchestrator (ThermoWrapperK):** A separate service that monitors versions, downloads new artifacts, and launches `ThermoSmartSpring` as a supervised child process.
 
-## Stack Tecnologico
+## Tech Stack
 
 *   **Framework:** Spring Boot 4.1.2
-*   **Linguaggio:** Java 17
-*   **Database:** PostgreSQL (Produzione) / MariaDB (Test)
-*   **Sicurezza:** Spring Security con supporto SSL/TLS (PKCS12)
+*   **Language:** Java 17
+*   **Database:** PostgreSQL (Production) / MariaDB (Test)
+*   **Security:** Spring Security with SSL/TLS (PKCS12) support
 *   **Build Tool:** Gradle
 
-## Requisiti di Sistema
+## System Requirements
 
-*   **Runtime:** OpenJDK 17 (necessario per la compatibilità con il driver di deploy sul Raspberry Pi).
-*   **Database:** Istanza PostgreSQL accessibile.
-*   **Ambiente:** Gestito tramite l'orchestratore **ThermoWrapperK**.
+*   **Runtime:** OpenJDK 17 (required for compatibility with the Raspberry Pi deployment driver).
+*   **Database:** Accessible PostgreSQL instance.
+*   **Environment:** Managed via the **ThermoWrapperK** orchestrator.
 
-## Installazione e Configurazione
+## Installation and Configuration
 
-### 1. Costruzione (Build)
-Per generare l'artefatto JAR eseguibile:
+### 1. Build
+
+To generate the executable JAR artifact:
+
 ```bash
 ./gradlew clean build
 ```
-L'artefatto sarà disponibile in `build/libs/`.
 
-### 2. Configurazione
-L'applicazione utilizza `src/main/resources/application.properties`. **Non committare mai credenziali reali nel repository.**
+The artifact will be available in `build/libs/`.
 
-Crea un file locale basato sul seguente template:
+### 2. Configuration
+
+The application uses `src/main/resources/application.properties`. **Never commit real credentials to the repository.**
+
+Create a local file based on the following template:
 
 ```properties
 # Database Configuration
@@ -62,15 +66,19 @@ spring.mvc.hiddenmethod.filter.enabled=true
 ```
 
 ### 3. Deploy
-Il deploy è gestito interamente da **ThermoWrapperK**. Segui le istruzioni nel repository del Wrapper per l'installazione e l'aggiornamento del servizio.
 
-## Sviluppo
+Deployment is managed entirely by **ThermoWrapperK**. Follow the instructions in the Wrapper repository for service installation and updates.
 
-### Esecuzione Test
-Assicurati che la logica di business e i punti di integrazione siano verificati prima del deploy:
+## Development
+
+### Running Tests
+
+Ensure that business logic and integration points are verified before deployment:
+
 ```bash
 ./gradlew test
 ```
 
-### Sviluppo Locale
-Se lavori localmente, assicurati di avere un'istanza del database (MariaDB o PostgreSQL) configurata secondo il file delle proprietà.
+### Local Development
+
+If working locally, ensure you have a database instance (MariaDB or PostgreSQL) configured according to the properties file.
