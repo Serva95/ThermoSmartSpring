@@ -10,17 +10,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     @Autowired
     private DataSource dataSource;
 
-    @Override
+    @Bean
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.jdbcAuthentication().dataSource(dataSource)
@@ -29,41 +30,43 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(argon2PasswordEncoder());
     }
 
-    @Autowired
+    @Bean
     public Argon2PasswordEncoder argon2PasswordEncoder() { return new Argon2PasswordEncoder(16,64,8,1<<13,16);}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        http
-                .authorizeRequests()
-                .antMatchers("/", "/home", "/register", "/js/**", "/stylesheets/**", "/logo.png", "/favicon.ico", "/user/registration", "/authentication", "/api/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .loginPage("/login")
-                .defaultSuccessUrl("/",true)
-                .permitAll()
-                .and()
-                .sessionManagement()
-                .invalidSessionUrl("/error?message=\"Session timeout, login again.\"")
-                .maximumSessions(3)
-                .sessionRegistry(sessionRegistry())
-                .and()
-                .sessionFixation()
-                .none()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
-        ;
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http    .authorizeHttpRequests(authorize -> {
+                    try {
+                        authorize
+                                .requestMatchers("/", "/home", "/register", "/js/**", "/stylesheets/**", "/logo.png", "/favicon.ico", "/user/registration", "/authentication", "/api/**")
+                                .permitAll()
+                                .anyRequest().authenticated()
+                                .and()
+                                .formLogin()
+                                .loginProcessingUrl("/login")
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/",true)
+                                .permitAll()
+                                .and()
+                                .sessionManagement()
+                                .invalidSessionUrl("/error?message=\"Session timeout, login again.\"")
+                                .maximumSessions(3)
+                                .sessionRegistry(sessionRegistry())
+                                .and()
+                                .sessionFixation()
+                                .none()
+                                .and()
+                                .logout()
+                                .logoutSuccessUrl("/login?logout")
+                                .permitAll();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
         http    .headers()
                 .and()
                 .cors()
-        ;
-
-        http    .csrf().ignoringAntMatchers("/api/**")
                 .and()
                 .rememberMe()
                 .alwaysRemember(true)
@@ -72,6 +75,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .disable()
         ;
+
+        http    .csrf((csrf) -> csrf
+                .ignoringRequestMatchers("/api/**")
+        );
+
+        return http.build();
     }
 
     @Bean
