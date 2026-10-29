@@ -21,7 +21,7 @@
    - `ThermoTools/` → `https://github.com/Serva95/ThermoTools.git` (branch `3.5.X`)
    - `ThermoWrapperK/` → `https://github.com/Serva95/ThermoWrapperK.git` (branch `master`)
 3. Umbrella repo-level files only: `README.md`, `AGENTS.md` (both naming `ThermoSmartSpring/` as the authoritative conventions home), `.gitignore`, and `.gitmodules`. No component source.
-4. Record the single-conventions-home rule: exactly one ADR catalogue (`ThermoSmartSpring/adr/` + `INDEX.md`, 0001–0005), one `CONVENTIONS.md`, one `plan/` queue; the umbrella defers to it.
+4. Record the single-conventions-home rule: the umbrella root adds **no** `CONVENTIONS.md`, `adr/`, or `plan/` of its own; the system's cross-component catalogue is `ThermoSmartSpring/adr/` (+ `INDEX.md`, 0001–0005) with its `CONVENTIONS.md` and `plan/` queue. Component-internal catalogues (e.g. `ThermoWrapperK/adr/`) are untouched.
 5. Cross-component session (ADR 0005 AC-7): add a one-line "system context" pointer to `ThermoTools/README.md` and `ThermoWrapperK/README.md` (and the app's `README.md`/`AGENTS.md`), commit each to its own component remote, then commit the updated submodule pins in the umbrella.
 6. **Preserve local uncommitted work (ADR 0005 AC-8):** the `ThermoTools` in-progress edits (9 files) and `ThermoWrapperK`'s untracked live `application.properties` must not be lost, staged, or committed by the move. In `ThermoTools` only the intended file is committed via pathspec (`git commit -- README.md`), never with the full index. `ThermoWrapperK`'s untracked `application.properties` is never staged.
 
@@ -34,7 +34,7 @@
 | 3 | `git log` in each component shows its full, unrewritten history; no commits squashed/re-authored/rebased/imported into the umbrella. | AC-2 |
 | 4 | `git clone` of the umbrella + `git submodule update --init` reproduces all three components at their pinned commits on a fresh checkout. | AC-3 |
 | 5 | `./gradlew build` passes for `ThermoSmartSpring`, `ThermoTools`, and `ThermoWrapperK` inside the umbrella working tree, with no source changes beyond path-dependent config. | AC-4 |
-| 6 | Exactly one conventions home: `ThermoSmartSpring/adr/` (0001–0005) + `INDEX.md`; umbrella `README.md`/`AGENTS.md` name it authoritative; no second `CONVENTIONS.md`/`adr/`/`plan/` exists in the tree. | AC-5 |
+| 6 | Exactly one conventions home: `ThermoSmartSpring/adr/` (0001–0005) + `INDEX.md`; umbrella `README.md`/`AGENTS.md` name it authoritative; the umbrella root carries no `CONVENTIONS.md`/`adr/`/`plan/` of its own; component-internal catalogues (e.g. `ThermoWrapperK/adr/`) remain untouched. | AC-5 |
 | 7 | All three component remotes remain active and unarchived; each component's integration model (branch, commit model, build gate) is unchanged. | AC-6 |
 | 8 | A cross-component change (README "system context" pointers) is committed to each involved component remote and the umbrella commits the updated pins. | AC-7 |
 | 9 | `ThermoTools` WIP (9 files) still dirty after the move; `ThermoWrapperK` untracked `application.properties` never staged; nothing uncommitted lost. | AC-8 |
