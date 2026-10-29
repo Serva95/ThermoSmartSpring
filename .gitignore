@@ -36,3 +36,6 @@ out/
 
 ### .properties files ###
 /src/main/resources/application.properties
+
+### macOS ###
+.DS_Store

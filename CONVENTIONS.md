@@ -66,3 +66,7 @@ The Approvals table is populated when an ADR transitions to Accepted and updated
 ## Git Contract
 
 Commit messages follow Conventional Commits with a mandatory `Rationale:` footer for any commit that touches an ADR.
+
+- Signed commits: yes — `git commit -S` required.
+- ADR-revision tags `adr-NNNN-rN`: no.
+- Co-Authored-By trailer on agent commits: no.

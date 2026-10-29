@@ -14,7 +14,7 @@ public class UserDAO {
 
     public User save(User user) { return repo.save(user); }
 
-    public User getById(int id) { return repo.findById(id).orElse(null); }
+    public User getById(long id) { return repo.findById(id).orElse(null); }
 
     public Iterable<User> getAll() { return repo.findAll(); }
 
@@ -22,7 +22,7 @@ public class UserDAO {
 
     public User getByUsername(String uname) { return repo.findByUsername(uname); }
 
-    public void delete(int id) { repo.deleteById(id); }
+    public void delete(long id) { repo.deleteById(id); }
 
     public boolean exists(User user){ return user != null; }
 }

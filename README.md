@@ -17,8 +17,8 @@ The system is based on a centralized control model:
 ## Tech Stack
 
 *   **Framework:** Spring Boot 4.1.2
-*   **Language:** Java 17
-*   **Database:** PostgreSQL (Production) / MariaDB (Test)
+*   **Language:** Mixed Kotlin 2.1.0 and Java (targeting JVM 17)
+*   **Database:** MariaDB (default) / PostgreSQL (production) / H2 in-memory (tests)
 *   **Security:** Spring Security with SSL/TLS (PKCS12) support
 *   **Build Tool:** Gradle
 
@@ -62,7 +62,6 @@ server.ssl.key-store-type=PKCS12
 
 # Session Management
 server.servlet.session.timeout=60m
-spring.mvc.hiddenmethod.filter.enabled=true
 ```
 
 ### 3. Deploy
