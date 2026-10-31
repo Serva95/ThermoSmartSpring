@@ -54,10 +54,11 @@ system all continue to work as they do on 2.7.18.
 
 ## Acceptance criteria
 
-1. `2.7.18-J/build.gradle` declares `org.springframework.boot` version
-   `4.1.2` and the `io.spring.dependency-management` plugin at a
-   version compatible with Spring Boot 4 (or is removed if no longer
-   needed).
+1. `build.gradle` (at the `ThermoTools` repository root after the tree
+   hoist of criterion 8) declares `org.springframework.boot` version
+   `4.1.2`; the `io.spring.dependency-management` plugin is **kept**
+   (owner decision of 2026-10-31) and adjusted to the version it needs
+   to work with Spring Boot 4.
 2. `sourceCompatibility` is raised from `11` to `17`.
 3. All `javax.*` usage that Spring Boot 4 no longer carries is
    migrated to `jakarta.*`; existing JPA entities/repositories and the
@@ -65,24 +66,33 @@ system all continue to work as they do on 2.7.18.
    work with no schema migration.
 4. Dependencies resolve and behave unchanged under the Spring Boot 4
    BOM: `org.eclipse.paho.client.mqttv3` (1.2.5 or a
-   compatibility-required bump), `org.json`, `spring-integration-mqtt`
-   (compileOnly), Lombok (compileOnly/annotationProcessor),
+   compatibility-required bump) is the MQTT stack — the compileOnly
+   `spring-integration-mqtt` line is **removed** (no `ThermoTools`
+   source imports `org.springframework.integration`; owner decision of
+   2026-10-31) — plus `org.json`, Lombok (compileOnly/annotationProcessor),
    `spring-boot-starter-data-jpa`, `postgresql` runtime.
 5. The `version` string in `build.gradle` is updated in the same
    commit to keep its Spring Boot token in sync
    (e.g. `0.5.1_4.1.2`).
-6. `cd 2.7.18-J && ./gradlew build` passes, including the existing
-   test suite.
+6. `./gradlew build` run from the `ThermoTools` repository root
+   passes, including the existing test suite (after the tree hoist of
+   criterion 8).
 7. No change to business logic: MQTT integration points, JSON payload
    shapes consumed/emitted, and the `Info`-style persistence layer
    behave as before; only framework-level changes are made.
+8. The `ThermoTools` source tree is **hoisted one level up** (owner
+   decision of 2026-10-31 — the project is no longer version-bound):
+   the contents of `2.7.18-J/` move to the repository root,
+   `gradlew`/`gradle`/`build.gradle` live at the root, no reference to
+   the `2.7.18-J` path remains in the tree, and the umbrella
+   checkout's `AGENTS.md` build-table row for `ThermoTools` is updated
+   from `cd 2.7.18-J && ./gradlew build` to `./gradlew build` at ship
+   time (umbrella repository, separate commit).
 
 ## Out of scope
 
 - Migration of `ThermoSmartSpring` (done — ADR 0001) or
   `ThermoWrapperK` (its own catalogue, separate repository).
-- Renaming or restructuring the `2.7.18-J/` source tree (see Open
-  questions).
 - Any change to the business logic, MQTT topic layout, or database
   schema.
 - A new ThermoTools ADR catalogue — the catalogue-less component keeps
@@ -90,15 +100,18 @@ system all continue to work as they do on 2.7.18.
 
 ## Open questions
 
-- Whether the `2.7.18-J/` tree should be renamed after the migration
-  (its name refers to the Spring Boot version it will no longer run on)
-  — owner call; until then `2.7.18-J/` remains the canonical build
-  entry point (`cd 2.7.18-J && ./gradlew build`).
-- Whether `spring-integration-mqtt` (pinned as compileOnly, version
-  from the Spring Boot BOM) resolves cleanly on the Spring Boot 4 BOM,
-  or needs an explicit version pin — decide at implementation time.
-- Whether the `io.spring.dependency-management` 1.0.15 plugin remains
-  required on Spring Boot 4 or can be dropped.
+None outstanding. All three questions raised in the initial draft were
+resolved by the owner on 2026-10-31:
+
+- **`2.7.18-J/` tree:** hoist the project into the `ThermoTools` root
+  — the project is no longer version-dependent; canonical build entry
+  becomes `./gradlew build` from the root (reflected in AC-1, AC-6,
+  and new AC-8).
+- **`spring-integration-mqtt`:** **remove** it — no `ThermoTools`
+  source uses it; the real MQTT client is Eclipse Paho
+  `org.eclipse.paho.client.mqttv3:1.2.5` (reflected in AC-4).
+- **`io.spring.dependency-management` plugin:** **keep** it (reflected
+  in AC-1).
 
 ## References / cross-links
 
@@ -113,6 +126,7 @@ system all continue to work as they do on 2.7.18.
 | Date | Revision | Author | Change |
 |------|----------|--------|--------|
 | 2026-10-30 | r1 | agent | Initial draft. |
+| 2026-10-31 | r2 | agent | Owner resolved all three open questions (2026-10-31): `2.7.18-J/` tree hoisted into the repository root (new AC-8; AC-1 and AC-6 updated; out-of-scope bullet dropped), `spring-integration-mqtt` removed (AC-4), `io.spring.dependency-management` plugin kept (AC-1). Open-questions section converted to the resolved record. |
 
 ## Approvals
 
