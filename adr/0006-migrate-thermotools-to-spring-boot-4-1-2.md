@@ -79,7 +79,23 @@ system all continue to work as they do on 2.7.18.
    criterion 8).
 7. No change to business logic: MQTT integration points, JSON payload
    shapes consumed/emitted, and the `Info`-style persistence layer
-   behave as before; only framework-level changes are made.
+   behave as before; only framework-level changes are made, with the
+   single authorized exception recorded below.
+
+   **Authorized exception (owner decision 2026-11-03, phase 2):**
+   before the 2.7.18 baseline gate could run, the existing test was
+   proven unrunnable — `ThermoToolsApplication.runner()` called
+   `Future.get()` on the two `scheduleAtFixedRate()` futures, but a
+   periodic `ScheduledFutureTask` resets to NEW after every run (JDK
+   `runAndReset`) and never reaches a terminal state, so `get()` can
+   never complete by construction; both jobs swallow all of their own
+   exceptions, so the catch blocks can never fire either. The only
+   reachable outcome was an infinite hang at startup (proven by a
+   standalone JDK repro; pre-existing — introduced in ThermoTools
+   `edc5539`, before the canonical tree). Removing the two dead
+   `try/get/catch` blocks (ThermoTools `a5d3d05`) preserves job firing
+   exactly — both still run at t=0 / t=5s and repeat on the 12h / 315s
+   cadence — and deletes only the unreachable, infinite-blocking wait.
 8. The `ThermoTools` source tree is **hoisted one level up** (owner
    decision of 2026-10-31 — the project is no longer version-bound):
    the contents of `2.7.18-J/` move to the repository root,
@@ -93,8 +109,8 @@ system all continue to work as they do on 2.7.18.
 
 - Migration of `ThermoSmartSpring` (done — ADR 0001) or
   `ThermoWrapperK` (its own catalogue, separate repository).
-- Any change to the business logic, MQTT topic layout, or database
-  schema.
+- Any change to the business logic (save the authorized AC-7
+  exception), MQTT topic layout, or database schema.
 - A new ThermoTools ADR catalogue — the catalogue-less component keeps
   recording its decisions in this cross-component home.
 
@@ -117,7 +133,7 @@ resolved by the owner on 2026-10-31:
 
 - [ADR 0001](0001-migrate-to-spring-boot-4-1-2.md) — the `ThermoSmartSpring` 4.1.2 precedent and this ADR's `depends-on`
 - `ThermoWrapperK/adr/0005-migrate-to-spring-boot-4-1-2.md` — the sibling component's migration (separate repository)
-- `2.7.18-J/build.gradle` — current baseline
+- `build.gradle` — current baseline (at the `ThermoTools` repository root)
 - [Spring Boot 4.1.2 release notes](https://spring.io/blog/2026/10/23/spring-boot-4-1-2-available-now)
 - [Spring Boot 3 → 4 migration guide (jakarta namespace)](https://github.com/spring-projects/spring-boot/wiki/Migrating-from-Spring-Boot-3.x-to-4.0)
 
@@ -128,9 +144,11 @@ resolved by the owner on 2026-10-31:
 | 2026-10-30 | r1 | agent | Initial draft. |
 | 2026-10-31 | r2 | agent | Owner resolved all three open questions (2026-10-31): `2.7.18-J/` tree hoisted into the repository root (new AC-8; AC-1 and AC-6 updated; out-of-scope bullet dropped), `spring-integration-mqtt` removed (AC-4), `io.spring.dependency-management` plugin kept (AC-1). Open-questions section converted to the resolved record. |
 | 2026-11-03 | r3 | agent | Accepted. Owner authorised the work start (2026-11-03); status `Proposed → Accepted`. |
+| 2026-11-03 | r4 | agent | Phase 2 progress: recorded the authorized AC-7 exception (ThermoTools `a5d3d05` — two dead `Future.get()` blocks on periodic tasks removed; job firing unchanged), AC-8 hoist with README rewrite (ThermoTools `8406e18`); baseline gate and post-hoist root gate both GREEN. Editorial: reference path `2.7.18-J/build.gradle` → `build.gradle` after the hoist. |
 
 ## Approvals
 
 | Role | Name | Date | Signature |
 |------|------|------|-----------|
 | Agent | agent | 2026-11-03 | [Verified] |
+| Agent | agent | 2026-11-03 | [Verified] (revision 4) |
