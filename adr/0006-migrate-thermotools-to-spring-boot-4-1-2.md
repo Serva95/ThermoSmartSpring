@@ -1,7 +1,7 @@
 ---
 adr: 0006
 title: Migrate ThermoTools to Spring Boot 4.1.2
-status: Proposed
+status: Accepted
 date: 2026-10-30
 owner: agent
 supersedes:
@@ -127,8 +127,10 @@ resolved by the owner on 2026-10-31:
 |------|----------|--------|--------|
 | 2026-10-30 | r1 | agent | Initial draft. |
 | 2026-10-31 | r2 | agent | Owner resolved all three open questions (2026-10-31): `2.7.18-J/` tree hoisted into the repository root (new AC-8; AC-1 and AC-6 updated; out-of-scope bullet dropped), `spring-integration-mqtt` removed (AC-4), `io.spring.dependency-management` plugin kept (AC-1). Open-questions section converted to the resolved record. |
+| 2026-11-03 | r3 | agent | Accepted. Owner authorised the work start (2026-11-03); status `Proposed → Accepted`. |
 
 ## Approvals
 
 | Role | Name | Date | Signature |
 |------|------|------|-----------|
+| Agent | agent | 2026-11-03 | [Verified] |
