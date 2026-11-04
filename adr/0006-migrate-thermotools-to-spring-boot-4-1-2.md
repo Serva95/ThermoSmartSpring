@@ -1,7 +1,7 @@
 ---
 adr: 0006
 title: Migrate ThermoTools to Spring Boot 4.1.2
-status: Accepted
+status: Implemented
 date: 2026-10-30
 owner: agent
 supersedes:
@@ -145,6 +145,7 @@ resolved by the owner on 2026-10-31:
 | 2026-10-31 | r2 | agent | Owner resolved all three open questions (2026-10-31): `2.7.18-J/` tree hoisted into the repository root (new AC-8; AC-1 and AC-6 updated; out-of-scope bullet dropped), `spring-integration-mqtt` removed (AC-4), `io.spring.dependency-management` plugin kept (AC-1). Open-questions section converted to the resolved record. |
 | 2026-11-03 | r3 | agent | Accepted. Owner authorised the work start (2026-11-03); status `Proposed → Accepted`. |
 | 2026-11-03 | r4 | agent | Phase 2 progress: recorded the authorized AC-7 exception (ThermoTools `a5d3d05` — two dead `Future.get()` blocks on periodic tasks removed; job firing unchanged), AC-8 hoist with README rewrite (ThermoTools `8406e18`); baseline gate and post-hoist root gate both GREEN. Editorial: reference path `2.7.18-J/build.gradle` → `build.gradle` after the hoist. |
+| 2026-11-04 | r5 | agent | Implemented: ThermoTools shipped at HEAD `3946325` (Spring Boot 4.1.2, dep-mgmt 1.1.6, Java 17, Gradle 8.14, `version='0.5.1_4.1.2'`; `./gradlew build` GREEN including `contextLoads()` against live dev Postgres); plan item 0002 moved to `plan/done/`; status `Accepted → Implemented`. |
 
 ## Approvals
 

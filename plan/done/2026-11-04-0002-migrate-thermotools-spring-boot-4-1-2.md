@@ -92,3 +92,7 @@ fleet.
 - Creating a new ADR catalogue for `ThermoTools` — the
   cross-component home (this repository) remains the authoritative
   record.
+
+---
+
+Shipped at ThermoTools HEAD `3946325` (Spring Boot 4.1.2, dep-mgmt 1.1.6, Java 17, Gradle 8.14, `version='0.5.1_4.1.2'`; `./gradlew build` GREEN including `contextLoads()` against live dev Postgres; AC-7 exception per ADR 0006 r4 at ThermoTools `a5d3d05`). ADR 0006 status `Accepted → Implemented`.
