@@ -2,6 +2,7 @@ package it.srv.ThermoSmartSpring;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,6 +42,7 @@ public class WebSecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/home", "/js/**", "/stylesheets/**", "/logo.png", "/favicon.ico", "/user/registration", "/authentication", "/api/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/register").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
