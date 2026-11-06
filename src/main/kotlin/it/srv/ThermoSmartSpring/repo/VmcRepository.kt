@@ -12,6 +12,6 @@ interface VmcRepository : CrudRepository<Vmc, String> {
     @Modifying
     @Query("update Vmc v set v.id = ?1, v.impostazioneFunzione = ?2, v.statoAttuale = ?3, " +
             "v.programmedOnTime = ?4, v.programmedOffTime = ?5 where v.id = ?6")
-    fun updateVmcById(id: String, impostazioneFunzione: Boolean, statoAttuale: Boolean?,
-                      programmedOnTime: LocalTime, programmedOffTime: LocalTime, oldID: String)
+    fun updateVmcById(id: String, impostazioneFunzione: Boolean?, statoAttuale: Boolean?,
+                      programmedOnTime: LocalTime?, programmedOffTime: LocalTime?, oldID: String)
 }
