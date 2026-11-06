@@ -1,7 +1,7 @@
 ---
 adr: 0007
 title: Complete the Kotlin migration
-status: Proposed
+status: Accepted
 date: 2026-11-06
 owner: agent
 supersedes:
@@ -42,7 +42,9 @@ All source code in `ThermoSmartSpring` is written in Kotlin. The data-access (DA
 
 ## Open questions
 
-- Staging: convert in a single change-set, or as per-layer commits (DTOs/exceptions → DAOs → repositories → config/entry points → tests), each independently passing `./gradlew build`? To be settled when walking this ADR to Accepted.
+None outstanding. The one question raised in the initial draft was settled at transition to Accepted on 2026-11-06:
+
+- **Staging:** **per-layer commits** — exceptions → DTOs → repositories → DAOs → config/entry points → tests — each independently passing `./gradlew build`. Recorded in the plan item's conversion order (plan/todo/0002-complete-the-kotlin-migration.md).
 
 ## References / cross-links
 
@@ -54,8 +56,11 @@ All source code in `ThermoSmartSpring` is written in Kotlin. The data-access (DA
 | Date | Revision | Author | Change |
 |------|----------|--------|--------|
 | 2026-11-06 | r1 | agent | Initial draft. |
+| 2026-11-06 | r2 | agent | Accepted. Status `Proposed → Accepted` (owner directive "move to accepted", 2026-11-06). Open question resolved: staging settled as per-layer commits, each passing `./gradlew build` (reflected in plan item 0002). Work item already queued in `plan/todo/`. |
 
 ## Approvals
 
 | Role | Name | Date | Signature |
 |------|------|------|-----------|
+| Agent | agent | 2026-11-06 | [Verified] |
+| Owner | lse | 2026-11-06 | "move to accepted" |
