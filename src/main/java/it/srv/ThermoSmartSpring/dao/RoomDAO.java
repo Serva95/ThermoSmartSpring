@@ -16,7 +16,7 @@ public class RoomDAO {
 
     public Room save(Room room) { return repo.save(room); }
 
-    public Room get(long id) { return repo.findById(id); }
+    public Room get(long id) { return repo.getById(id); }
 
     public Room getBySensorId(String id) { return repo.findBySensor_Id(id); }
 
