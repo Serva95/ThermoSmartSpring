@@ -16,7 +16,7 @@ class MvcController(
 
     @GetMapping("/")
     fun viewHomePage(mav: ModelAndView): ModelAndView {
-        mav.setViewName("index")
+        mav.viewName = "index"
         return mav
     }
 
@@ -24,7 +24,7 @@ class MvcController(
     fun debug(mav: ModelAndView): ModelAndView {
         mav.addObject("infos", infoDAO.getAll())
         mav.addObject("users", userDAO.getAll())
-        mav.setViewName("debug")
+        mav.viewName = "debug"
         return mav
     }
 

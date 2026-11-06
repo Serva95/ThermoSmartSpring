@@ -16,7 +16,7 @@ class RegistrationController(
 
     @GetMapping("")
     fun viewHomePage(mav: ModelAndView): ModelAndView {
-        mav.setViewName("register")
+        mav.viewName = "register"
         mav.addObject("user", UserDTO())
         return mav
     }

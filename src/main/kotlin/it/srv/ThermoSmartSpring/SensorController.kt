@@ -17,7 +17,7 @@ class SensorController(
 
     @GetMapping("")
     fun sensors(mav: ModelAndView): ModelAndView {
-        mav.setViewName("sensors")
+        mav.viewName = "sensors"
         val sensors = sensorDAO.getAll(true)
         mav.addObject("sensors", sensors)
         return mav
@@ -27,7 +27,7 @@ class SensorController(
     fun newSensor(mav: ModelAndView): ModelAndView {
         val sensor = Sensor()
         mav.addObject("sensor", sensor)
-        mav.setViewName("newSensor")
+        mav.viewName = "newSensor"
         return mav
     }
 
@@ -36,7 +36,7 @@ class SensorController(
         try {
             sensorService.saveNewSensor(sensor)
             mav.addObject("message", "Sensore inserito con successo.")
-            mav.setViewName("redirect:/sensors")
+            mav.viewName = "redirect:/sensors"
             return mav
         } catch (e: Exception) {
             if (e is ObjectAlreadyExistException) {
@@ -44,7 +44,7 @@ class SensorController(
             }
             mav.addObject("message", e.message)
             mav.addObject("sensor", sensor)
-            mav.setViewName("newSensor")
+            mav.viewName = "newSensor"
             return mav
         }
     }
@@ -52,7 +52,7 @@ class SensorController(
     @GetMapping("/{id}")
     fun editSensor(mav: ModelAndView, @PathVariable id: String): ModelAndView {
         mav.addObject("sensor", sensorDAO.get(id))
-        mav.setViewName("editSensor")
+        mav.viewName = "editSensor"
         return mav
     }
 
@@ -61,16 +61,16 @@ class SensorController(
         val sensor = sensorDAO.get(id)
         if (!sensorDAO.exists(sensor)) {
             mav.addObject("message", "Sensore non trovato, riprova.")
-            mav.setViewName("redirect:/sensors")
+            mav.viewName = "redirect:/sensors"
             return mav
         }
         try {
             sensorService.updateSensor(sensor, newData)
-            mav.setViewName("redirect:/sensors")
+            mav.viewName = "redirect:/sensors"
             return mav
         } catch (e: Exception) {
             mav.addObject("sensor", sensor)
-            mav.setViewName("editSensor")
+            mav.viewName = "editSensor"
             mav.addObject("message", e.message)
             return mav
         }
@@ -85,7 +85,7 @@ class SensorController(
         } catch (e: NullPointerException) {
             mav.addObject("message", "Sensore non trovato, riprova.")
         }
-        mav.setViewName("redirect:/sensors")
+        mav.viewName = "redirect:/sensors"
         return mav
     }
 }

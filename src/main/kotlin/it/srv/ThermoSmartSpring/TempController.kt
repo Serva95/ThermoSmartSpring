@@ -22,7 +22,7 @@ class TempController(
 
     @GetMapping("")
     fun Temps(mav: ModelAndView): ModelAndView {
-        mav.setViewName("temps")
+        mav.viewName = "temps"
         val lastTemps = mutableMapOf<String, String>()
         val sensorReadError = mutableMapOf<String, Boolean>()
         val rooms = roomDAO.getAll(true)
@@ -53,7 +53,7 @@ class TempController(
             mav.addObject("room", room)
             mav.addObject("last", last)
         }
-        mav.setViewName("viewTemps")
+        mav.viewName = "viewTemps"
         return mav
     }
 }

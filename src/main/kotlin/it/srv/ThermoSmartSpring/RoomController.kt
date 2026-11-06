@@ -19,7 +19,7 @@ class RoomController(
 
     @GetMapping("")
     fun Rooms(mav: ModelAndView): ModelAndView {
-        mav.setViewName("rooms")
+        mav.viewName = "rooms"
         mav.addObject("rooms", roomDAO.getAll(true))
         return mav
     }
@@ -28,7 +28,7 @@ class RoomController(
     fun newRoom(mav: ModelAndView): ModelAndView {
         mav.addObject("room", Room())
         mav.addObject("sensors", sensorDAO.findAllRoomIsNull())
-        mav.setViewName("newRoom")
+        mav.viewName = "newRoom"
         return mav
     }
 
@@ -37,7 +37,7 @@ class RoomController(
         try {
             roomService.saveNewRoom(room)
             mav.addObject("message", "Stanza creata con successo.")
-            mav.setViewName("redirect:/rooms")
+            mav.viewName = "redirect:/rooms"
             return mav
         } catch (e: Exception) {
             when (e) {
@@ -45,7 +45,7 @@ class RoomController(
                     mav.addObject("message", e.message)
                     mav.addObject("room", room)
                     mav.addObject("sensors", sensorDAO.findAllRoomIsNull())
-                    mav.setViewName("newRoom")
+                    mav.viewName = "newRoom"
                     return mav
                 }
                 else -> throw e
@@ -58,11 +58,11 @@ class RoomController(
         val room = roomDAO.get(id)
         if (room == null) {
             mav.addObject("message", "Stanza non trovata, riprova.")
-            mav.setViewName("redirect:/rooms")
+            mav.viewName = "redirect:/rooms"
             return mav
         }
         mav.addObject("room", room)
-        mav.setViewName("viewRoom")
+        mav.viewName = "viewRoom"
         return mav
     }
 
@@ -71,7 +71,7 @@ class RoomController(
         val room = roomDAO.get(id)
         if (room == null) {
             mav.addObject("message", "Stanza non trovata, riprova.")
-            mav.setViewName("redirect:/rooms")
+            mav.viewName = "redirect:/rooms"
             return mav
         }
         if (room.sensor != null) {
@@ -80,7 +80,7 @@ class RoomController(
             mav.addObject("sensors", sensorDAO.findAllRoomIsNull())
         }
         mav.addObject("room", room)
-        mav.setViewName("editRoom")
+        mav.viewName = "editRoom"
         return mav
     }
 
@@ -89,13 +89,13 @@ class RoomController(
         val oldRoom = roomDAO.get(id)
         if (oldRoom == null) {
             mav.addObject("message", "Stanza non trovata, riprova.")
-            mav.setViewName("redirect:/rooms")
+            mav.viewName = "redirect:/rooms"
             return mav
         }
         try {
             roomService.updateRoom(oldRoom, room)
             mav.addObject("message", "Stanza modificata con successo.")
-            mav.setViewName("redirect:/rooms")
+            mav.viewName = "redirect:/rooms"
             return mav
         } catch (e: Exception) {
             when (e) {
@@ -107,7 +107,7 @@ class RoomController(
                     } else {
                         mav.addObject("sensors", sensorDAO.findAllRoomIsNull())
                     }
-                    mav.setViewName("editRoom")
+                    mav.viewName = "editRoom"
                     return mav
                 }
                 else -> throw e
@@ -120,12 +120,12 @@ class RoomController(
         val room = roomDAO.get(id)
         if (room == null) {
             mav.addObject("message", "Stanza non trovata, riprova.")
-            mav.setViewName("redirect:/rooms")
+            mav.viewName = "redirect:/rooms"
             return mav
         }
         roomService.updateRoomStatus(room, true, false, false)
         mav.addObject("message", "Stato modificato con successo.")
-        mav.setViewName("redirect:/rooms/$id")
+        mav.viewName = "redirect:/rooms/$id"
         return mav
     }
 
@@ -134,12 +134,12 @@ class RoomController(
         val room = roomDAO.get(id)
         if (room == null) {
             mav.addObject("message", "Stanza non trovata, riprova.")
-            mav.setViewName("redirect:/rooms")
+            mav.viewName = "redirect:/rooms"
             return mav
         }
         roomService.updateRoomStatus(room, false, true, false)
         mav.addObject("message", "Stato modificato con successo.")
-        mav.setViewName("redirect:/rooms/$id")
+        mav.viewName = "redirect:/rooms/$id"
         return mav
     }
 
@@ -148,12 +148,12 @@ class RoomController(
         val room = roomDAO.get(id)
         if (room == null) {
             mav.addObject("message", "Stanza non trovata, riprova.")
-            mav.setViewName("redirect:/rooms")
+            mav.viewName = "redirect:/rooms"
             return mav
         }
         roomService.updateRoomStatus(room, false, false, true)
         mav.addObject("message", "Stato modificato con successo.")
-        mav.setViewName("redirect:/rooms/$id")
+        mav.viewName = "redirect:/rooms/$id"
         return mav
     }
 
@@ -166,7 +166,7 @@ class RoomController(
         } catch (e: NullPointerException) {
             mav.addObject("message", "Stanza non trovata, riprova.")
         }
-        mav.setViewName("redirect:/rooms")
+        mav.viewName = "redirect:/rooms"
         return mav
     }
 }

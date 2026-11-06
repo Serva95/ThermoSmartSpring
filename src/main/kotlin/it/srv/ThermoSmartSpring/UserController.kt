@@ -31,7 +31,7 @@ class UserController(
         val user = userDAO.getByUsername(username) ?: throw IllegalStateException("User not found")
         val authList = authoritiesDAO.getByUsername(username) ?: emptyList()
         val authorities = authList.toTypedArray()
-        mav.setViewName("userProfile")
+        mav.viewName = "userProfile"
         mav.addObject("user", user)
         mav.addObject("authorities", authorities)
         return mav
@@ -70,7 +70,7 @@ class UserController(
         return try {
             userService.updateAccountData(actualUser, user)
             mav.addObject("message", "Modifiche salvate.")
-            mav.setViewName("redirect:/userProfile")
+            mav.viewName = "redirect:/userProfile"
             mav
         } catch (e: Exception) {
             when (e) {

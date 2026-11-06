@@ -20,14 +20,14 @@ class VmcController(
     fun vmc(mav: ModelAndView): ModelAndView {
         val vmc = vmcDAO.findFirst()
         mav.addObject("vmc", vmc)
-        mav.setViewName("viewVMC")
+        mav.viewName = "viewVMC"
         return mav
     }
 
     @GetMapping("/vmc/new")
     fun newVmc(mav: ModelAndView): ModelAndView {
         mav.addObject("vmc", Vmc(""))
-        mav.setViewName("newVMC")
+        mav.viewName = "newVMC"
         return mav
     }
 
@@ -42,7 +42,7 @@ class VmcController(
             this.programmedOffTime = vmc.programmedOffTime?.toString()
         }
         mav.addObject("vmc", stringVMC)
-        mav.setViewName("editVMC")
+        mav.viewName = "editVMC"
         return mav
     }
 
@@ -51,14 +51,14 @@ class VmcController(
         try {
             vmcService.saveNew(vmc)
             mav.addObject("message", "VMC creata con successo.")
-            mav.setViewName("redirect:/vmc")
+            mav.viewName = "redirect:/vmc"
             return mav
         } catch (e: Exception) {
             when (e) {
                 is BlankFieldsException, is InvalidFieldException -> {
                     mav.addObject("vmc", vmc)
                     mav.addObject("message", e.message)
-                    mav.setViewName("newVMC")
+                    mav.viewName = "newVMC"
                     return mav
                 }
                 else -> throw e
@@ -73,13 +73,13 @@ class VmcController(
             @ModelAttribute("vmc") vmc: VmcStringDTO): ModelAndView {
         if (!vmcDAO.exists(id)) {
             mav.addObject("message", "VMC non trovata.")
-            mav.setViewName("redirect:/vmc")
+            mav.viewName = "redirect:/vmc"
             return mav
         }
         try {
             vmcService.saveEditedVmc(vmc, id)
             mav.addObject("message", "VMC modificata con successo.")
-            mav.setViewName("redirect:/vmc")
+            mav.viewName = "redirect:/vmc"
             return mav
         } catch (e: Exception) {
             when (e) {
@@ -87,7 +87,7 @@ class VmcController(
                     val dbVmc = vmcDAO.get(id)
                     mav.addObject("vmc", dbVmc)
                     mav.addObject("message", e.message)
-                    mav.setViewName("editVMC")
+                    mav.viewName = "editVMC"
                     return mav
                 }
                 else -> throw e
@@ -107,12 +107,12 @@ class VmcController(
         val vmc = vmcDAO.get(id)
         if (vmc == null) {
             mav.addObject("message", "VMC non trovata.")
-            mav.setViewName("redirect:/vmc")
+            mav.viewName = "redirect:/vmc"
             return mav
         }
         vmcService.delete(vmc)
         mav.addObject("message", "VMC eliminata.")
-        mav.setViewName("redirect:/vmc")
+        mav.viewName = "redirect:/vmc"
         return mav
     }
 }

@@ -14,9 +14,9 @@ class LoginController {
         val authentication = SecurityContextHolder.getContext().authentication
         val name = authentication?.name ?: "anonymousUser"
         if (name != "anonymousUser") {
-            mav.setViewName("redirect:/userProfile")
+            mav.viewName = "redirect:/userProfile"
         } else {
-            mav.setViewName("login")
+            mav.viewName = "login"
             mav.addObject("user", UserDTO())
         }
         return mav

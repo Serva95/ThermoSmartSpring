@@ -25,7 +25,7 @@ class OrariOnOffController(
         val orariOnOffs = orariOnOffDAO.getByRoomId(id)
         getDaysOfWeek(mav)
         mav.addObject("orarionoffs", orariOnOffs)
-        mav.setViewName("viewOrariOnOff")
+        mav.viewName = "viewOrariOnOff"
         return mav
     }
 
@@ -37,7 +37,7 @@ class OrariOnOffController(
         }
         getDaysOfWeek(mav)
         mav.addObject("orarionoffDTO", orariOnOffDTO)
-        mav.setViewName("newOrariOnOff")
+        mav.viewName = "newOrariOnOff"
         return mav
     }
 
@@ -49,14 +49,14 @@ class OrariOnOffController(
         try {
             orariOnOffService.saveOrari(orariOnOffDTO, id)
             mav.addObject("message", "Orari salvati con successo.")
-            mav.setViewName("redirect:/rooms/$id/orarionoff")
+            mav.viewName = "redirect:/rooms/$id/orarionoff"
             return mav
         } catch (e: Exception) {
             when (e) {
                 is BlankFieldsException, is InvalidFieldException, is ObjectAlreadyExistException -> {
                     mav.addObject("message", e.message)
                     mav.addObject("orarionoffDTO", orariOnOffDTO)
-                    mav.setViewName("newOrariOnOff")
+                    mav.viewName = "newOrariOnOff"
                     getDaysOfWeek(mav)
                     return mav
                 }
@@ -72,7 +72,7 @@ class OrariOnOffController(
         orariOnOffDTO.orariToStringDTO(orariOnOffs)
         mav.addObject("orarionoffDTO", orariOnOffDTO)
         getDaysOfWeek(mav)
-        mav.setViewName("editOrariOnOff")
+        mav.viewName = "editOrariOnOff"
         return mav
     }
 
@@ -84,14 +84,14 @@ class OrariOnOffController(
         try {
             orariOnOffService.updateOrari(orariOnOffDTO, id)
             mav.addObject("message", "Orari modificati con successo.")
-            mav.setViewName("redirect:/rooms/$id/orarionoff")
+            mav.viewName = "redirect:/rooms/$id/orarionoff"
             return mav
         } catch (e: Exception) {
             when (e) {
                 is BlankFieldsException, is InvalidFieldException -> {
                     mav.addObject("message", e.message)
                     mav.addObject("orarionoffDTO", orariOnOffDTO)
-                    mav.setViewName("editOrariOnOff")
+                    mav.viewName = "editOrariOnOff"
                     getDaysOfWeek(mav)
                     return mav
                 }
