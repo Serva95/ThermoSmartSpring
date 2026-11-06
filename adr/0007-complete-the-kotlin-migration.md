@@ -1,7 +1,7 @@
 ---
 adr: 0007
 title: Complete the Kotlin migration
-status: Accepted
+status: Implemented
 date: 2026-11-06
 owner: agent
 supersedes:
@@ -57,6 +57,7 @@ None outstanding. The one question raised in the initial draft was settled at tr
 |------|----------|--------|--------|
 | 2026-11-06 | r1 | agent | Initial draft. |
 | 2026-11-06 | r2 | agent | Accepted. Status `Proposed → Accepted` (owner directive "move to accepted", 2026-11-06). Open question resolved: staging settled as per-layer commits, each passing `./gradlew build` (reflected in plan item 0002). Work item already queued in `plan/todo/`. |
+| 2026-11-06 | r3 | agent | Implemented: converted the remaining 30 Java files to Kotlin in six per-layer commits (c6a5686 … 1dbcb25), each passing ./gradlew build; find src -name '*.java' returns nothing. Plan item 0002 completed and moved to plan/done/. |
 
 ## Approvals
 
@@ -64,3 +65,5 @@ None outstanding. The one question raised in the initial draft was settled at tr
 |------|------|------|-----------|
 | Agent | agent | 2026-11-06 | [Verified] |
 | Owner | lse | 2026-11-06 | "move to accepted" |
+| Agent | agent | 2026-11-06 | [Verified] (revision 3) |
+| Owner | lse | 2026-11-06 | "yes, ship it" (revision 3) |

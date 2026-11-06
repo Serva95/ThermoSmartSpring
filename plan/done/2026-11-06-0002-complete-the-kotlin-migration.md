@@ -42,3 +42,7 @@
 - The deferred security items (the `/debug` admin gate; the forgeable `apikey` scheme in `TempService.save`; dead `permitAll` entries) — separate decisions, not part of this conversion.
 - Introducing new third-party libraries beyond what Kotlin support already requires.
 - Any change to `ThermoTools` or `ThermoWrapperK`.
+
+---
+
+Shipped at ThermoSmartSpring HEAD `1dbcb25` (all 30 Java files converted to Kotlin across six per-layer commits — `c6a5686` exceptions, `12b291e` DTO, `84b8bb6` repositories, `518faa9` DAOs, `f576d5c` config/entry points, `1dbcb25` tests — each `./gradlew build` green; `find src -name '*.java'` returns nothing; 3 tests pass). ADR 0007 status `Accepted → Implemented`.
